@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
@@ -146,13 +147,55 @@ const sidebarItems = [
 
 export default function Sidebar() {
   const location = useLocation();
+  const [isCollapsed, setIsCollapsed] = useState(false);
+
+  const toggleSidebar = () => {
+    setIsCollapsed(!isCollapsed);
+  };
 
   return (
-    <aside className="w-80 bg-white border-r border-agro-border min-h-screen p-6">
+    <aside
+      className={cn(
+        "bg-white border-r border-agro-border min-h-screen p-6 transition-all duration-300 relative",
+        isCollapsed ? "w-20" : "w-80",
+      )}
+    >
+      {/* Toggle Button */}
+      <button
+        onClick={toggleSidebar}
+        className="absolute -right-3 top-1/2 -translate-y-1/2 w-6 h-6 bg-white border border-agro-border rounded-full flex items-center justify-center hover:bg-agro-secondary transition-colors duration-300 z-10 shadow-sm"
+        aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+      >
+        <svg
+          width="12"
+          height="12"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          className={cn(
+            "transition-transform duration-300",
+            isCollapsed ? "rotate-180" : "",
+          )}
+        >
+          <path
+            d="M15 18L9 12L15 6"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </button>
+
       <div className="flex flex-col h-full">
         {/* Logo */}
-        <div className="flex items-center gap-4 mb-8">
-          <div className="flex">
+        <div
+          className={cn(
+            "flex items-center mb-8 transition-all duration-300",
+            isCollapsed ? "gap-0 justify-center" : "gap-4",
+          )}
+        >
+          <div className="flex flex-shrink-0">
             <svg
               width="16"
               height="16"
@@ -182,9 +225,11 @@ export default function Sidebar() {
               />
             </svg>
           </div>
-          <h1 className="text-lg font-bold text-agro-text-secondary">
-            AgroSaarthi
-          </h1>
+          {!isCollapsed && (
+            <h1 className="text-lg font-bold text-agro-text-secondary transition-opacity duration-300">
+              AgroSaarthi
+            </h1>
+          )}
         </div>
 
         {/* Navigation */}
@@ -194,14 +239,21 @@ export default function Sidebar() {
               key={item.path}
               to={item.path}
               className={cn(
-                "agro-sidebar-item",
-                location.pathname === item.path && "active",
+                "flex items-center gap-3 px-3 py-2 rounded-lg text-agro-text-primary hover:bg-agro-secondary transition-all duration-300 cursor-pointer",
+                location.pathname === item.path &&
+                  "bg-agro-primary-light text-agro-text-primary",
+                isCollapsed && "justify-center px-2",
               )}
+              title={isCollapsed ? item.label : undefined}
             >
-              <span className="w-6 h-6 flex items-center justify-center">
+              <span className="w-6 h-6 flex items-center justify-center flex-shrink-0">
                 {item.icon}
               </span>
-              <span className="text-sm font-medium">{item.label}</span>
+              {!isCollapsed && (
+                <span className="text-sm font-medium transition-opacity duration-300">
+                  {item.label}
+                </span>
+              )}
             </Link>
           ))}
         </nav>
