@@ -61,7 +61,7 @@ export default function Landing() {
       </header>
 
       {/* Hero Section */}
-      <section className="relative h-[600px] md:h-[800px] bg-agro-background">
+      <section className="relative h-[600px] md:h-[605px] bg-agro-background">
         <div className="container mx-auto px-4 py-20 md:px-40">
           <div className="max-w-4xl mx-auto">
             <div className="relative h-[480px] rounded-lg overflow-hidden">
@@ -242,9 +242,9 @@ export default function Landing() {
                 <div className="h-72 bg-white rounded-3xl mb-6 overflow-hidden relative">
                   <div className="absolute inset-0 flex items-center justify-center">
                     <img
-                      src="https://cdn.builder.io/api/v1/image/assets/TEMP/f599054608d203b653582af21ef2b27765564cf7?width=716"
+                      src="https://cdn.builder.io/api/v1/image/assets%2F6a76d9438393493787f6e8e89b9b3864%2Fdf0ce749c43846a0b7369c4a045ab75c"
                       alt="Interactive Dashboard"
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover -mt-1"
                     />
                   </div>
                 </div>
@@ -261,7 +261,7 @@ export default function Landing() {
                 <div className="h-72 bg-white rounded-3xl mb-6 overflow-hidden relative">
                   <div className="absolute inset-0 flex items-center justify-center">
                     <img
-                      src="https://cdn.builder.io/api/v1/image/assets/TEMP/bee4f9f329547cb2a6771b3ad68ead41a422a11c?width=1017"
+                      src="https://cdn.builder.io/api/v1/assets/6a76d9438393493787f6e8e89b9b3864/figma-screenshot-02cd3e"
                       alt="Health Monitoring"
                       className="w-full h-full object-cover"
                     />
@@ -280,9 +280,9 @@ export default function Landing() {
                 <div className="h-72 bg-white rounded-3xl mb-6 overflow-hidden relative">
                   <div className="absolute inset-0 flex items-center justify-center">
                     <img
-                      src="https://cdn.builder.io/api/v1/image/assets/TEMP/020e049b87cf945f701b21194279374dfa119b23?width=999"
+                      src="https://cdn.builder.io/api/v1/assets/6a76d9438393493787f6e8e89b9b3864/figma-screenshot-d96d37"
                       alt="Forecasting"
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover mt-9"
                     />
                   </div>
                 </div>
@@ -299,7 +299,7 @@ export default function Landing() {
                 <div className="h-72 bg-white rounded-3xl mb-6 overflow-hidden relative">
                   <div className="absolute inset-0 flex items-center justify-center">
                     <img
-                      src="https://cdn.builder.io/api/v1/image/assets/TEMP/a711c567545567664e5f78f271e67bbc8bb69ca1?width=716"
+                      src="https://cdn.builder.io/api/v1/assets/6a76d9438393493787f6e8e89b9b3864/figma-screenshot-5f9219"
                       alt="Chatbot Assistance"
                       className="w-full h-full object-cover"
                     />
