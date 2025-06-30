@@ -13,6 +13,9 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        lexend: ["Lexend", "system-ui", "sans-serif"],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -57,6 +60,23 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        // AgroSaarthi brand colors
+        agro: {
+          primary: "#38E078",
+          "primary-dark": "#52946B",
+          "primary-light": "#B9FFD3",
+          secondary: "#E8F2ED",
+          background: "#F7FAFA",
+          text: {
+            primary: "#0D1A12",
+            secondary: "#121714",
+            muted: "#52946B",
+            light: "#6B8273",
+          },
+          border: "#E5E8EB",
+          "border-secondary": "#D1E5D9",
+          "border-tertiary": "#DEE3E0",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -80,10 +100,24 @@ export default {
             height: "0",
           },
         },
+        "fade-in": {
+          from: {
+            opacity: "0",
+            transform: "translateY(10px)",
+          },
+          to: {
+            opacity: "1",
+            transform: "translateY(0)",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "fade-in": "fade-in 300ms ease-out",
+      },
+      transitionDuration: {
+        "300": "300ms",
       },
     },
   },
