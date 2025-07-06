@@ -163,7 +163,13 @@ export default function AIDiagnosis() {
               whileTap={selectedCrop ? { scale: 0.95 } : {}}
               animate={
                 selectedCrop
-                  ? { boxShadow: ["0 0 0 0 rgba(56, 224, 120, 0.7)", "0 0 0 10px rgba(56, 224, 120, 0)", "0 0 0 0 rgba(56, 224, 120, 0)"] }
+                  ? {
+                      boxShadow: [
+                        "0 0 0 0 rgba(56, 224, 120, 0.7)",
+                        "0 0 0 10px rgba(56, 224, 120, 0)",
+                        "0 0 0 0 rgba(56, 224, 120, 0)",
+                      ],
+                    }
                   : {}
               }
               transition={{ duration: 2, repeat: Infinity }}
@@ -177,19 +183,40 @@ export default function AIDiagnosis() {
               Upload Images
             </motion.button>
           </motion.div>
-          {uploadedImages.length > 0 && (
-            <div className="mt-4 grid grid-cols-2 md:grid-cols-3 gap-4">
-              {uploadedImages.map((image, index) => (
-                <img
-                  key={index}
-                  src={image}
-                  alt={`Uploaded leaf ${index + 1}`}
-                  className="w-full h-32 object-cover rounded-lg"
-                />
-              ))}
-            </div>
-          )}
-        </div>
+          <AnimatePresence>
+            {uploadedImages.length > 0 && (
+              <motion.div
+                className="mt-4 grid grid-cols-2 md:grid-cols-3 gap-4"
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                {uploadedImages.map((image, index) => (
+                  <motion.div
+                    key={index}
+                    className="relative"
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.3, delay: index * 0.1 }}
+                    whileHover={{ scale: 1.05 }}
+                  >
+                    <img
+                      src={image}
+                      alt={`Uploaded leaf ${index + 1}`}
+                      className="w-full h-32 object-cover rounded-lg"
+                    />
+                    <motion.div
+                      className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent rounded-lg opacity-0"
+                      whileHover={{ opacity: 1 }}
+                      transition={{ duration: 0.2 }}
+                    />
+                  </motion.div>
+                ))}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.div>
 
         {/* Diagnosis Results */}
         {showResults && (
