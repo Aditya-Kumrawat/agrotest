@@ -72,7 +72,7 @@
     "cors": "^2.8.5",
     "date-fns": "^3.6.0",
     "embla-carousel-react": "^8.3.0",
-    "framer-motion": "^12.6.2",
+    "framer-motion": "^12.23.0",
     "globals": "^15.9.0",
     "input-otp": "^1.2.4",
     "lucide-react": "^0.462.0",
