@@ -66,23 +66,32 @@ export default function AIDiagnosis() {
         </div>
 
         {/* Crop Selection */}
-        <div className="agro-card mb-6">
+        <motion.div
+          className="agro-card mb-6"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+        >
           <h2 className="text-lg font-semibold text-agro-text-primary mb-4">
             Select Crop
           </h2>
           <div className="relative">
-            <button
+            <motion.button
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               className="w-full max-w-md agro-input flex items-center justify-between"
+              whileHover={{ scale: 1.01 }}
+              whileTap={{ scale: 0.99 }}
             >
               <span className={selectedCrop ? "text-agro-text-primary" : ""}>
                 {selectedCrop || "Select a crop..."}
               </span>
-              <svg
-                className={`w-5 h-5 transition-transform ${isDropdownOpen ? "rotate-180" : ""}`}
+              <motion.svg
+                className="w-5 h-5"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
+                animate={{ rotate: isDropdownOpen ? 180 : 0 }}
+                transition={{ duration: 0.3 }}
               >
                 <path
                   strokeLinecap="round"
@@ -90,41 +99,84 @@ export default function AIDiagnosis() {
                   strokeWidth={2}
                   d="M19 9l-7 7-7-7"
                 />
-              </svg>
-            </button>
-            {isDropdownOpen && (
-              <div className="absolute top-full left-0 right-0 max-w-md bg-white border border-agro-border rounded-lg shadow-lg z-10 mt-1">
-                {cropOptions.map((crop) => (
-                  <button
-                    key={crop}
-                    onClick={() => handleCropSelect(crop)}
-                    className="w-full text-left px-4 py-3 hover:bg-agro-secondary transition-colors text-agro-text-primary"
-                  >
-                    {crop}
-                  </button>
-                ))}
-              </div>
-            )}
+              </motion.svg>
+            </motion.button>
+            <AnimatePresence>
+              {isDropdownOpen && (
+                <motion.div
+                  className="absolute top-full left-0 right-0 max-w-md bg-white border border-agro-border rounded-lg shadow-lg z-10 mt-1"
+                  initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  {cropOptions.map((crop, index) => (
+                    <motion.button
+                      key={crop}
+                      onClick={() => handleCropSelect(crop)}
+                      className="w-full text-left px-4 py-3 hover:bg-agro-secondary transition-colors text-agro-text-primary"
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.2, delay: index * 0.05 }}
+                      whileHover={{ x: 5, backgroundColor: "#f0f9ff" }}
+                    >
+                      {crop}
+                    </motion.button>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
-        </div>
+        </motion.div>
 
         {/* Image Upload */}
-        <div className="agro-card mb-6">
+        <motion.div
+          className="agro-card mb-6"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
           <h2 className="text-lg font-semibold text-agro-text-primary mb-4">
             Upload Leaf Images (1-5)
           </h2>
-          <div className="border-2 border-dashed border-agro-border rounded-lg p-12 text-center">
-            <p className="text-agro-text-muted mb-4">
+          <motion.div
+            className="border-2 border-dashed border-agro-border rounded-lg p-12 text-center transition-all duration-300"
+            whileHover={{
+              borderColor: selectedCrop ? "#38E078" : "#e5e7eb",
+              backgroundColor: selectedCrop ? "#f0fdf4" : "#f9fafb",
+              scale: 1.01,
+            }}
+            whileTap={{ scale: 0.99 }}
+          >
+            <motion.p
+              className="text-agro-text-muted mb-4"
+              animate={{ y: [0, -2, 0] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            >
               Drag and drop or click to upload
-            </p>
-            <button
+            </motion.p>
+            <motion.button
               onClick={handleImageUpload}
               className="agro-button-primary"
               disabled={!selectedCrop}
+              whileHover={selectedCrop ? { scale: 1.05 } : {}}
+              whileTap={selectedCrop ? { scale: 0.95 } : {}}
+              animate={
+                selectedCrop
+                  ? { boxShadow: ["0 0 0 0 rgba(56, 224, 120, 0.7)", "0 0 0 10px rgba(56, 224, 120, 0)", "0 0 0 0 rgba(56, 224, 120, 0)"] }
+                  : {}
+              }
+              transition={{ duration: 2, repeat: Infinity }}
             >
+              <motion.span
+                animate={selectedCrop ? { scale: [1, 1.1, 1] } : {}}
+                transition={{ duration: 1.5, repeat: Infinity }}
+              >
+                📷
+              </motion.span>{" "}
               Upload Images
-            </button>
-          </div>
+            </motion.button>
+          </motion.div>
           {uploadedImages.length > 0 && (
             <div className="mt-4 grid grid-cols-2 md:grid-cols-3 gap-4">
               {uploadedImages.map((image, index) => (
