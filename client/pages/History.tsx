@@ -45,14 +45,19 @@ const mockScanHistory = [
     image:
       "https://cdn.builder.io/api/v1/image/assets/TEMP/bfda33333079e3dd6d964f0c82311a69b7557afa?width=300",
   },
+  {
+    id: 4,
+    title: "Leaf Scan - Diseased",
+    date: "2024-07-23 03:20 PM",
+    crop: "Wheat",
+    disease: "Rust",
+    confidence: "87%",
+    location: "Field D",
+    action: "Treatment Applied",
+    image:
+      "https://cdn.builder.io/api/v1/image/assets/TEMP/bfda33333079e3dd6d964f0c82311a69b7557afa?width=300",
+  },
 ];
-
-const summaryData = {
-  totalScans: 3,
-  diseasesDetected: 1,
-  mostCommonDisease: "Late Blight",
-  lastScanDate: "2024-07-26",
-};
 
 export default function History() {
   const [filters, setFilters] = useState({
@@ -60,160 +65,238 @@ export default function History() {
     crop: "All",
     date: "All",
   });
-  const [dropdownOpen, setDropdownOpen] = useState<string | null>(null);
 
-  const handleFilterChange = (
-    filterType: keyof typeof filters,
-    value: string,
-  ) => {
-    setFilters((prev) => ({ ...prev, [filterType]: value }));
-    setDropdownOpen(null);
+  // Filter history based on selected filters
+  const filteredHistory = mockScanHistory.filter((scan) => {
+    if (filters.status !== "All" && scan.disease !== filters.status) {
+      return false;
+    }
+    if (filters.crop !== "All" && scan.crop !== filters.crop) {
+      return false;
+    }
+    return true;
+  });
+
+  const getStatusColor = (disease: string) => {
+    return disease === "Healthy" ? "text-green-600" : "text-red-600";
   };
 
-  const toggleDropdown = (filterType: string) => {
-    setDropdownOpen(dropdownOpen === filterType ? null : filterType);
+  const getStatusBg = (disease: string) => {
+    return disease === "Healthy" ? "bg-green-100" : "bg-red-100";
   };
 
   return (
     <Layout>
-      <div className="p-6 max-w-6xl mx-auto">
+      <motion.div
+        className="p-6 max-w-6xl mx-auto"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
         {/* Page Title */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-agro-text-secondary">
-            My Crop Scans
+        <motion.div
+          className="mb-8"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <h1 className="text-3xl font-bold text-agro-text-primary">
+            Scan History
           </h1>
-          <p className="text-agro-text-muted mt-2">
-            View all your previous crop diagnoses and actions taken.
-          </p>
+        </motion.div>
+
+        {/* Summary Statistics */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+          {[
+            { label: "Total Scans", value: mockScanHistory.length, icon: "📊" },
+            {
+              label: "Healthy",
+              value: mockScanHistory.filter((s) => s.disease === "Healthy")
+                .length,
+              icon: "✅",
+            },
+            {
+              label: "Diseased",
+              value: mockScanHistory.filter((s) => s.disease !== "Healthy")
+                .length,
+              icon: "⚠️",
+            },
+            { label: "Fields Monitored", value: 4, icon: "🌾" },
+          ].map((stat, index) => (
+            <motion.div
+              key={stat.label}
+              className="agro-card text-center"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: index * 0.1 }}
+              whileHover={{ scale: 1.05 }}
+            >
+              <motion.div
+                className="text-2xl mb-2"
+                animate={{ scale: [1, 1.1, 1] }}
+                transition={{
+                  duration: 2,
+                  delay: index * 0.2,
+                  repeat: Infinity,
+                }}
+              >
+                {stat.icon}
+              </motion.div>
+              <div className="text-2xl font-bold text-agro-text-primary">
+                {stat.value}
+              </div>
+              <div className="text-sm text-agro-text-muted">{stat.label}</div>
+            </motion.div>
+          ))}
         </div>
 
         {/* Filters */}
-        <div className="agro-card mb-6">
+        <motion.div
+          className="agro-card mb-6"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
           <h2 className="text-lg font-semibold text-agro-text-primary mb-4">
-            Filters
+            Filter Results
           </h2>
-          <div className="flex flex-wrap gap-4">
-            {Object.entries(filterOptions).map(([filterType, options]) => (
-              <div key={filterType} className="relative">
-                <button
-                  onClick={() => toggleDropdown(filterType)}
-                  className="agro-input min-w-32 flex items-center justify-between gap-2"
-                >
-                  <span className="capitalize">
-                    {filters[filterType as keyof typeof filters]}
-                  </span>
-                  <svg
-                    className={`w-4 h-4 transition-transform ${
-                      dropdownOpen === filterType ? "rotate-180" : ""
-                    }`}
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
-                </button>
-                {dropdownOpen === filterType && (
-                  <div className="absolute top-full left-0 right-0 bg-white border border-agro-border rounded-lg shadow-lg z-10 mt-1">
-                    {options.map((option) => (
-                      <button
-                        key={option}
-                        onClick={() =>
-                          handleFilterChange(
-                            filterType as keyof typeof filters,
-                            option,
-                          )
-                        }
-                        className="w-full text-left px-4 py-2 hover:bg-agro-secondary transition-colors text-agro-text-primary"
-                      >
-                        {option}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Scan History */}
-        <div className="agro-card mb-6">
-          <h2 className="text-lg font-semibold text-agro-text-primary mb-6">
-            Scan History
-          </h2>
-          <div className="space-y-6">
-            {mockScanHistory.map((scan) => (
-              <div
-                key={scan.id}
-                className="flex items-start gap-6 p-4 border border-agro-border rounded-lg"
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {Object.entries(filterOptions).map(([key, options], index) => (
+              <motion.div
+                key={key}
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.3, delay: 0.3 + index * 0.1 }}
               >
-                <img
-                  src={scan.image}
-                  alt={scan.title}
-                  className="w-24 h-24 object-cover rounded-lg flex-shrink-0"
-                />
-                <div className="flex-1">
-                  <h3 className="font-semibold text-agro-text-primary mb-2">
-                    {scan.title}
-                  </h3>
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-2 text-sm text-agro-text-muted">
-                    <p>Date: {scan.date}</p>
-                    <p>Crop: {scan.crop}</p>
-                    <p>
-                      Disease: {scan.disease} (Confidence: {scan.confidence})
-                    </p>
-                    <p>Location: {scan.location}</p>
-                    <p>Action Taken: {scan.action}</p>
-                  </div>
-                  <button className="text-sm text-agro-primary hover:underline mt-3">
-                    Re-Scan ↻
-                  </button>
-                </div>
-              </div>
+                <label className="block text-sm font-medium text-agro-text-primary mb-2 capitalize">
+                  {key}
+                </label>
+                <motion.select
+                  className="agro-input w-full"
+                  value={filters[key as keyof typeof filters]}
+                  onChange={(e) =>
+                    setFilters({ ...filters, [key]: e.target.value })
+                  }
+                  whileFocus={{ scale: 1.02 }}
+                >
+                  {options.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </motion.select>
+              </motion.div>
             ))}
           </div>
-        </div>
+        </motion.div>
 
-        {/* Summary */}
-        <div className="agro-card">
-          <h2 className="text-lg font-semibold text-agro-text-primary mb-6">
-            Summary
-          </h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            <div className="text-center">
-              <p className="text-3xl font-bold text-agro-text-primary">
-                {summaryData.totalScans}
+        {/* Scan History Cards */}
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 gap-6"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+        >
+          <AnimatePresence mode="popLayout">
+            {filteredHistory.map((scan, index) => (
+              <motion.div
+                key={scan.id}
+                className="agro-card"
+                initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -20, scale: 0.95 }}
+                transition={{ duration: 0.4, delay: index * 0.1 }}
+                whileHover={{ scale: 1.02, y: -5 }}
+                layout
+              >
+                <div className="flex gap-4">
+                  <motion.img
+                    src={scan.image}
+                    alt={scan.title}
+                    className="w-24 h-24 object-cover rounded-lg"
+                    whileHover={{ scale: 1.1 }}
+                    transition={{ duration: 0.3 }}
+                  />
+                  <div className="flex-1">
+                    <div className="flex items-start justify-between mb-2">
+                      <h3 className="font-semibold text-agro-text-primary">
+                        {scan.title}
+                      </h3>
+                      <motion.span
+                        className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusBg(scan.disease)} ${getStatusColor(scan.disease)}`}
+                        whileHover={{ scale: 1.05 }}
+                      >
+                        {scan.disease}
+                      </motion.span>
+                    </div>
+                    <div className="space-y-1 text-sm text-agro-text-muted">
+                      <p>
+                        <strong>Date:</strong> {scan.date}
+                      </p>
+                      <p>
+                        <strong>Crop:</strong> {scan.crop}
+                      </p>
+                      <p>
+                        <strong>Location:</strong> {scan.location}
+                      </p>
+                      <p>
+                        <strong>Confidence:</strong> {scan.confidence}
+                      </p>
+                      <p>
+                        <strong>Action:</strong> {scan.action}
+                      </p>
+                    </div>
+                    <div className="flex gap-2 mt-4">
+                      <motion.button
+                        className="text-xs bg-blue-100 text-blue-800 px-3 py-1 rounded-full hover:bg-blue-200 transition-colors"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        View Details
+                      </motion.button>
+                      <motion.button
+                        className="text-xs bg-agro-primary-light text-agro-primary px-3 py-1 rounded-full hover:bg-agro-primary hover:text-white transition-colors"
+                        whileHover={{ scale: 1.05, rotate: 360 }}
+                        whileTap={{ scale: 0.95 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        🔄 Re-scan
+                      </motion.button>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </motion.div>
+
+        {/* No Results */}
+        <AnimatePresence>
+          {filteredHistory.length === 0 && (
+            <motion.div
+              className="text-center py-12"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              transition={{ duration: 0.3 }}
+            >
+              <motion.div
+                className="text-6xl mb-4"
+                animate={{ rotate: [0, 10, -10, 0] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
+                🔍
+              </motion.div>
+              <h3 className="text-xl font-semibold text-agro-text-primary mb-2">
+                No scans found
+              </h3>
+              <p className="text-agro-text-muted">
+                Try adjusting your filters or perform a new scan.
               </p>
-              <p className="text-sm text-agro-text-muted">Total Scans</p>
-            </div>
-            <div className="text-center">
-              <p className="text-3xl font-bold text-agro-text-primary">
-                {summaryData.diseasesDetected}
-              </p>
-              <p className="text-sm text-agro-text-muted">Diseases Detected</p>
-            </div>
-            <div className="text-center">
-              <p className="text-lg font-bold text-agro-text-primary">
-                {summaryData.mostCommonDisease}
-              </p>
-              <p className="text-sm text-agro-text-muted">
-                Most Common Disease
-              </p>
-            </div>
-            <div className="text-center">
-              <p className="text-lg font-bold text-agro-text-primary">
-                {summaryData.lastScanDate}
-              </p>
-              <p className="text-sm text-agro-text-muted">Last Scan Date</p>
-            </div>
-          </div>
-        </div>
-      </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
     </Layout>
   );
 }
