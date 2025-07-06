@@ -1,20 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import { Icon } from "leaflet";
-import "leaflet/dist/leaflet.css";
-
-// Fix Leaflet default icons
-import L from "leaflet";
-delete (L.Icon.Default.prototype as any)._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png",
-  iconUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
-  shadowUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
-});
+import dynamic from "next/dynamic";
 
 // Disease outbreak data
 interface DiseaseOutbreak {
@@ -81,27 +67,25 @@ const mockDiseaseData: DiseaseOutbreak[] = [
   },
 ];
 
-// Custom marker icons
-const createIcon = (severity: string) => {
-  const color =
-    severity === "High"
-      ? "#ef4444"
-      : severity === "Medium"
-        ? "#f59e0b"
-        : "#22c55e";
-
-  return new Icon({
-    iconUrl: `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`
-      <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="12.5" cy="12.5" r="10" fill="${color}" stroke="white" stroke-width="2"/>
-        <circle cx="12.5" cy="12.5" r="4" fill="white"/>
-      </svg>
-    `)}`,
-    iconSize: [25, 25],
-    iconAnchor: [12.5, 12.5],
-    popupAnchor: [0, -12.5],
-  });
-};
+// Dynamic Map Component (Client-side only)
+const MapComponent = dynamic(
+  () => import("./MapRenderer").then((mod) => mod.MapRenderer),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="h-64 rounded-lg bg-gray-100 flex items-center justify-center border border-agro-border">
+        <div className="text-center">
+          <motion.div
+            className="w-8 h-8 border-2 border-agro-primary border-t-transparent rounded-full mx-auto mb-2"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+          />
+          <p className="text-sm text-agro-text-muted">Loading map...</p>
+        </div>
+      </div>
+    ),
+  },
+);
 
 interface LocalDiseaseMapProps {
   onViewFullMap?: () => void;
@@ -111,10 +95,11 @@ export default function LocalDiseaseMap({
   onViewFullMap,
 }: LocalDiseaseMapProps) {
   const [isFullScreen, setIsFullScreen] = useState(false);
-  const [selectedMarker, setSelectedMarker] = useState<string | null>(null);
+  const [isMounted, setIsMounted] = useState(false);
 
-  // Default location (rural farming area in New York)
-  const defaultCenter: [number, number] = [40.7589, -73.9851];
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const getSeverityColor = (severity: string) => {
     switch (severity) {
@@ -141,6 +126,32 @@ export default function LocalDiseaseMap({
     setIsFullScreen(true);
     onViewFullMap?.();
   };
+
+  const stats = useMemo(() => {
+    return {
+      total: mockDiseaseData.length,
+      highRisk: mockDiseaseData.filter((d) => d.severity === "High").length,
+      healthy: mockDiseaseData.filter((d) => d.diseaseName === "Healthy")
+        .length,
+      moderate: mockDiseaseData.filter((d) => d.severity === "Medium").length,
+      low: mockDiseaseData.filter((d) => d.severity === "Low").length,
+    };
+  }, []);
+
+  if (!isMounted) {
+    return (
+      <motion.div
+        className="agro-card"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+      >
+        <div className="h-64 rounded-lg bg-gray-100 flex items-center justify-center border border-agro-border animate-pulse">
+          <p className="text-sm text-agro-text-muted">Initializing map...</p>
+        </div>
+      </motion.div>
+    );
+  }
 
   return (
     <>
@@ -182,114 +193,17 @@ export default function LocalDiseaseMap({
 
         {/* Map Container */}
         <motion.div
-          className="relative h-64 rounded-lg overflow-hidden border border-agro-border"
+          className="relative mb-4"
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.4, delay: 0.3 }}
         >
-          <MapContainer
-            center={defaultCenter}
-            zoom={13}
-            className="h-full w-full"
-            zoomControl={false}
-            scrollWheelZoom={false}
-            style={{ borderRadius: "8px" }}
-          >
-            <TileLayer
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            />
-
-            {mockDiseaseData.map((outbreak) => (
-              <Marker
-                key={outbreak.id}
-                position={[outbreak.lat, outbreak.lng]}
-                icon={createIcon(outbreak.severity)}
-                eventHandlers={{
-                  click: () => setSelectedMarker(outbreak.id),
-                }}
-              >
-                <Popup className="custom-popup">
-                  <motion.div
-                    className="p-3 min-w-[200px]"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <div className="flex items-center justify-between mb-2">
-                      <h4 className="font-semibold text-agro-text-primary">
-                        {outbreak.cropName}
-                      </h4>
-                      <span
-                        className={`px-2 py-1 rounded-full text-xs font-medium ${getSeverityColor(outbreak.severity)}`}
-                      >
-                        {outbreak.severity}
-                      </span>
-                    </div>
-                    <div className="space-y-1 text-sm text-agro-text-muted">
-                      <p>
-                        <strong>Disease:</strong> {outbreak.diseaseName}
-                      </p>
-                      <p>
-                        <strong>Location:</strong> {outbreak.affectedArea}
-                      </p>
-                      <p>
-                        <strong>Detected:</strong>{" "}
-                        {formatDate(outbreak.dateDetected)}
-                      </p>
-                    </div>
-                    <motion.button
-                      className="mt-3 w-full text-xs bg-agro-primary text-white px-3 py-2 rounded-lg hover:bg-agro-primary-dark transition-colors"
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      View Details
-                    </motion.button>
-                  </motion.div>
-                </Popup>
-              </Marker>
-            ))}
-          </MapContainer>
-
-          {/* Map Controls Overlay */}
-          <div className="absolute top-3 right-3 flex flex-col gap-2">
-            <motion.button
-              className="w-8 h-8 bg-white shadow-md rounded-lg flex items-center justify-center hover:bg-gray-50 transition-colors"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              title="Zoom In"
-            >
-              <span className="text-sm font-bold text-gray-600">+</span>
-            </motion.button>
-            <motion.button
-              className="w-8 h-8 bg-white shadow-md rounded-lg flex items-center justify-center hover:bg-gray-50 transition-colors"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              title="Zoom Out"
-            >
-              <span className="text-sm font-bold text-gray-600">−</span>
-            </motion.button>
-          </div>
-
-          {/* Location Indicator */}
-          <motion.div
-            className="absolute bottom-3 left-3 bg-white shadow-md rounded-lg px-3 py-2 flex items-center gap-2"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.5 }}
-          >
-            <motion.div
-              className="w-2 h-2 bg-blue-500 rounded-full"
-              animate={{ scale: [1, 1.2, 1] }}
-              transition={{ duration: 2, repeat: Infinity }}
-            />
-            <span className="text-xs text-gray-600">Your Location</span>
-          </motion.div>
+          <MapComponent diseaseData={mockDiseaseData} />
         </motion.div>
 
         {/* Legend */}
         <motion.div
-          className="mt-4 p-3 bg-agro-secondary rounded-lg"
+          className="p-3 bg-agro-secondary rounded-lg mb-4"
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.4 }}
@@ -299,9 +213,9 @@ export default function LocalDiseaseMap({
           </h4>
           <div className="flex items-center justify-between">
             {[
-              { emoji: "🟢", label: "No Risk", count: 1 },
-              { emoji: "🟡", label: "Moderate Risk", count: 2 },
-              { emoji: "🔴", label: "High Risk", count: 1 },
+              { emoji: "🟢", label: "No Risk", count: stats.low },
+              { emoji: "🟡", label: "Moderate Risk", count: stats.moderate },
+              { emoji: "🔴", label: "High Risk", count: stats.highRisk },
             ].map((item, index) => (
               <motion.div
                 key={item.label}
@@ -325,7 +239,7 @@ export default function LocalDiseaseMap({
 
         {/* Quick Stats */}
         <motion.div
-          className="mt-4 grid grid-cols-3 gap-3"
+          className="grid grid-cols-3 gap-3"
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.6 }}
@@ -333,19 +247,17 @@ export default function LocalDiseaseMap({
           {[
             {
               label: "Total Areas",
-              value: mockDiseaseData.length,
+              value: stats.total,
               color: "bg-blue-100 text-blue-800",
             },
             {
               label: "High Risk",
-              value: mockDiseaseData.filter((d) => d.severity === "High")
-                .length,
+              value: stats.highRisk,
               color: "bg-red-100 text-red-800",
             },
             {
               label: "Healthy",
-              value: mockDiseaseData.filter((d) => d.diseaseName === "Healthy")
-                .length,
+              value: stats.healthy,
               color: "bg-green-100 text-green-800",
             },
           ].map((stat, index) => (
@@ -398,53 +310,8 @@ export default function LocalDiseaseMap({
                   ✕
                 </motion.button>
               </div>
-              <div className="h-[calc(100%-80px)] rounded-lg overflow-hidden">
-                <MapContainer
-                  center={defaultCenter}
-                  zoom={12}
-                  className="h-full w-full"
-                  style={{ borderRadius: "8px" }}
-                >
-                  <TileLayer
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                  />
-
-                  {mockDiseaseData.map((outbreak) => (
-                    <Marker
-                      key={outbreak.id}
-                      position={[outbreak.lat, outbreak.lng]}
-                      icon={createIcon(outbreak.severity)}
-                    >
-                      <Popup>
-                        <div className="p-3 min-w-[200px]">
-                          <div className="flex items-center justify-between mb-2">
-                            <h4 className="font-semibold text-agro-text-primary">
-                              {outbreak.cropName}
-                            </h4>
-                            <span
-                              className={`px-2 py-1 rounded-full text-xs font-medium ${getSeverityColor(outbreak.severity)}`}
-                            >
-                              {outbreak.severity}
-                            </span>
-                          </div>
-                          <div className="space-y-1 text-sm text-agro-text-muted">
-                            <p>
-                              <strong>Disease:</strong> {outbreak.diseaseName}
-                            </p>
-                            <p>
-                              <strong>Location:</strong> {outbreak.affectedArea}
-                            </p>
-                            <p>
-                              <strong>Detected:</strong>{" "}
-                              {formatDate(outbreak.dateDetected)}
-                            </p>
-                          </div>
-                        </div>
-                      </Popup>
-                    </Marker>
-                  ))}
-                </MapContainer>
+              <div className="h-[calc(100%-80px)]">
+                <MapComponent diseaseData={mockDiseaseData} isFullScreen />
               </div>
             </motion.div>
           </motion.div>
