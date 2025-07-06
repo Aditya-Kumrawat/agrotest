@@ -1,4 +1,5 @@
 import Layout from "@/components/Layout";
+import { motion } from "framer-motion";
 
 const mockWeatherData = {
   current: {
@@ -34,7 +35,13 @@ export default function Forecast() {
         </div>
 
         {/* Weather Forecast */}
-        <div className="agro-card mb-6">
+        <motion.div
+          className="agro-card mb-6"
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          whileHover={{ scale: 1.01 }}
+        >
           <h2 className="text-lg font-bold text-agro-text-primary mb-4">
             Weather Forecast
           </h2>
