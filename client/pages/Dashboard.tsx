@@ -481,3 +481,5 @@ export default function Dashboard() {
     </Layout>
   );
 }
+
+export default Dashboard;
