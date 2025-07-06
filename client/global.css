@@ -221,4 +221,33 @@
       opacity 300ms,
       transform 300ms;
   }
+
+  /* Leaflet Map Customizations */
+  .leaflet-popup-content-wrapper {
+    border-radius: 8px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+    border: 1px solid var(--agro-border) !important;
+  }
+
+  .leaflet-popup-tip {
+    border-top-color: white !important;
+  }
+
+  .leaflet-popup-content {
+    margin: 0 !important;
+    padding: 0 !important;
+    font-family: "Lexend", sans-serif !important;
+  }
+
+  .leaflet-container {
+    font-family: "Lexend", sans-serif !important;
+  }
+
+  .leaflet-control-zoom {
+    display: none !important;
+  }
+
+  .leaflet-popup-close-button {
+    display: none !important;
+  }
 }
