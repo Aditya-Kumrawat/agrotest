@@ -1,48 +1,99 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Layout from "@/components/Layout";
 
 interface Message {
-  id: number;
+  id: string;
   text: string;
   sender: "user" | "bot";
   timestamp: Date;
 }
 
-const initialMessage: Message = {
-  id: 1,
-  text: "Welcome to CropSage Assistant! Ask me anything about your crops, diseases, or treatment tips.",
-  sender: "bot",
-  timestamp: new Date(),
-};
+const TypingIndicator = () => (
+  <motion.div
+    className="flex items-center gap-1 p-3"
+    initial={{ opacity: 0, y: 10 }}
+    animate={{ opacity: 1, y: 0 }}
+    exit={{ opacity: 0, y: -10 }}
+  >
+    <div className="flex gap-1">
+      {[0, 1, 2].map((i) => (
+        <motion.div
+          key={i}
+          className="w-2 h-2 bg-agro-primary rounded-full"
+          animate={{ y: [0, -5, 0] }}
+          transition={{
+            duration: 0.6,
+            repeat: Infinity,
+            delay: i * 0.1,
+          }}
+        />
+      ))}
+    </div>
+    <span className="text-sm text-agro-text-muted ml-2">
+      CropSage is typing...
+    </span>
+  </motion.div>
+);
 
 export default function Chatbot() {
-  const [messages, setMessages] = useState<Message[]>([initialMessage]);
-  const [inputMessage, setInputMessage] = useState("");
+  const [messages, setMessages] = useState<Message[]>([
+    {
+      id: "1",
+      text: "Hello! I'm CropSage, your AI farming assistant. How can I help you today?",
+      sender: "bot",
+      timestamp: new Date(),
+    },
+  ]);
+  const [inputText, setInputText] = useState("");
+  const [isTyping, setIsTyping] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const handleSendMessage = () => {
-    if (!inputMessage.trim()) return;
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages, isTyping]);
+
+  const handleSendMessage = async () => {
+    if (!inputText.trim()) return;
 
     const userMessage: Message = {
-      id: messages.length + 1,
-      text: inputMessage,
+      id: Date.now().toString(),
+      text: inputText,
       sender: "user",
       timestamp: new Date(),
     };
 
     setMessages((prev) => [...prev, userMessage]);
+    setInputText("");
+    setIsTyping(true);
 
-    // Mock bot response
+    // Simulate bot response delay
     setTimeout(() => {
-      const botResponse: Message = {
-        id: messages.length + 2,
-        text: "Thanks for your question! I'm here to help you with your agricultural needs. Based on your query, I recommend checking your plant's leaves for early signs of disease and ensuring proper watering schedules.",
+      const botResponses = [
+        "Based on your description, it sounds like your crop might be experiencing leaf spot disease. I recommend applying a copper-based fungicide.",
+        "For tomato plants, ensure adequate spacing for air circulation and avoid overhead watering to prevent diseases.",
+        "This looks like nutrient deficiency. Consider testing your soil pH and adding organic compost.",
+        "Weather conditions suggest high humidity. Monitor your crops closely for signs of fungal diseases.",
+        "I recommend scheduling regular scouting of your fields, especially during wet seasons.",
+      ];
+
+      const randomResponse =
+        botResponses[Math.floor(Math.random() * botResponses.length)];
+
+      const botMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        text: randomResponse,
         sender: "bot",
         timestamp: new Date(),
       };
-      setMessages((prev) => [...prev, botResponse]);
-    }, 1000);
 
-    setInputMessage("");
+      setMessages((prev) => [...prev, botMessage]);
+      setIsTyping(false);
+    }, 2000);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -54,89 +105,204 @@ export default function Chatbot() {
 
   return (
     <Layout>
-      <div className="flex flex-col h-full">
-        {/* Header */}
-        <div className="p-6 border-b border-agro-border">
-          <h1 className="text-3xl font-bold text-agro-text-secondary">
+      <motion.div
+        className="p-6 max-w-4xl mx-auto h-[calc(100vh-200px)] flex flex-col"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
+        {/* Page Title */}
+        <motion.div
+          className="mb-6"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <h1 className="text-3xl font-bold text-agro-text-primary">
             CropSage Assistant
           </h1>
-          <p className="text-agro-text-secondary mt-2">
-            Welcome to CropSage Assistant! Ask me anything about your crops,
-            diseases, or treatment tips.
+          <p className="text-agro-text-muted mt-2">
+            Get instant help and guidance on farming practices
           </p>
-        </div>
+        </motion.div>
 
-        {/* Messages Area */}
-        <div className="flex-1 overflow-y-auto p-6 space-y-4">
-          {messages.map((message) => (
-            <div
-              key={message.id}
-              className={`flex ${
-                message.sender === "user" ? "justify-end" : "justify-start"
-              }`}
-            >
-              <div
-                className={`max-w-md px-4 py-3 rounded-lg ${
-                  message.sender === "user"
-                    ? "bg-agro-primary text-agro-text-primary"
-                    : "bg-agro-secondary text-agro-text-primary"
-                }`}
-              >
-                <p className="text-sm">{message.text}</p>
-                <p className="text-xs opacity-70 mt-1">
-                  {message.timestamp.toLocaleTimeString()}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Input Area */}
-        <div className="p-6 border-t border-agro-border">
-          <div className="flex items-center gap-3">
-            <img
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/2dea3abc60d0fbc4435fadfffe7358c9ffa6cbac?width=80"
-              alt="Bot avatar"
-              className="w-10 h-10 rounded-full flex-shrink-0"
-            />
-            <div className="flex-1 flex items-center bg-agro-secondary rounded-xl">
-              <input
-                type="text"
-                placeholder="Type your message..."
-                value={inputMessage}
-                onChange={(e) => setInputMessage(e.target.value)}
-                onKeyPress={handleKeyPress}
-                className="flex-1 bg-transparent px-4 py-3 text-agro-text-primary placeholder:text-agro-text-light focus:outline-none"
-              />
-              <div className="flex items-center gap-2 pr-2">
-                <button className="p-2 text-agro-text-light hover:text-agro-text-primary transition-colors">
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 14 18"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      clipRule="evenodd"
-                      d="M7 12.75C9.07018 12.7478 10.7478 11.0702 10.75 9V4C10.75 1.92893 9.07107 0.25 7 0.25C4.92893 0.25 3.25 1.92893 3.25 4V9C3.25215 11.0702 4.92982 12.7478 7 12.75ZM4.5 4C4.5 2.61929 5.61929 1.5 7 1.5C8.38071 1.5 9.5 2.61929 9.5 4V9C9.5 10.3807 8.38071 11.5 7 11.5C5.61929 11.5 4.5 10.3807 4.5 9V4ZM7.625 15.2188V17.125C7.625 17.4702 7.34518 17.75 7 17.75C6.65482 17.75 6.375 17.4702 6.375 17.125V15.2188C3.18323 14.894 0.753942 12.2082 0.75 9C0.75 8.65482 1.02982 8.375 1.375 8.375C1.72018 8.375 2 8.65482 2 9C2 11.7614 4.23858 14 7 14C9.76142 14 12 11.7614 12 9C12 8.65482 12.2798 8.375 12.625 8.375C12.9702 8.375 13.25 8.65482 13.25 9C13.2461 12.2082 10.8168 14.894 7.625 15.2188Z"
-                      fill="currentColor"
-                    />
-                  </svg>
-                </button>
-                <button
-                  onClick={handleSendMessage}
-                  disabled={!inputMessage.trim()}
-                  className="bg-agro-primary-dark text-agro-text-primary px-4 py-2 rounded-2xl text-sm font-medium hover:bg-agro-primary transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        {/* Chat Container */}
+        <motion.div
+          className="flex-1 bg-white rounded-lg shadow-sm border border-agro-border flex flex-col"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+        >
+          {/* Messages Area */}
+          <div className="flex-1 p-4 overflow-y-auto space-y-4">
+            <AnimatePresence initial={false}>
+              {messages.map((message, index) => (
+                <motion.div
+                  key={message.id}
+                  className={`flex ${message.sender === "user" ? "justify-end" : "justify-start"}`}
+                  initial={{
+                    opacity: 0,
+                    x: message.sender === "user" ? 20 : -20,
+                  }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: message.sender === "user" ? 20 : -20 }}
+                  transition={{ duration: 0.3, delay: index * 0.1 }}
                 >
-                  Send
-                </button>
+                  <motion.div
+                    className={`max-w-xs lg:max-w-md px-4 py-3 rounded-lg ${
+                      message.sender === "user"
+                        ? "bg-agro-primary text-white"
+                        : "bg-gray-100 text-agro-text-primary"
+                    }`}
+                    whileHover={{ scale: 1.02 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    {message.sender === "bot" && (
+                      <motion.div
+                        className="flex items-center gap-2 mb-2"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.2 }}
+                      >
+                        <motion.span
+                          className="text-lg"
+                          animate={{ rotate: [0, 10, -10, 0] }}
+                          transition={{ duration: 2, repeat: Infinity }}
+                        >
+                          🤖
+                        </motion.span>
+                        <span className="text-xs font-semibold">CropSage</span>
+                      </motion.div>
+                    )}
+                    <motion.p
+                      className="text-sm"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.3 }}
+                    >
+                      {message.text}
+                    </motion.p>
+                    <motion.span
+                      className={`text-xs mt-2 block ${
+                        message.sender === "user"
+                          ? "text-white/70"
+                          : "text-gray-500"
+                      }`}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.4 }}
+                    >
+                      {message.timestamp.toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </motion.span>
+                  </motion.div>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+
+            {/* Typing Indicator */}
+            <AnimatePresence>{isTyping && <TypingIndicator />}</AnimatePresence>
+
+            <div ref={messagesEndRef} />
+          </div>
+
+          {/* Input Area */}
+          <motion.div
+            className="border-t border-agro-border p-4"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            <div className="flex gap-3 items-end">
+              <motion.textarea
+                className="flex-1 agro-input resize-none"
+                placeholder="Ask about your crops, diseases, or farming practices..."
+                value={inputText}
+                onChange={(e) => setInputText(e.target.value)}
+                onKeyPress={handleKeyPress}
+                rows={2}
+                whileFocus={{ scale: 1.01 }}
+                transition={{ duration: 0.2 }}
+              />
+              <div className="flex flex-col gap-2">
+                <motion.button
+                  onClick={handleSendMessage}
+                  disabled={!inputText.trim() || isTyping}
+                  className="agro-button-primary px-6 py-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                  whileHover={
+                    inputText.trim() && !isTyping ? { scale: 1.05 } : {}
+                  }
+                  whileTap={
+                    inputText.trim() && !isTyping ? { scale: 0.95 } : {}
+                  }
+                  transition={{ duration: 0.2 }}
+                >
+                  <motion.span
+                    animate={
+                      inputText.trim() && !isTyping
+                        ? { scale: [1, 1.2, 1] }
+                        : {}
+                    }
+                    transition={{ duration: 1.5, repeat: Infinity }}
+                  >
+                    📤
+                  </motion.span>
+                </motion.button>
+                <motion.button
+                  className="agro-button-secondary px-3 py-2"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  transition={{ duration: 0.2 }}
+                  title="Voice input (coming soon)"
+                >
+                  <motion.span
+                    animate={{ scale: [1, 1.1, 1] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  >
+                    🎙️
+                  </motion.span>
+                </motion.button>
               </div>
             </div>
+          </motion.div>
+        </motion.div>
+
+        {/* Quick Suggestions */}
+        <motion.div
+          className="mt-4"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+        >
+          <p className="text-sm text-agro-text-muted mb-3">
+            Quick suggestions:
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {[
+              "How to identify leaf spot?",
+              "Best fertilizer for tomatoes",
+              "Weather effects on crops",
+              "Organic pest control",
+              "Soil pH testing",
+            ].map((suggestion, index) => (
+              <motion.button
+                key={suggestion}
+                onClick={() => setInputText(suggestion)}
+                className="text-xs bg-agro-secondary text-agro-text-primary px-3 py-2 rounded-full hover:bg-agro-primary hover:text-white transition-colors"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: 0.4 + index * 0.1 }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                {suggestion}
+              </motion.button>
+            ))}
           </div>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </Layout>
   );
 }
