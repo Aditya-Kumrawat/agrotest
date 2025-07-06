@@ -462,3 +462,106 @@ export default function LocalDiseaseMap({
     </>
   );
 }
+import { motion } from "framer-motion";
+
+const mockDiseaseData = [
+  { region: "North Field", disease: "Late Blight", severity: "High", lat: 40.7128, lng: -74.0060 },
+  { region: "South Field", disease: "Early Blight", severity: "Medium", lat: 40.7589, lng: -73.9851 },
+  { region: "East Field", disease: "Healthy", severity: "Low", lat: 40.7831, lng: -73.9712 },
+  { region: "West Field", disease: "Powdery Mildew", severity: "Medium", lat: 40.7506, lng: -73.9938 },
+];
+
+export default function LocalDiseaseMap() {
+  return (
+    <motion.div
+      className="agro-card"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <h2 className="text-xl font-bold text-agro-text-primary mb-6">
+        Local Disease Map
+      </h2>
+      
+      {/* Map Container */}
+      <div className="relative h-80 bg-gradient-to-br from-green-100 to-green-200 rounded-lg overflow-hidden">
+        {/* Mock Map Background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-green-50 to-green-100">
+          <svg className="w-full h-full opacity-20" viewBox="0 0 400 300">
+            <defs>
+              <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+                <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#10b981" strokeWidth="0.5"/>
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#grid)" />
+          </svg>
+        </div>
+
+        {/* Disease Points */}
+        {mockDiseaseData.map((point, index) => (
+          <motion.div
+            key={index}
+            className={`absolute w-6 h-6 rounded-full border-2 border-white shadow-lg cursor-pointer ${
+              point.severity === "High" 
+                ? "bg-red-500" 
+                : point.severity === "Medium" 
+                ? "bg-yellow-500" 
+                : "bg-green-500"
+            }`}
+            style={{
+              left: `${20 + (index * 20)}%`,
+              top: `${30 + (index * 15)}%`,
+            }}
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 0.3, delay: index * 0.1 }}
+            whileHover={{ scale: 1.2 }}
+          >
+            <motion.div
+              className={`absolute inset-0 rounded-full ${
+                point.severity === "High" 
+                  ? "bg-red-500" 
+                  : point.severity === "Medium" 
+                  ? "bg-yellow-500" 
+                  : "bg-green-500"
+              }`}
+              animate={{ scale: [1, 1.5, 1] }}
+              transition={{ duration: 2, repeat: Infinity, opacity: 0.6 }}
+            />
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Legend */}
+      <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-4">
+        {mockDiseaseData.map((point, index) => (
+          <motion.div
+            key={index}
+            className="flex items-center gap-2"
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.3, delay: 0.5 + index * 0.1 }}
+          >
+            <div
+              className={`w-3 h-3 rounded-full ${
+                point.severity === "High" 
+                  ? "bg-red-500" 
+                  : point.severity === "Medium" 
+                  ? "bg-yellow-500" 
+                  : "bg-green-500"
+              }`}
+            />
+            <div>
+              <p className="text-xs font-medium text-agro-text-primary">
+                {point.region}
+              </p>
+              <p className="text-xs text-agro-text-muted">
+                {point.disease}
+              </p>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+    </motion.div>
+  );
+}

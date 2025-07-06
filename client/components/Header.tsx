@@ -60,3 +60,58 @@ export default function Header() {
     </header>
   );
 }
+import { motion } from "framer-motion";
+
+export default function Header() {
+  const handleLogout = () => {
+    localStorage.removeItem("isAuthenticated");
+    window.location.href = "/login";
+  };
+
+  return (
+    <motion.header
+      className="bg-white border-b border-agro-border px-6 py-4 fixed top-0 left-0 right-0 z-50"
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <div className="flex items-center justify-between">
+        <motion.div
+          className="flex items-center gap-3"
+          whileHover={{ scale: 1.02 }}
+        >
+          <motion.span
+            className="text-2xl"
+            animate={{ rotate: [0, 10, -10, 0] }}
+            transition={{ duration: 4, repeat: Infinity }}
+          >
+            🌱
+          </motion.span>
+          <h1 className="text-xl font-bold text-agro-text-primary">
+            AgroSaarthi
+          </h1>
+        </motion.div>
+
+        <div className="flex items-center gap-4">
+          <motion.div
+            className="flex items-center gap-2 text-sm text-agro-text-muted"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+          >
+            <span>Welcome back, Farmer</span>
+          </motion.div>
+          
+          <motion.button
+            onClick={handleLogout}
+            className="agro-button-secondary px-4 py-2"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            Logout
+          </motion.button>
+        </div>
+      </div>
+    </motion.header>
+  );
+}
