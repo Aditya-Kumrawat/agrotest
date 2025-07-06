@@ -1,4 +1,46 @@
 import Layout from "@/components/Layout";
+import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+
+// Count-up animation component
+const CountUp = ({
+  end,
+  duration = 2,
+  suffix = "",
+}: {
+  end: number;
+  duration?: number;
+  suffix?: string;
+}) => {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    let startTime: number;
+
+    const animate = (currentTime: number) => {
+      if (!startTime) startTime = currentTime;
+      const progress = Math.min(
+        (currentTime - startTime) / (duration * 1000),
+        1,
+      );
+      const easeOutQuad = progress * (2 - progress);
+      setCount(Math.floor(easeOutQuad * end));
+
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      }
+    };
+
+    requestAnimationFrame(animate);
+  }, [end, duration]);
+
+  return (
+    <span>
+      {count}
+      {suffix}
+    </span>
+  );
+};
 
 const mockData = {
   trackedCrops: 5,
