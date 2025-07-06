@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 const sidebarItems = [
@@ -154,28 +155,28 @@ export default function Sidebar() {
   };
 
   return (
-    <aside
-      className={cn(
-        "bg-white border-r border-agro-border min-h-screen p-6 transition-all duration-300 relative",
-        isCollapsed ? "w-20" : "w-80",
-      )}
+    <motion.aside
+      className="bg-white border-r border-agro-border min-h-screen p-6 relative"
+      animate={{ width: isCollapsed ? 80 : 320 }}
+      transition={{ duration: 0.3, ease: "easeInOut" }}
     >
       {/* Toggle Button */}
-      <button
+      <motion.button
         onClick={toggleSidebar}
-        className="absolute -right-3 top-1/2 -translate-y-1/2 w-6 h-6 bg-white border border-agro-border rounded-full flex items-center justify-center hover:bg-agro-secondary transition-colors duration-300 z-10 shadow-sm"
+        className="absolute -right-3 top-1/2 -translate-y-1/2 w-6 h-6 bg-white border border-agro-border rounded-full flex items-center justify-center hover:bg-agro-secondary z-10 shadow-sm"
         aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.95 }}
+        transition={{ duration: 0.2 }}
       >
-        <svg
+        <motion.svg
           width="12"
           height="12"
           viewBox="0 0 24 24"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          className={cn(
-            "transition-transform duration-300",
-            isCollapsed ? "rotate-180" : "",
-          )}
+          animate={{ rotate: isCollapsed ? 180 : 0 }}
+          transition={{ duration: 0.3 }}
         >
           <path
             d="M15 18L9 12L15 6"
@@ -184,18 +185,17 @@ export default function Sidebar() {
             strokeLinecap="round"
             strokeLinejoin="round"
           />
-        </svg>
-      </button>
+        </motion.svg>
+      </motion.button>
 
       <div className="flex flex-col h-full">
         {/* Logo */}
-        <div
-          className={cn(
-            "flex items-center mb-8 transition-all duration-300",
-            isCollapsed ? "gap-0 justify-center" : "gap-4",
-          )}
+        <motion.div
+          className="flex items-center mb-8"
+          layout
+          transition={{ duration: 0.3 }}
         >
-          <div className="flex flex-shrink-0">
+          <motion.div className="flex flex-shrink-0">
             <svg
               width="16"
               height="16"
@@ -224,40 +224,70 @@ export default function Sidebar() {
                 fill="#0D1A12"
               />
             </svg>
-          </div>
-          {!isCollapsed && (
-            <h1 className="text-lg font-bold text-agro-text-secondary transition-opacity duration-300">
-              AgroSaarthi
-            </h1>
-          )}
-        </div>
+          </motion.div>
+          <AnimatePresence>
+            {!isCollapsed && (
+              <motion.h1
+                className="text-lg font-bold text-agro-text-secondary ml-4"
+                initial={{ opacity: 0, width: 0 }}
+                animate={{ opacity: 1, width: "auto" }}
+                exit={{ opacity: 0, width: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                AgroSaarthi
+              </motion.h1>
+            )}
+          </AnimatePresence>
+        </motion.div>
 
         {/* Navigation */}
-        <nav className="flex flex-col gap-2">
-          {sidebarItems.map((item) => (
-            <Link
-              key={item.path}
-              to={item.path}
-              className={cn(
-                "flex items-center gap-3 px-3 py-2 rounded-lg text-agro-text-primary hover:bg-agro-secondary transition-all duration-300 cursor-pointer",
-                location.pathname === item.path &&
-                  "bg-agro-primary-light text-agro-text-primary",
-                isCollapsed && "justify-center px-2",
-              )}
-              title={isCollapsed ? item.label : undefined}
-            >
-              <span className="w-6 h-6 flex items-center justify-center flex-shrink-0">
-                {item.icon}
-              </span>
-              {!isCollapsed && (
-                <span className="text-sm font-medium transition-opacity duration-300">
-                  {item.label}
-                </span>
-              )}
-            </Link>
-          ))}
-        </nav>
+        <motion.nav className="flex flex-col gap-2">
+          {sidebarItems.map((item, index) => {
+            const isActive = location.pathname === item.path;
+            return (
+              <motion.div
+                key={item.path}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: index * 0.05, duration: 0.3 }}
+              >
+                <Link
+                  to={item.path}
+                  className={cn(
+                    "flex items-center gap-3 px-3 py-2 rounded-lg text-agro-text-primary transition-all duration-300 cursor-pointer group",
+                    isActive
+                      ? "bg-agro-primary-light text-agro-text-primary"
+                      : "hover:bg-agro-secondary hover:text-agro-primary",
+                    isCollapsed && "justify-center px-2",
+                  )}
+                  title={isCollapsed ? item.label : undefined}
+                >
+                  <motion.span
+                    className="w-6 h-6 flex items-center justify-center flex-shrink-0"
+                    whileHover={{ scale: 1.1, rotate: 5 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    {item.icon}
+                  </motion.span>
+                  <AnimatePresence>
+                    {!isCollapsed && (
+                      <motion.span
+                        className="text-sm font-medium group-hover:translate-x-1 transition-transform duration-200"
+                        initial={{ opacity: 0, width: 0 }}
+                        animate={{ opacity: 1, width: "auto" }}
+                        exit={{ opacity: 0, width: 0 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        {item.label}
+                      </motion.span>
+                    )}
+                  </AnimatePresence>
+                </Link>
+              </motion.div>
+            );
+          })}
+        </motion.nav>
       </div>
-    </aside>
+    </motion.aside>
   );
 }
