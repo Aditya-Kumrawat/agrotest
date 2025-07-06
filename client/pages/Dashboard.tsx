@@ -1,4 +1,5 @@
 import Layout from "@/components/Layout";
+import LocalDiseaseMap from "@/components/LocalDiseaseMap";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
@@ -464,6 +465,16 @@ export default function Dashboard() {
                 </motion.div>
               </div>
             </motion.div>
+          </motion.div>
+
+          {/* Local Disease Map */}
+          <motion.div
+            className="mt-6"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 1.4 }}
+          >
+            <LocalDiseaseMap />
           </motion.div>
         </div>
       </motion.div>
