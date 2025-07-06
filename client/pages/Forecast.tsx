@@ -26,13 +26,23 @@ const mockWeatherData = {
 export default function Forecast() {
   return (
     <Layout>
-      <div className="p-6 max-w-6xl mx-auto">
+      <motion.div
+        className="p-6 max-w-6xl mx-auto"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
         {/* Page Title */}
-        <div className="mb-8">
+        <motion.div
+          className="mb-8"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
           <h1 className="text-3xl font-bold text-agro-text-primary">
             7-Day Forecast
           </h1>
-        </div>
+        </motion.div>
 
         {/* Weather Forecast */}
         <motion.div
@@ -46,7 +56,11 @@ export default function Forecast() {
             Weather Forecast
           </h2>
           <div className="flex items-center justify-between">
-            <div>
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.2 }}
+            >
               <h3 className="text-base font-semibold text-agro-text-primary mb-2">
                 {mockWeatherData.current.condition}
               </h3>
@@ -54,82 +68,186 @@ export default function Forecast() {
                 High: {mockWeatherData.current.high}, Low:{" "}
                 {mockWeatherData.current.low}
               </p>
-            </div>
-            <div className="w-48 h-32 bg-gradient-to-br from-blue-400 to-blue-600 rounded-lg flex items-center justify-center relative overflow-hidden">
-              {/* Sun */}
-              <div className="absolute top-4 right-4 w-12 h-12 bg-yellow-300 rounded-full"></div>
-              {/* Clouds */}
-              <div className="absolute bottom-6 left-4 w-16 h-8 bg-white rounded-full opacity-80"></div>
-              <div className="absolute bottom-8 left-8 w-12 h-6 bg-white rounded-full opacity-90"></div>
-            </div>
+            </motion.div>
+            <motion.div
+              className="text-4xl"
+              animate={{ rotate: [0, 10, -10, 0] }}
+              transition={{ duration: 4, repeat: Infinity }}
+            >
+              ☀️
+            </motion.div>
           </div>
-        </div>
+        </motion.div>
 
         {/* Disease Risk Timeline */}
-        <div className="agro-card mb-6">
-          <h2 className="text-lg font-bold text-agro-text-primary mb-4">
+        <motion.div
+          className="agro-card mb-6"
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          whileHover={{ scale: 1.01 }}
+        >
+          <h2 className="text-lg font-bold text-agro-text-primary mb-6">
             Disease Risk Timeline
           </h2>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div>
-              <h3 className="text-sm text-agro-text-muted mb-2">
-                Disease Risk
-              </h3>
-              <p className="text-3xl font-bold text-agro-text-primary mb-1">
-                {mockWeatherData.diseaseRisk.level}
-              </p>
-              <p className="text-sm text-agro-text-muted mb-1">
-                {mockWeatherData.diseaseRisk.timeline}
-              </p>
-              <p className="text-sm text-green-600">
-                {mockWeatherData.diseaseRisk.change}
-              </p>
-            </div>
-            <div className="lg:col-span-2">
-              <div className="h-40 flex items-end justify-between gap-2 mb-4">
-                {mockWeatherData.weeklyForecast.map((day, index) => (
-                  <div key={index} className="flex flex-col items-center gap-2">
-                    <div
-                      className="w-8 bg-agro-primary-dark rounded-t"
-                      style={{ height: `${(day.risk / 100) * 120}px` }}
-                    ></div>
-                    <span className="text-xs font-bold text-agro-text-muted">
-                      {day.day}
-                    </span>
-                  </div>
-                ))}
-              </div>
-              {/* Mock chart line */}
-              <div className="relative h-24 bg-gradient-to-b from-agro-secondary to-transparent rounded">
-                <svg
-                  className="absolute inset-0 w-full h-full"
-                  viewBox="0 0 280 96"
-                  preserveAspectRatio="none"
+
+          {/* Chart Container */}
+          <div className="h-64 mb-6">
+            <div className="flex items-end justify-between h-full px-4">
+              {mockWeatherData.weeklyForecast.map((data, index) => (
+                <motion.div
+                  key={data.day}
+                  className="flex flex-col items-center gap-2"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: 0.3 + index * 0.1 }}
                 >
-                  <path
-                    d="M0,80 Q70,20 140,40 T280,30"
-                    fill="none"
-                    stroke="#52946B"
-                    strokeWidth="3"
+                  <motion.div
+                    className="w-8 bg-gradient-to-t from-red-500 to-yellow-500 rounded-t"
+                    initial={{ height: 0 }}
+                    animate={{ height: `${data.risk * 2}px` }}
+                    transition={{ duration: 0.8, delay: 0.5 + index * 0.1 }}
+                    whileHover={{ scale: 1.1 }}
                   />
-                </svg>
-              </div>
+                  <span className="text-sm text-agro-text-muted">
+                    {data.day}
+                  </span>
+                  <motion.span
+                    className="text-xs text-agro-text-primary font-semibold"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.3, delay: 0.8 + index * 0.1 }}
+                  >
+                    {data.risk}%
+                  </motion.span>
+                </motion.div>
+              ))}
             </div>
           </div>
-        </div>
+
+          {/* Risk Summary */}
+          <motion.div
+            className="bg-orange-50 border border-orange-200 rounded-lg p-4"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.8 }}
+          >
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-semibold text-orange-800">
+                  Current Risk Level: {mockWeatherData.diseaseRisk.level}
+                </p>
+                <p className="text-xs text-orange-600">
+                  {mockWeatherData.diseaseRisk.timeline}
+                </p>
+              </div>
+              <motion.span
+                className="text-sm font-bold text-orange-800"
+                animate={{ scale: [1, 1.1, 1] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
+                {mockWeatherData.diseaseRisk.change}
+              </motion.span>
+            </div>
+          </motion.div>
+        </motion.div>
 
         {/* Preventive Actions */}
-        <div className="agro-card">
-          <h2 className="text-lg font-bold text-agro-text-primary mb-4">
-            Preventive Actions
+        <motion.div
+          className="agro-card"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          whileHover={{ scale: 1.01 }}
+        >
+          <h2 className="text-lg font-bold text-agro-text-primary mb-6">
+            Recommended Preventive Actions
           </h2>
-          <p className="text-agro-text-primary leading-relaxed">
-            Based on the forecast and risk assessment, consider applying a
-            fungicide to protect your plants from potential diseases. Ensure
-            proper watering and ventilation to minimize disease development.
-          </p>
-        </div>
-      </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {[
+              {
+                title: "Increase Ventilation",
+                description: "Improve air circulation around plants",
+                icon: "💨",
+                priority: "High",
+              },
+              {
+                title: "Reduce Watering",
+                description: "Limit water to prevent fungal growth",
+                icon: "💧",
+                priority: "Medium",
+              },
+              {
+                title: "Apply Fungicide",
+                description: "Preventive fungicide application recommended",
+                icon: "🧴",
+                priority: "High",
+              },
+              {
+                title: "Monitor Daily",
+                description: "Check plants for early signs of disease",
+                icon: "👀",
+                priority: "Low",
+              },
+              {
+                title: "Remove Debris",
+                description: "Clear fallen leaves and plant matter",
+                icon: "🧹",
+                priority: "Medium",
+              },
+              {
+                title: "Check Soil Drainage",
+                description: "Ensure proper water drainage in soil",
+                icon: "🌱",
+                priority: "Low",
+              },
+            ].map((action, index) => (
+              <motion.div
+                key={index}
+                className="bg-white border border-agro-border rounded-lg p-4"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.4 + index * 0.1 }}
+                whileHover={{ scale: 1.02, y: -2 }}
+              >
+                <div className="flex items-start gap-3">
+                  <motion.span
+                    className="text-2xl"
+                    animate={{ scale: [1, 1.1, 1] }}
+                    transition={{
+                      duration: 2,
+                      delay: index * 0.2,
+                      repeat: Infinity,
+                    }}
+                  >
+                    {action.icon}
+                  </motion.span>
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-agro-text-primary mb-1">
+                      {action.title}
+                    </h3>
+                    <p className="text-sm text-agro-text-muted mb-2">
+                      {action.description}
+                    </p>
+                    <motion.span
+                      className={`text-xs px-2 py-1 rounded-full ${
+                        action.priority === "High"
+                          ? "bg-red-100 text-red-800"
+                          : action.priority === "Medium"
+                            ? "bg-yellow-100 text-yellow-800"
+                            : "bg-green-100 text-green-800"
+                      }`}
+                      whileHover={{ scale: 1.05 }}
+                    >
+                      {action.priority} Priority
+                    </motion.span>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+      </motion.div>
     </Layout>
   );
 }
