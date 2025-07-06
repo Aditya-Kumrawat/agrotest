@@ -92,261 +92,381 @@ const mockData = {
 export default function Dashboard() {
   return (
     <Layout>
-      <div className="p-6 space-y-6">
+      <motion.div
+        className="p-6 space-y-6"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
         {/* Page Title */}
-        <div className="mb-8">
+        <motion.div
+          className="mb-8"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
           <h1 className="text-3xl font-bold text-agro-text-primary">
             Dashboard
           </h1>
-        </div>
+        </motion.div>
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="agro-card">
+          <motion.div
+            className="agro-card"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
+          >
             <h3 className="text-sm text-agro-text-muted mb-2">Tracked Crops</h3>
             <p className="text-3xl font-bold text-agro-text-primary">
-              {mockData.trackedCrops}
+              <CountUp end={mockData.trackedCrops} duration={1.5} />
             </p>
-          </div>
-          <div className="agro-card">
+          </motion.div>
+
+          <motion.div
+            className="agro-card"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
+          >
             <h3 className="text-sm text-agro-text-muted mb-2">
               Current Disease Risk
             </h3>
-            <p className="text-2xl font-bold text-agro-text-primary mb-1">
+            <motion.p
+              className="text-2xl font-bold text-agro-text-primary mb-1"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+            >
               {mockData.diseaseRisk}
-            </p>
-          </div>
-          <div className="agro-card">
+            </motion.p>
+          </motion.div>
+
+          <motion.div
+            className="agro-card"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
+          >
             <h3 className="text-sm text-agro-text-muted mb-2">Quick Scan</h3>
-            <button className="agro-button-primary w-full">Scan Now</button>
-          </div>
-          <div className="agro-card">
+            <motion.button
+              className="agro-button-primary w-full"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ duration: 0.2 }}
+            >
+              <motion.span
+                animate={{ scale: [1, 1.1, 1] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
+                🔍
+              </motion.span>{" "}
+              Scan Now
+            </motion.button>
+          </motion.div>
+
+          <motion.div
+            className="agro-card"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
+          >
             <h3 className="text-sm text-agro-text-muted mb-2">
               Disease Trends
             </h3>
             <p className="text-lg font-semibold text-agro-text-primary">
-              Mini Graph
+              <CountUp
+                end={mockData.healthStats.diseasesDetected}
+                duration={1.5}
+              />{" "}
+              diseases detected
             </p>
-          </div>
+          </motion.div>
         </div>
 
         {/* Main Content Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* AI Intelligence Section */}
-          <div className="lg:col-span-2 space-y-6">
-            <div className="agro-card">
+          <motion.div
+            className="lg:col-span-2 space-y-6"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
+          >
+            <motion.div
+              className="agro-card"
+              whileHover={{ scale: 1.01, transition: { duration: 0.2 } }}
+            >
               <h2 className="text-xl font-bold text-agro-text-primary mb-6">
                 AI Intelligence
               </h2>
 
               <div className="space-y-6">
                 {/* Last Scan Result */}
-                <div className="flex items-start gap-4">
+                <motion.div
+                  className="flex items-start gap-4"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: 0.6 }}
+                >
                   <div className="flex-1">
                     <h3 className="font-semibold text-agro-text-primary mb-2">
                       Last Scan Result
                     </h3>
                     <p className="text-sm text-agro-text-muted mb-1">
-                      Crop: {mockData.lastScanResult.crop}
+                      {mockData.lastScanResult.crop}
                     </p>
-                    <p className="text-sm text-agro-text-muted mb-1">
-                      Condition: {mockData.lastScanResult.condition}
+                    <p className="text-lg font-semibold text-green-600">
+                      {mockData.lastScanResult.condition}
                     </p>
-                    <p className="text-sm text-agro-text-muted mb-1">
-                      Confidence Score: {mockData.lastScanResult.confidence}
+                    <p className="text-sm text-agro-text-muted">
+                      Confidence: {mockData.lastScanResult.confidence}
                     </p>
-                    <p className="text-sm text-agro-text-muted mb-3">
-                      Treatment: {mockData.lastScanResult.treatment}
-                    </p>
-                    <button className="text-sm text-agro-primary hover:underline">
-                      View Details
-                    </button>
                   </div>
-                  <img
-                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/bfda33333079e3dd6d964f0c82311a69b7557afa?width=606"
-                    alt="Plant scan"
-                    className="w-32 h-20 object-cover rounded-lg"
-                  />
-                </div>
+                  <motion.div
+                    className="w-16 h-16 bg-green-100 rounded-lg flex items-center justify-center"
+                    whileHover={{ rotate: 10 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <svg
+                      width="32"
+                      height="32"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      className="text-green-600"
+                    >
+                      <path
+                        d="M20 6L9 17L4 12"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </motion.div>
+                </motion.div>
 
-                {/* Upcoming Threat Predictions */}
-                <div className="flex items-start gap-4">
-                  <div className="flex-1">
-                    <h3 className="font-semibold text-agro-text-primary mb-2">
-                      Upcoming Threat Predictions
-                    </h3>
-                    <p className="text-sm text-agro-text-muted mb-1">
-                      {mockData.upcomingThreat.prediction}
-                    </p>
-                    <p className="text-sm text-agro-text-muted mb-1">
-                      Risk Level: {mockData.upcomingThreat.risk}
-                    </p>
-                    <p className="text-sm text-agro-text-muted mb-3">
-                      {mockData.upcomingThreat.timeline}
-                    </p>
-                    <button className="text-sm text-agro-primary hover:underline">
-                      View Details
-                    </button>
-                  </div>
-                  <img
-                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/bfda33333079e3dd6d964f0c82311a69b7557afa?width=606"
-                    alt="Threat prediction"
-                    className="w-32 h-20 object-cover rounded-lg"
-                  />
-                </div>
+                {/* Upcoming Threat */}
+                <motion.div
+                  className="border-t border-agro-border pt-6"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: 0.7 }}
+                >
+                  <h3 className="font-semibold text-agro-text-primary mb-2">
+                    Upcoming Threat
+                  </h3>
+                  <p className="text-sm text-agro-text-muted">
+                    {mockData.upcomingThreat.prediction}
+                  </p>
+                  <motion.p
+                    className="text-sm font-semibold text-red-600"
+                    animate={{ scale: [1, 1.05, 1] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  >
+                    {mockData.upcomingThreat.risk}
+                  </motion.p>
+                  <p className="text-sm text-agro-text-muted">
+                    {mockData.upcomingThreat.timeline}
+                  </p>
+                </motion.div>
               </div>
-            </div>
+            </motion.div>
 
-            {/* Recent Diagnosis History */}
-            <div className="agro-card">
-              <h2 className="text-xl font-bold text-agro-text-primary mb-6">
-                Recent Diagnosis History
-              </h2>
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className="border-b border-agro-border">
-                      <th className="text-left py-3 text-agro-text-muted">
-                        Date
-                      </th>
-                      <th className="text-left py-3 text-agro-text-muted">
-                        Time
-                      </th>
-                      <th className="text-left py-3 text-agro-text-muted">
-                        Disease Detected
-                      </th>
-                      <th className="text-left py-3 text-agro-text-muted">
-                        Action Taken
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {mockData.recentHistory.map((item, index) => (
-                      <tr key={index} className="border-b border-agro-border">
-                        <td className="py-3 text-agro-text-primary">
-                          {item.date}
-                        </td>
-                        <td className="py-3 text-agro-text-primary">
-                          {item.time}
-                        </td>
-                        <td className="py-3 text-agro-text-primary">
-                          {item.disease}
-                        </td>
-                        <td className="py-3 text-agro-text-primary">
-                          {item.action}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-                <button className="text-sm text-agro-primary hover:underline mt-4">
-                  View Full History
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* Sidebar Content */}
-          <div className="space-y-6">
             {/* Crop Calendar */}
-            <div className="agro-card">
-              <h3 className="font-semibold text-agro-text-primary mb-4">
+            <motion.div
+              className="agro-card"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.8 }}
+              whileHover={{ scale: 1.01, transition: { duration: 0.2 } }}
+            >
+              <h2 className="text-xl font-bold text-agro-text-primary mb-6">
                 Crop Calendar
-              </h3>
+              </h2>
               <div className="space-y-4">
                 {mockData.cropCalendar.map((item, index) => (
-                  <div key={index} className="flex items-center gap-3">
-                    <div
+                  <motion.div
+                    key={index}
+                    className="flex items-center gap-4"
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.3, delay: 0.9 + index * 0.1 }}
+                  >
+                    <motion.div
                       className={`w-3 h-3 rounded-full ${
                         item.status === "active"
                           ? "bg-agro-primary"
                           : item.status === "upcoming"
-                            ? "bg-yellow-400"
+                            ? "bg-yellow-500"
                             : "bg-gray-300"
                       }`}
+                      animate={
+                        item.status === "active" ? { scale: [1, 1.2, 1] } : {}
+                      }
+                      transition={{ duration: 2, repeat: Infinity }}
                     />
-                    <div>
-                      <p className="text-sm font-medium text-agro-text-primary">
+                    <div className="flex-1">
+                      <p className="font-medium text-agro-text-primary">
                         {item.stage}
                       </p>
-                      <p className="text-xs text-agro-text-muted">
+                      <p className="text-sm text-agro-text-muted">
                         {item.crop}
                       </p>
                     </div>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
-            </div>
+            </motion.div>
+          </motion.div>
 
-            {/* Local Disease Map */}
-            <div className="agro-card">
-              <h3 className="font-semibold text-agro-text-primary mb-4">
-                Local Disease Map
-              </h3>
-              <div className="w-full h-48 bg-gray-200 rounded-lg flex items-center justify-center">
-                <p className="text-agro-text-muted">Map View</p>
-              </div>
-            </div>
-
+          {/* Sidebar Content */}
+          <motion.div
+            className="space-y-6"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+          >
             {/* Quick Actions */}
-            <div className="agro-card">
-              <h3 className="font-semibold text-agro-text-primary mb-4">
+            <motion.div
+              className="agro-card"
+              whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
+            >
+              <h3 className="text-lg font-bold text-agro-text-primary mb-4">
                 Quick Actions
               </h3>
               <div className="space-y-3">
-                <button className="w-full agro-button-primary text-sm">
-                  Upload New Scan
-                </button>
-                <div className="flex gap-2">
-                  <button className="flex-1 agro-button-secondary text-xs">
-                    View Remedies
-                  </button>
-                  <button className="flex-1 agro-button-secondary text-xs">
-                    Add New Crop
-                  </button>
-                </div>
-                <button className="w-full agro-button-secondary text-sm">
-                  Join Community
-                </button>
+                <motion.button
+                  className="agro-button-primary w-full"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  New Diagnosis
+                </motion.button>
+                <motion.button
+                  className="agro-button-secondary w-full"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  View History
+                </motion.button>
+                <motion.button
+                  className="agro-button-secondary w-full"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  Weather Forecast
+                </motion.button>
               </div>
-            </div>
+            </motion.div>
 
-            {/* Health Graph Timeline */}
-            <div className="agro-card">
-              <h3 className="font-semibold text-agro-text-primary mb-4">
-                Health Graph / Timeline View
+            {/* Recent History */}
+            <motion.div
+              className="agro-card"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 1.0 }}
+              whileHover={{ scale: 1.01, transition: { duration: 0.2 } }}
+            >
+              <h3 className="text-lg font-bold text-agro-text-primary mb-4">
+                Recent History
               </h3>
-              <div className="grid grid-cols-2 gap-4 mb-4">
-                <div className="text-center">
-                  <p className="text-2xl font-bold text-agro-text-primary">
-                    {mockData.healthStats.diseasesDetected}
-                  </p>
-                  <p className="text-xs text-agro-text-muted">
-                    Diseases Detected per Week
-                  </p>
-                  <p className="text-xs text-green-600">
-                    This Week: {mockData.healthStats.weeklyChange}
-                  </p>
-                </div>
-                <div className="text-center">
-                  <p className="text-2xl font-bold text-agro-text-primary">
-                    {mockData.healthStats.fieldHealthScore}%
-                  </p>
-                  <p className="text-xs text-agro-text-muted">
+              <div className="space-y-4">
+                {mockData.recentHistory.map((item, index) => (
+                  <motion.div
+                    key={index}
+                    className="border-b border-agro-border pb-3 last:border-0 last:pb-0"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: 1.1 + index * 0.1 }}
+                    whileHover={{ x: 5 }}
+                  >
+                    <p className="text-sm font-medium text-agro-text-primary">
+                      {item.disease}
+                    </p>
+                    <p className="text-xs text-agro-text-muted">
+                      {item.date} at {item.time}
+                    </p>
+                    <p className="text-xs text-agro-text-muted">
+                      Action: {item.action}
+                    </p>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* Health Timeline */}
+            <motion.div
+              className="agro-card"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 1.2 }}
+              whileHover={{ scale: 1.01, transition: { duration: 0.2 } }}
+            >
+              <h3 className="text-lg font-bold text-agro-text-primary mb-4">
+                Health Timeline
+              </h3>
+              <div className="space-y-3">
+                <motion.div
+                  className="flex justify-between"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.4, delay: 1.3 }}
+                >
+                  <span className="text-sm text-agro-text-muted">
                     Field Health Score
-                  </p>
-                  <p className="text-xs text-red-600">
-                    This Month: {mockData.healthStats.monthlyChange}
-                  </p>
-                </div>
+                  </span>
+                  <span className="text-sm font-semibold text-agro-text-primary">
+                    <CountUp
+                      end={mockData.healthStats.fieldHealthScore}
+                      duration={2}
+                      suffix="%"
+                    />
+                  </span>
+                </motion.div>
+                <motion.div
+                  className="flex justify-between"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.4, delay: 1.4 }}
+                >
+                  <span className="text-sm text-agro-text-muted">
+                    Weekly Change
+                  </span>
+                  <motion.span
+                    className="text-sm font-semibold text-green-600"
+                    animate={{ scale: [1, 1.1, 1] }}
+                    transition={{ duration: 1.5, repeat: Infinity }}
+                  >
+                    {mockData.healthStats.weeklyChange}
+                  </motion.span>
+                </motion.div>
+                <motion.div
+                  className="flex justify-between"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.4, delay: 1.5 }}
+                >
+                  <span className="text-sm text-agro-text-muted">
+                    Monthly Change
+                  </span>
+                  <span className="text-sm font-semibold text-red-600">
+                    {mockData.healthStats.monthlyChange}
+                  </span>
+                </motion.div>
               </div>
-              <div className="h-24 w-full bg-gray-100 rounded flex items-center justify-center">
-                <p className="text-xs text-agro-text-muted">Graph Timeline</p>
-              </div>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
     </Layout>
   );
 }
