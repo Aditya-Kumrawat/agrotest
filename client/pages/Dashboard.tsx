@@ -111,24 +111,6 @@ export default function Dashboard() {
           </h1>
         </motion.div>
 
-        {/* Dashboard Image */}
-        <motion.img
-          loading="lazy"
-          srcSet="https://cdn.builder.io/api/v1/image/assets%2F6a76d9438393493787f6e8e89b9b3864%2F19f3118ebfab4446a25b55df4662ef6f?width=100 100w, https://cdn.builder.io/api/v1/image/assets%2F6a76d9438393493787f6e8e89b9b3864%2F19f3118ebfab4446a25b55df4662ef6f?width=200 200w, https://cdn.builder.io/api/v1/image/assets%2F6a76d9438393493787f6e8e89b9b3864%2F19f3118ebfab4446a25b55df4662ef6f?width=400 400w, https://cdn.builder.io/api/v1/image/assets%2F6a76d9438393493787f6e8e89b9b3864%2F19f3118ebfab4446a25b55df4662ef6f?width=800 800w, https://cdn.builder.io/api/v1/image/assets%2F6a76d9438393493787f6e8e89b9b3864%2F19f3118ebfab4446a25b55df4662ef6f?width=1200 1200w, https://cdn.builder.io/api/v1/image/assets%2F6a76d9438393493787f6e8e89b9b3864%2F19f3118ebfab4446a25b55df4662ef6f?width=1600 1600w, https://cdn.builder.io/api/v1/image/assets%2F6a76d9438393493787f6e8e89b9b3864%2F19f3118ebfab4446a25b55df4662ef6f?width=2000 2000w, https://cdn.builder.io/api/v1/image/assets%2F6a76d9438393493787f6e8e89b9b3864%2F19f3118ebfab4446a25b55df4662ef6f"
-          src="https://cdn.builder.io/api/v1/image/assets%2F6a76d9438393493787f6e8e89b9b3864%2F19f3118ebfab4446a25b55df4662ef6f"
-          alt="Dashboard banner"
-          className="w-full object-cover object-center overflow-hidden rounded-lg"
-          style={{
-            aspectRatio: "2.86",
-            marginTop: "-2px",
-            minHeight: "20px",
-            minWidth: "20px",
-          }}
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-        />
-
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <motion.div
