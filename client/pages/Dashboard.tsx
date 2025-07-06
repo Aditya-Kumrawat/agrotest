@@ -466,17 +466,17 @@ export default function Dashboard() {
               </div>
             </motion.div>
           </motion.div>
-
-          {/* Local Disease Map */}
-          <motion.div
-            className="mt-6"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 1.4 }}
-          >
-            <LocalDiseaseMap />
-          </motion.div>
         </div>
+
+        {/* Local Disease Map - Full Width */}
+        <motion.div
+          className="mt-6"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 1.4 }}
+        >
+          <LocalDiseaseMap />
+        </motion.div>
       </motion.div>
     </Layout>
   );
