@@ -172,12 +172,19 @@ export default function History() {
                   {key}
                 </label>
                 <motion.select
-                  className="agro-input w-full"
+                  className="agro-input w-full appearance-none bg-white border border-agro-border rounded-lg px-4 py-3 pr-10 focus:ring-2 focus:ring-agro-primary/20 focus:border-agro-primary transition-all duration-200 text-agro-text-primary cursor-pointer hover:border-agro-primary/50"
                   value={filters[key as keyof typeof filters]}
                   onChange={(e) =>
                     setFilters({ ...filters, [key]: e.target.value })
                   }
-                  whileFocus={{ scale: 1.02 }}
+                  whileFocus={{ scale: 1.01 }}
+                  whileHover={{ scale: 1.005 }}
+                  style={{
+                    backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e")`,
+                    backgroundPosition: "right 12px center",
+                    backgroundRepeat: "no-repeat",
+                    backgroundSize: "16px",
+                  }}
                 >
                   {options.map((option) => (
                     <option key={option} value={option}>
@@ -256,9 +263,9 @@ export default function History() {
                       </motion.button>
                       <motion.button
                         className="text-xs bg-agro-primary-light text-agro-primary px-3 py-1 rounded-full hover:bg-agro-primary hover:text-white transition-colors"
-                        whileHover={{ scale: 1.05, rotate: 360 }}
+                        whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
-                        transition={{ duration: 0.3 }}
+                        transition={{ duration: 0.2 }}
                       >
                         🔄 Re-scan
                       </motion.button>
