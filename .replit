@@ -8,8 +8,18 @@ channel = "stable-24_05"
 run = ["sh", "-c", "npm run preview"]
 
 [[ports]]
+localPort = 4173
+
+[[ports]]
+localPort = 4174
+
+[[ports]]
 localPort = 5000
 externalPort = 8080
+
+[[ports]]
+localPort = 5050
+externalPort = 80
 
 [workflows]
 runButton = "Full Stack Dev Fixed"
