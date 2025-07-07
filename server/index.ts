@@ -15,10 +15,10 @@ import forecastRoutes from './routes/forecast'
 import chatbotRoutes from './routes/chatbot'
 
 const app = express()
-const PORT = process.env.PORT || 5050
+const PORT = process.env.PORT || 5000
 
 app.use(cors({
-  origin: ['http://localhost:5000', 'http://0.0.0.0:5000', process.env.FRONTEND_URL || ''],
+  origin: ['http://localhost:4173', 'http://localhost:4174', 'http://localhost:4175', 'http://0.0.0.0:4173', 'http://0.0.0.0:4174', 'http://0.0.0.0:4175', process.env.FRONTEND_URL || ''],
   credentials: true
 }))
 app.use(express.json())
@@ -43,4 +43,5 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
 
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on http://0.0.0.0:${PORT}`)
+  console.log(`Frontend should be accessible on the forwarded URL`)
 })
