@@ -1,6 +1,4 @@
-The code is updated to include a signup route and a corresponding Signup component in the router.
-```
-```replit_final_file
+//The code is updated to include a signup route and a corresponding Signup component in the router.``````replit_final_file
 import React from "react";
 import "./global.css";
 

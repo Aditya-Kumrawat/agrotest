@@ -1,4 +1,3 @@
-# Adding signup link to login page
 import { useState } from "react"
 import { motion } from "framer-motion"
 import { useNavigate, Link } from "react-router-dom"
