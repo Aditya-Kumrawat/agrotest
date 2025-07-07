@@ -1,8 +1,8 @@
-import { Link } from "react-router-dom";
+import React from "react";
 
 export default function Header() {
   return (
-    <header className="bg-white border-b border-agro-border px-10 py-3">
+    <header className="bg-white border-b border-agro-border px-6 py-4">
       <div className="flex items-center justify-between">
         {/* Logo for mobile/alternate view */}
         <div className="flex items-center gap-4 lg:hidden">
@@ -31,87 +31,45 @@ export default function Header() {
               <path
                 fillRule="evenodd"
                 clipRule="evenodd"
-                d="M12.3327 10.9213C12.3315 10.9154 12.3292 10.9052 12.3249 10.8902C12.3145 10.8534 12.2983 10.8086 12.2782 10.7608C12.2723 10.7468 12.2663 10.7331 12.2604 10.7201C11.8368 10.4296 10.9929 10.0202 10.2365 9.83963C9.32917 9.62303 8.21377 9.49277 7 9.49277C5.78623 9.49277 4.67083 9.62303 3.7635 9.83963C3.0004 10.0218 2.14835 10.4368 1.72846 10.7277C1.72461 10.7358 1.72072 10.7443 1.71684 10.7531C1.69973 10.7917 1.68574 10.8295 1.67659 10.863C1.66785 10.8949 1.6668 10.9111 1.66668 10.9129C1.66667 10.9131 1.66668 10.913 1.66668 10.9129C1.66668 10.9214 1.67013 11.0256 1.89495 11.2105C2.11515 11.3915 2.47407 11.5844 2.97637 11.7591C3.97473 12.1063 5.3973 12.3333 7 12.3333C8.6027 12.3333 10.0253 12.1063 11.0236 11.7591C11.5259 11.5844 11.8848 11.3915 12.105 11.2105C12.3002 11.05 12.3286 10.9504 12.3327 10.9213ZM0.650593 9.92293L6.15143 1.10089C6.54293 0.473033 7.45707 0.47303 7.84857 1.10089L13.3511 9.92567C13.357 9.93507 13.3626 9.9446 13.368 9.9543L12.7854 10.2784C13.368 9.9543 13.3679 9.9542 13.368 9.9543L13.3684 9.955L13.3688 9.95583L13.37 9.95797L13.3733 9.96393C13.3759 9.96867 13.3792 9.97487 13.3832 9.98243C13.3913 9.9975 13.4021 10.0182 13.4147 10.0433C13.4397 10.0931 13.4732 10.163 13.5072 10.2439C13.5634 10.3774 13.6667 10.6437 13.6667 10.913C13.6667 11.4809 13.3343 11.9258 12.9519 12.2403C12.5649 12.5586 12.0451 12.8155 11.4617 13.0184C10.2885 13.4265 8.711 13.6667 7 13.6667C5.289 13.6667 3.71153 13.4265 2.53833 13.0184C1.95488 12.8155 1.4351 12.5586 1.04806 12.2403C0.66565 11.9258 0.33333 11.4809 0.33333 10.913C0.33333 10.6242 0.43088 10.3641 0.497737 10.2131C0.534583 10.1299 0.57116 10.0601 0.598957 10.0104C0.612993 9.9852 0.625157 9.9645 0.6345 9.94903C0.63918 9.94127 0.64318 9.93477 0.646387 9.92963L0.648873 9.92567L0.650593 9.92293ZM10.9956 8.668L7 2.25999L3.00437 8.668C3.15537 8.6203 3.30597 8.57807 3.4539 8.54273C4.47603 8.2987 5.6967 8.15943 7 8.15943C8.3033 8.15943 9.52397 8.2987 10.5461 8.54273C10.694 8.57807 10.8446 8.6203 10.9956 8.668Z"
-                fill="#121714"
+                d="M11.4809 0.33333 10.913C0.33333 10.6242 0.43088 10.3641 0.497737 10.2131C0.534583 10.1299 0.57116 10.0601 0.598957 10.0104C0.612993 9.9852 0.625157 9.9645 0.6345 9.94903C0.63918 9.94127 0.64318 9.93477 0.646387 9.92963L0.648873 9.92567L0.650593 9.92293ZM10.9956 8.668L7 2.25999L3.00437 8.668C3.15537 8.6203 3.30597 8.57807 3.4539 8.54273C4.47603 8.2987 5.6967 8.15943 7 8.15943C8.3033 8.15943 9.52397 8.2987 10.5461 8.54273C10.694 8.57807 10.8446 8.6203 10.9956 8.668Z"
+                fill="#0D1A12"
               />
             </svg>
           </div>
-          <h1 className="text-lg font-bold text-agro-text-secondary">
+          <h1 className="text-lg font-bold text-agro-text-primary">
             AgroSaarthi
           </h1>
         </div>
 
-        {/* Right side - User info */}
-        <div className="flex items-center gap-8 ml-auto">
-          <div className="flex items-center gap-4">
-            <div className="bg-agro-secondary rounded-full px-4 py-2">
-              <span className="text-sm font-bold text-agro-text-secondary">
-                Hello, Liam 👋
-              </span>
-            </div>
-            <img
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/8be93844862b1827c794485437ec7cb07a813225?width=80"
-              alt="User avatar"
-              className="w-10 h-10 rounded-full"
-            />
+        {/* Main content area */}
+        <div className="flex-1 flex items-center justify-center">
+          <h2 className="text-xl font-semibold text-agro-text-primary">
+            Dashboard
+          </h2>
+        </div>
+
+        {/* User actions */}
+        <div className="flex items-center gap-4">
+          <button className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
+              <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
+            </svg>
+          </button>
+          <div className="w-8 h-8 bg-agro-primary rounded-full flex items-center justify-center">
+            <span className="text-white text-sm font-semibold">U</span>
           </div>
         </div>
       </div>
     </header>
-  );
-}
-import { motion } from "framer-motion";
-
-export default function Header() {
-  const handleLogout = () => {
-    localStorage.removeItem("isAuthenticated");
-    window.location.href = "/login";
-  };
-
-  return (
-    <motion.header
-      className="bg-white border-b border-agro-border px-6 py-4 fixed top-0 left-0 right-0 z-50"
-      initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-    >
-      <div className="flex items-center justify-between">
-        <motion.div
-          className="flex items-center gap-3"
-          whileHover={{ scale: 1.02 }}
-        >
-          <motion.span
-            className="text-2xl"
-            animate={{ rotate: [0, 10, -10, 0] }}
-            transition={{ duration: 4, repeat: Infinity }}
-          >
-            🌱
-          </motion.span>
-          <h1 className="text-xl font-bold text-agro-text-primary">
-            AgroSaarthi
-          </h1>
-        </motion.div>
-
-        <div className="flex items-center gap-4">
-          <motion.div
-            className="flex items-center gap-2 text-sm text-agro-text-muted"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-          >
-            <span>Welcome back, Farmer</span>
-          </motion.div>
-          
-          <motion.button
-            onClick={handleLogout}
-            className="agro-button-secondary px-4 py-2"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            Logout
-          </motion.button>
-        </div>
-      </div>
-    </motion.header>
   );
 }
