@@ -1,47 +1,34 @@
-import dotenv from 'dotenv'
-import path from 'path'
+import dotenv from 'dotenv';
+import path from 'path';
 
 // Load environment variables from the root .env file
-dotenv.config({ path: path.resolve(__dirname, '../.env') })
+// Ensure this path is correct relative to the final build output location if different from source
+dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 
-import express from 'express'
-import cors from 'cors'
-import authRoutes from './routes/auth'
-import cropRoutes from './routes/crops'
-import dashboardRoutes from './routes/dashboard'
-import communityRoutes from './routes/community'
-import analyticsRoutes from './routes/analytics'
-import forecastRoutes from './routes/forecast'
-import chatbotRoutes from './routes/chatbot'
+import { createServer } from './app'; // Import the createServer function
 
-const app = express()
-const PORT = process.env.PORT || 5000
+const app = createServer(); // Create the Express app instance
 
-app.use(cors({
-  origin: ['http://localhost:4173', 'http://localhost:4174', 'http://localhost:4175', 'http://0.0.0.0:4173', 'http://0.0.0.0:4174', 'http://0.0.0.0:4175', process.env.FRONTEND_URL || ''],
-  credentials: true
-}))
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
+const PORT = process.env.PORT || 5000;
 
-app.use('/api/auth', authRoutes)
-app.use('/api/dashboard', dashboardRoutes)
-app.use('/api/forecast', forecastRoutes)
-app.use('/api/community', communityRoutes)
-app.use('/api/analytics', analyticsRoutes)
-app.use('/api/crops', cropRoutes)
-app.use('/api/chatbot', chatbotRoutes)
+// Optional: Add any middleware here that is specific to this entry point
+// and not already in createServer (e.g. a global error handler if not already in app.ts)
+// However, it's generally better to keep all app configuration within createServer.
 
-app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', message: 'AgroSaarthi API is running' })
-})
-
+// Example of a global error handler (if not already in app.ts)
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
-  console.error(err.stack)
-  res.status(500).json({ error: 'Something went wrong!' })
-})
+  console.error('Unhandled error:', err.stack || err.message || err);
+  // Avoid sending stack trace to client in production
+  const errorResponse = process.env.NODE_ENV === 'production'
+    ? { error: 'Something went wrong!' }
+    : { error: 'Something went wrong!', details: err.message, stack: err.stack };
+  res.status(err.status || 500).json(errorResponse);
+});
+
 
 app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Server running on http://0.0.0.0:${PORT}`)
-  console.log(`Frontend should be accessible on the forwarded URL`)
-})
+  console.log(`Server running on http://0.0.0.0:${PORT}`);
+  if (process.env.NODE_ENV !== 'production') {
+    console.log(`Development server: Frontend should be accessible on its own dev server (e.g., http://localhost:4173)`);
+  }
+});

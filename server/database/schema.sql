@@ -1,7 +1,8 @@
 -- Enable Row Level Security
-ALTER DATABASE postgres SET "app.jwt_secret" TO 'your-jwt-secret';
-
 -- Create users table if it doesn't exist
+-- Note: Removed incorrect 'ALTER DATABASE postgres SET "app.jwt_secret" ...' line from here.
+-- JWT secrets are managed in Supabase project settings.
+
 CREATE TABLE IF NOT EXISTS public.users (
   id UUID REFERENCES auth.users(id) ON DELETE CASCADE PRIMARY KEY,
   email VARCHAR(255) UNIQUE NOT NULL,
@@ -52,10 +53,19 @@ CREATE TABLE IF NOT EXISTS public.crop_scans (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   user_id UUID REFERENCES public.users(id) ON DELETE CASCADE,
   image_url TEXT NOT NULL,
-  disease_name VARCHAR(255),
-  confidence DECIMAL(5,2),
-  treatment_recommendation TEXT,
+  -- Fields used in server/routes/crops.ts
+  crop_type VARCHAR(255),
+  location TEXT,
+  field_name VARCHAR(255),
+  ai_result TEXT,                 -- Corresponds to disease_name or the result of AI
+  confidence_score DECIMAL(5,2),  -- Corresponds to confidence
+  is_healthy BOOLEAN,
+  recommendations TEXT,           -- Corresponds to treatment_recommendation
+  action_taken TEXT,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+  -- Original fields (disease_name, confidence, treatment_recommendation) are now covered by the fields above.
+  -- If there was a distinct purpose, they could be added back or the new fields adjusted.
+  -- For now, this matches the code's usage.
 );
 
 -- Enable RLS on crop_scans
@@ -75,6 +85,7 @@ CREATE TABLE IF NOT EXISTS public.community_posts (
   title VARCHAR(255) NOT NULL,
   content TEXT NOT NULL,
   image_url TEXT,
+  category VARCHAR(255), -- Added category field
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );

@@ -1,6 +1,6 @@
 import path from "path";
-import { createServer } from "./index";
-import * as express from "express";
+import { createServer } from "./app"; // Updated import path
+import express from "express"; // Import express directly
 
 const app = createServer();
 const port = process.env.PORT || 3000;
