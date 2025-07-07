@@ -18,7 +18,7 @@ import chatbotRoutes from './routes/chatbot'
 // dotenv.config() // This line is removed as the above dotenv config replaces it
 
 const app = express()
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 5050
 
 // Middleware
 app.use(cors({
@@ -34,7 +34,7 @@ app.use('/api/dashboard', dashboardRoutes)
 app.use('/api/forecast', forecastRoutes)
 app.use('/api/community', communityRoutes)
 app.use('/api/analytics', analyticsRoutes)
-app.use('/api/crops', cropsRoutes)
+app.use('/api/crops', cropRoutes)
 app.use('/api/chatbot', chatbotRoutes)
 
 // Health check

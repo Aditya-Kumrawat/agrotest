@@ -1,4 +1,4 @@
-
+import { supabase } from "../lib/supabase";
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { authService } from '@/lib/auth'
@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { useToast } from '@/hooks/use-toast'
+
 
 export default function Signup() {
   const [formData, setFormData] = useState({
