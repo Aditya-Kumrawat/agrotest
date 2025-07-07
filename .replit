@@ -11,9 +11,8 @@ run = ["sh", "-c", "npm run preview"]
 localPort = 5000
 externalPort = 8080
 
-
 [workflows]
-runButton = "Full Stack Dev"
+runButton = "Full Stack Dev Fixed"
 
 [[workflows.workflow]]
 name = "Backend Server"
@@ -36,3 +35,16 @@ args = "cd server && npm install && npm run dev"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "npm run preview"
+
+[[workflows.workflow]]
+name = "Full Stack Dev Fixed"
+author = 44698922
+mode = "parallel"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run preview"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd server && npm install && PORT=5050 npm run dev"
