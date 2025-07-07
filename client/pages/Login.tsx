@@ -1,7 +1,7 @@
-
+# Adding signup link to login page
 import { useState } from "react"
 import { motion } from "framer-motion"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, Link } from "react-router-dom"
 import { authService } from "@/lib/auth"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -20,7 +20,7 @@ export default function Login() {
     name: "",
     phone: ""
   })
-  
+
   const navigate = useNavigate()
   const { toast } = useToast()
 
@@ -48,7 +48,7 @@ export default function Login() {
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault()
-    
+
     if (signUpData.password !== signUpData.confirmPassword) {
       toast({
         title: "Error",
@@ -153,6 +153,12 @@ export default function Login() {
                   <Button type="submit" className="w-full" disabled={isLoading}>
                     {isLoading ? "Signing in..." : "Sign In"}
                   </Button>
+                  <div className="mt-4 text-center text-sm">
+                    Don't have an account?{' '}
+                    <Link to="/signup" className="font-medium text-primary hover:underline">
+                      Sign up
+                    </Link>
+                  </div>
                 </form>
               </TabsContent>
 

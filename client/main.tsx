@@ -1,3 +1,6 @@
+The code is updated to include a signup route and a corresponding Signup component in the router.
+```
+```replit_final_file
 import React from "react";
 import "./global.css";
 
@@ -9,6 +12,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Landing from "./pages/Landing";
 import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import AIDiagnosis from "./pages/AIDiagnosis";
 import Forecast from "./pages/Forecast";
@@ -23,20 +27,20 @@ const queryClient = new QueryClient();
 // Protected Route component
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = React.useState<boolean | null>(null);
-  
+
   React.useEffect(() => {
     const checkAuth = async () => {
       const localAuth = localStorage.getItem("isAuthenticated") === "true";
       setIsAuthenticated(localAuth);
     };
-    
+
     checkAuth();
   }, []);
-  
+
   if (isAuthenticated === null) {
     return <div className="flex items-center justify-center min-h-screen">Loading...</div>;
   }
-  
+
   return isAuthenticated ? <>{children}</> : <Navigate to="/login" replace />;
 };
 
@@ -49,6 +53,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
           <Route
             path="/dashboard"
             element={
