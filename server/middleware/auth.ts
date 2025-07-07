@@ -12,12 +12,14 @@ export const authenticateUser = async (
   next: NextFunction
 ) => {
   try {
-    const token = req.headers.authorization?.replace('Bearer ', '')
+    const authHeader = req.headers.authorization
     
-    if (!token) {
-      return res.status(401).json({ error: 'No token provided' })
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return res.status(401).json({ error: 'No valid authorization header provided' })
     }
 
+    const token = authHeader.replace('Bearer ', '')
+    
     const { data: { user }, error } = await supabaseClient.auth.getUser(token)
     
     if (error) {

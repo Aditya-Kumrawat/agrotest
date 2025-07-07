@@ -4,6 +4,10 @@ import { createClient } from '@supabase/supabase-js'
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || ''
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || ''
 
+if (!supabaseUrl || !supabaseAnonKey) {
+  console.error('Missing Supabase environment variables')
+}
+
 export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
 export interface AuthUser {
@@ -17,23 +21,23 @@ export const authService = {
   // Sign up
   async signUp(email: string, password: string, name: string, phone?: string) {
     try {
-      const response = await fetch('/api/auth/signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password, name, phone })
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            name,
+            phone
+          }
+        }
       })
       
-      const data = await response.json()
+      if (error) throw error
       
-      if (!response.ok) {
-        throw new Error(data.error || 'Signup failed')
-      }
-      
-      if (data.user) {
+      if (data.user && data.session) {
         localStorage.setItem('isAuthenticated', 'true')
         localStorage.setItem('user', JSON.stringify(data.user))
+        localStorage.setItem('session', JSON.stringify(data.session))
       }
       
       return data
@@ -45,21 +49,14 @@ export const authService = {
   // Sign in
   async signIn(email: string, password: string) {
     try {
-      const response = await fetch('/api/auth/signin', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password })
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password
       })
       
-      const data = await response.json()
+      if (error) throw error
       
-      if (!response.ok) {
-        throw new Error(data.error || 'Login failed')
-      }
-      
-      if (data.user) {
+      if (data.user && data.session) {
         localStorage.setItem('isAuthenticated', 'true')
         localStorage.setItem('user', JSON.stringify(data.user))
         localStorage.setItem('session', JSON.stringify(data.session))
@@ -74,22 +71,14 @@ export const authService = {
   // Sign out
   async signOut() {
     try {
-      const response = await fetch('/api/auth/signout', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        }
-      })
+      const { error } = await supabase.auth.signOut()
       
-      // Clear local storage regardless of response
+      // Clear local storage
       localStorage.removeItem('isAuthenticated')
       localStorage.removeItem('user')
       localStorage.removeItem('session')
       
-      if (!response.ok) {
-        const data = await response.json()
-        throw new Error(data.error || 'Signout failed')
-      }
+      if (error) throw error
     } catch (error) {
       // Clear local storage even if request fails
       localStorage.removeItem('isAuthenticated')
@@ -124,6 +113,12 @@ export const authService = {
   getStoredUser(): AuthUser | null {
     const user = localStorage.getItem('user')
     return user ? JSON.parse(user) : null
+  },
+
+  // Get access token
+  async getAccessToken() {
+    const session = await this.getSession()
+    return session?.access_token
   }
 }
 
@@ -132,8 +127,10 @@ supabase.auth.onAuthStateChange((event, session) => {
   if (event === 'SIGNED_IN' && session) {
     localStorage.setItem('isAuthenticated', 'true')
     localStorage.setItem('user', JSON.stringify(session.user))
+    localStorage.setItem('session', JSON.stringify(session))
   } else if (event === 'SIGNED_OUT') {
     localStorage.removeItem('isAuthenticated')
     localStorage.removeItem('user')
+    localStorage.removeItem('session')
   }
 })

@@ -1,51 +1,41 @@
+
 import express from 'express'
 import cors from 'cors'
-import dotenv from 'dotenv'
-
-// Import routes
 import authRoutes from './routes/auth'
-import cropRoutes from './routes/crops'
 import dashboardRoutes from './routes/dashboard'
+import cropsRoutes from './routes/crops'
 import communityRoutes from './routes/community'
 import analyticsRoutes from './routes/analytics'
 import forecastRoutes from './routes/forecast'
 import chatbotRoutes from './routes/chatbot'
-
-dotenv.config()
+import demoRoutes from './routes/demo'
 
 const app = express()
-const PORT = process.env.PORT || 5050
 
 // Middleware
 app.use(cors({
-  origin: ['http://localhost:5000', 'http://0.0.0.0:5000', 'http://localhost:4173', 'http://0.0.0.0:4173'],
+  origin: process.env.NODE_ENV === 'production' 
+    ? ['https://your-domain.com'] 
+    : ['http://localhost:4173', 'http://localhost:5173', 'http://0.0.0.0:4173'],
   credentials: true
 }))
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
+
+app.use(express.json({ limit: '10mb' }))
+app.use(express.urlencoded({ extended: true, limit: '10mb' }))
 
 // Routes
 app.use('/api/auth', authRoutes)
-app.use('/api/crops', cropRoutes)
 app.use('/api/dashboard', dashboardRoutes)
+app.use('/api/crops', cropsRoutes)
 app.use('/api/community', communityRoutes)
 app.use('/api/analytics', analyticsRoutes)
 app.use('/api/forecast', forecastRoutes)
 app.use('/api/chatbot', chatbotRoutes)
+app.use('/api/demo', demoRoutes)
 
 // Health check
-app.get('/api/health', (req, res) => {
-  res.json({ status: 'OK', timestamp: new Date().toISOString() })
-})
-
-// Error handling middleware
-app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
-  console.error(err.stack)
-  res.status(500).json({ error: 'Something went wrong!' })
-})
-
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`AgroSaarthi Backend running on port ${PORT}`)
+app.get('/api/ping', (req, res) => {
+  res.json({ message: 'Server is running', timestamp: new Date().toISOString() })
 })
 
 export default app
