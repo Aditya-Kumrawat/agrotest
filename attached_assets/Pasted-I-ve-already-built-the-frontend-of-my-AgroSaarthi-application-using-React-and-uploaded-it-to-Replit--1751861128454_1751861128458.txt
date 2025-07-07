@@ -1,0 +1,92 @@
+I’ve already built the frontend of my AgroSaarthi application using React and uploaded it to Replit. Now, I want to build a scalable backend using Supabase (for database, auth, and storage).
+
+Please generate complete backend code (Node.js or Express.js recommended) and Supabase integration to support the following functionality:
+
+🔐 1. Authentication
+User Signup/Login with Supabase Auth (email + password)
+
+Store user profile info: name, email, phone, profile picture
+
+Auto-login persistence
+
+🌱 2. Crop Scan Upload (AI Diagnosis)
+Upload crop leaf images to Supabase Storage
+
+Store metadata in Supabase DB:
+
+Crop type
+
+Upload date & time
+
+Location (field name)
+
+AI result (Healthy / Disease type)
+
+Confidence score (%)
+
+Action taken
+
+📊 3. Dashboard Data
+Endpoint to fetch user’s crop count, current disease risk (Low/Med/High)
+
+Return AI result summary (last scan + upcoming threat predictions)
+
+Return calendar stage (planting/growth/harvest per crop)
+
+Fetch “local disease map” coordinates with severity
+
+🕘 4. History Page
+Endpoint to fetch scan history (date, time, crop, result, actions)
+
+Add filters for disease type, crop, action taken
+
+💬 5. Community Page
+Endpoint to get all community posts (basic discussion forum)
+
+Add new post (user ID, title, message, timestamp)
+
+Comment on post
+
+📈 6. Analytics Page
+Endpoint for:
+
+Total diseases detected this week
+
+Field Health Score (percent)
+
+Graph Data: weekly scan counts and trend
+
+🌤️ 7. Forecast Page
+Fetch weather data from Open-Meteo or WeatherAPI based on user’s pin code
+
+Estimate 7-day disease risk based on weather trend
+
+Return preventive actions
+
+💬 8. Chatbot Integration (Optional)
+Integrate a simple chatbot interface that accepts user messages and replies using an OpenAI endpoint or static logic (optional)
+
+🔁 Realtime / Updates
+Enable realtime updates to dashboard if new scan is uploaded or disease prediction changes
+
+⚙️ Tech Stack:
+
+Node.js + Express (or Supabase Functions)
+
+Supabase DB (PostgreSQL), Supabase Auth, Supabase Storage
+
+REST API endpoints or optionally GraphQL
+
+Deploy backend logic on Replit or Supabase Edge Functions
+
+✅ Please include:
+
+Folder structure
+
+All .env variables
+
+API routes (REST or RPC format)
+
+Supabase schema (tables, relationships)
+
+Helper functions (e.g. uploadImageToStorage, fetchUserScans)
