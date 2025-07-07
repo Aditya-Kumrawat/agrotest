@@ -20,7 +20,7 @@ exposeLocalhost = true
 localPort = 8080
 
 [workflows]
-runButton = "Backend Server"
+runButton = "Full Stack Dev"
 
 [[workflows.workflow]]
 name = "Backend Server"
