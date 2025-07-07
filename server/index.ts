@@ -1,17 +1,21 @@
+import dotenv from 'dotenv'
+import path from 'path'
+
+// Load environment variables from the root .env file
+dotenv.config({ path: path.resolve(__dirname, '../.env') })
 
 import express from 'express'
 import cors from 'cors'
-import dotenv from 'dotenv'
 import authRoutes from './routes/auth'
+import cropRoutes from './routes/crops'
 import dashboardRoutes from './routes/dashboard'
-import forecastRoutes from './routes/forecast'
 import communityRoutes from './routes/community'
 import analyticsRoutes from './routes/analytics'
-import cropsRoutes from './routes/crops'
+import forecastRoutes from './routes/forecast'
 import chatbotRoutes from './routes/chatbot'
 
 // Load environment variables
-dotenv.config()
+// dotenv.config() // This line is removed as the above dotenv config replaces it
 
 const app = express()
 const PORT = process.env.PORT || 3000
