@@ -6,9 +6,16 @@ const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || ''
 
 if (!supabaseUrl || !supabaseAnonKey) {
   console.error('Missing Supabase environment variables')
+  throw new Error('Supabase URL and Anon Key are required')
 }
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+  auth: {
+    autoRefreshToken: true,
+    persistSession: true,
+    detectSessionInUrl: true
+  }
+})
 
 export interface AuthUser {
   id: string
@@ -21,6 +28,10 @@ export const authService = {
   // Sign up
   async signUp(email: string, password: string, name: string, phone?: string) {
     try {
+      if (!email || !password || !name) {
+        throw new Error('Email, password, and name are required')
+      }
+
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
@@ -32,7 +43,10 @@ export const authService = {
         }
       })
       
-      if (error) throw error
+      if (error) {
+        console.error('Signup error:', error.message)
+        throw error
+      }
       
       if (data.user && data.session) {
         localStorage.setItem('isAuthenticated', 'true')
@@ -42,6 +56,7 @@ export const authService = {
       
       return data
     } catch (error) {
+      console.error('Auth service signup error:', error)
       throw error
     }
   },
@@ -49,12 +64,19 @@ export const authService = {
   // Sign in
   async signIn(email: string, password: string) {
     try {
+      if (!email || !password) {
+        throw new Error('Email and password are required')
+      }
+
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password
       })
       
-      if (error) throw error
+      if (error) {
+        console.error('Signin error:', error.message)
+        throw error
+      }
       
       if (data.user && data.session) {
         localStorage.setItem('isAuthenticated', 'true')
@@ -64,6 +86,7 @@ export const authService = {
       
       return data
     } catch (error) {
+      console.error('Auth service signin error:', error)
       throw error
     }
   },
