@@ -1,6 +1,30 @@
 import React from "react";
+import { cn } from "@/lib/utils";
+import { authService } from "@/lib/auth";
+import { useNavigate } from "react-router-dom";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Header() {
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
+  const handleLogout = async () => {
+    try {
+      await authService.logout();
+      navigate("/login");
+      toast({
+        title: "Logged out successfully",
+        description: "You have been logged out.",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Error logging out",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  };
+
   return (
     <header className="bg-white border-b border-agro-border px-6 py-4">
       <div className="flex items-center justify-between">
@@ -68,6 +92,12 @@ export default function Header() {
           <div className="w-8 h-8 bg-agro-primary rounded-full flex items-center justify-center">
             <span className="text-white text-sm font-semibold">U</span>
           </div>
+          <button
+            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+            onClick={handleLogout}
+          >
+            Logout
+          </button>
         </div>
       </div>
     </header>

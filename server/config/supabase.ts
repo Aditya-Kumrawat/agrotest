@@ -1,17 +1,14 @@
 
 import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = process.env.SUPABASE_URL!
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
+const supabaseUrl = process.env.SUPABASE_URL || ''
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || ''
+const supabaseAnonKey = process.env.SUPABASE_ANON_KEY || ''
 
-export const supabase = createClient(supabaseUrl, supabaseServiceKey, {
-  auth: {
-    autoRefreshToken: false,
-    persistSession: false
-  }
-})
+// For server-side operations (admin access)
+export const supabaseClient = createClient(supabaseUrl, supabaseServiceKey)
 
-export const supabaseClient = createClient(
-  supabaseUrl, 
-  process.env.SUPABASE_ANON_KEY!
-)
+// For client-side operations
+export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+
+export default supabaseClient

@@ -1,3 +1,4 @@
+import React from "react";
 import "./global.css";
 
 import { Toaster } from "@/components/ui/toaster";
@@ -21,7 +22,21 @@ const queryClient = new QueryClient();
 
 // Protected Route component
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
+  const [isAuthenticated, setIsAuthenticated] = React.useState<boolean | null>(null);
+  
+  React.useEffect(() => {
+    const checkAuth = async () => {
+      const localAuth = localStorage.getItem("isAuthenticated") === "true";
+      setIsAuthenticated(localAuth);
+    };
+    
+    checkAuth();
+  }, []);
+  
+  if (isAuthenticated === null) {
+    return <div className="flex items-center justify-center min-h-screen">Loading...</div>;
+  }
+  
   return isAuthenticated ? <>{children}</> : <Navigate to="/login" replace />;
 };
 
