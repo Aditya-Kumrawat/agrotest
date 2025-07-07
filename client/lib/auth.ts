@@ -16,46 +16,87 @@ export interface AuthUser {
 export const authService = {
   // Sign up
   async signUp(email: string, password: string, name: string, phone?: string) {
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: {
-          name,
-          phone
-        }
+    try {
+      const response = await fetch('/api/auth/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password, name, phone })
+      })
+      
+      const data = await response.json()
+      
+      if (!response.ok) {
+        throw new Error(data.error || 'Signup failed')
       }
-    })
-    
-    if (error) throw error
-    return data
+      
+      if (data.user) {
+        localStorage.setItem('isAuthenticated', 'true')
+        localStorage.setItem('user', JSON.stringify(data.user))
+      }
+      
+      return data
+    } catch (error) {
+      throw error
+    }
   },
 
   // Sign in
   async signIn(email: string, password: string) {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password
-    })
-    
-    if (error) throw error
-    
-    // Store auth state
-    localStorage.setItem('isAuthenticated', 'true')
-    localStorage.setItem('user', JSON.stringify(data.user))
-    
-    return data
+    try {
+      const response = await fetch('/api/auth/signin', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password })
+      })
+      
+      const data = await response.json()
+      
+      if (!response.ok) {
+        throw new Error(data.error || 'Login failed')
+      }
+      
+      if (data.user) {
+        localStorage.setItem('isAuthenticated', 'true')
+        localStorage.setItem('user', JSON.stringify(data.user))
+        localStorage.setItem('session', JSON.stringify(data.session))
+      }
+      
+      return data
+    } catch (error) {
+      throw error
+    }
   },
 
   // Sign out
   async signOut() {
-    const { error } = await supabase.auth.signOut()
-    
-    // Clear local storage
-    localStorage.removeItem('isAuthenticated')
-    localStorage.removeItem('user')
-    
-    if (error) throw error
+    try {
+      const response = await fetch('/api/auth/signout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      })
+      
+      // Clear local storage regardless of response
+      localStorage.removeItem('isAuthenticated')
+      localStorage.removeItem('user')
+      localStorage.removeItem('session')
+      
+      if (!response.ok) {
+        const data = await response.json()
+        throw new Error(data.error || 'Signout failed')
+      }
+    } catch (error) {
+      // Clear local storage even if request fails
+      localStorage.removeItem('isAuthenticated')
+      localStorage.removeItem('user')
+      localStorage.removeItem('session')
+      throw error
+    }
   },
 
   // Get current user

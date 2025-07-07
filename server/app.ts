@@ -1,4 +1,3 @@
-
 import express from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
@@ -18,7 +17,10 @@ const app = express()
 const PORT = process.env.PORT || 5050
 
 // Middleware
-app.use(cors())
+app.use(cors({
+  origin: ['http://localhost:5000', 'http://0.0.0.0:5000', 'http://localhost:4173', 'http://0.0.0.0:4173'],
+  credentials: true
+}))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 

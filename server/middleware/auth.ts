@@ -20,13 +20,19 @@ export const authenticateUser = async (
 
     const { data: { user }, error } = await supabaseClient.auth.getUser(token)
     
-    if (error || !user) {
+    if (error) {
+      console.error('Auth error:', error)
       return res.status(401).json({ error: 'Invalid token' })
+    }
+    
+    if (!user) {
+      return res.status(401).json({ error: 'User not found' })
     }
 
     req.user = user
     next()
   } catch (error) {
-    res.status(401).json({ error: 'Authentication failed' })
+    console.error('Authentication middleware error:', error)
+    res.status(500).json({ error: 'Authentication failed' })
   }
 }
