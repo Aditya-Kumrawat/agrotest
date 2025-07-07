@@ -18,3 +18,14 @@ exposeLocalhost = true
 
 [[ports]]
 localPort = 8080
+
+[workflows]
+
+[[workflows.workflow]]
+name = "Backend Server"
+author = 44679901
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd server && npm install && npm run dev"
