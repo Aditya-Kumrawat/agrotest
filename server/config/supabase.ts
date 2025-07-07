@@ -15,5 +15,13 @@ export const supabaseClient = createClient(supabaseUrl, supabaseServiceKey, {
   auth: {
     autoRefreshToken: false,
     persistSession: false
+  },
+  global: {
+    headers: {
+      'X-Client-Info': 'supabase-js-node'
+    }
   }
 })
+
+// Also export regular supabase client for consistency with other files
+export const supabase = supabaseClient
