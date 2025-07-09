@@ -1,6 +1,5 @@
-
 import { Router } from 'express'
-import { supabase } from '../config/supabase'
+// import { supabase } from '../config/supabase'
 import { authenticateUser, AuthenticatedRequest } from '../middleware/auth'
 
 const router = Router()
@@ -10,19 +9,12 @@ router.get('/', authenticateUser, async (req: AuthenticatedRequest, res) => {
   try {
     const oneWeekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString()
     
+    // TODO: Replace all supabase DB queries with MySQL queries
     // Get diseases detected this week
-    const { data: weeklyDiseases } = await supabase
-      .from('crop_scans')
-      .select('ai_result')
-      .eq('user_id', req.user.id)
-      .eq('is_healthy', false)
-      .gte('created_at', oneWeekAgo)
+    const weeklyDiseases = []
     
     // Get all user scans for field health score
-    const { data: allScans } = await supabase
-      .from('crop_scans')
-      .select('is_healthy')
-      .eq('user_id', req.user.id)
+    const allScans: any[] = []
     
     const healthyCount = allScans?.filter(scan => scan.is_healthy).length || 0
     const totalScans = allScans?.length || 0
@@ -54,12 +46,8 @@ async function getWeeklyScanData(userId: string) {
     const startOfDay = new Date(date.setHours(0, 0, 0, 0)).toISOString()
     const endOfDay = new Date(date.setHours(23, 59, 59, 999)).toISOString()
     
-    const { count } = await supabase
-      .from('crop_scans')
-      .select('*', { count: 'exact', head: true })
-      .eq('user_id', userId)
-      .gte('created_at', startOfDay)
-      .lte('created_at', endOfDay)
+    // TODO: Replace all supabase DB queries with MySQL queries
+    const count = 0
     
     data.push({
       date: date.toISOString().split('T')[0],
@@ -70,11 +58,8 @@ async function getWeeklyScanData(userId: string) {
 }
 
 async function getDiseaseBreakdown(userId: string) {
-  const { data } = await supabase
-    .from('crop_scans')
-    .select('ai_result')
-    .eq('user_id', userId)
-    .eq('is_healthy', false)
+  // TODO: Replace all supabase DB queries with MySQL queries
+  const data: any[] = []
   
   const breakdown: Record<string, number> = {}
   data?.forEach(scan => {

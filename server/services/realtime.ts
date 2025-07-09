@@ -1,5 +1,5 @@
 
-import { supabase } from '../config/supabase'
+// import { supabase } from '../config/supabase'
 
 export class RealtimeService {
   private static instance: RealtimeService
@@ -12,43 +12,17 @@ export class RealtimeService {
   }
   
   subscribeToUserScans(userId: string, callback: (payload: any) => void) {
-    return supabase
-      .channel(`user_scans_${userId}`)
-      .on(
-        'postgres_changes',
-        {
-          event: '*',
-          schema: 'public',
-          table: 'crop_scans',
-          filter: `user_id=eq.${userId}`
-        },
-        callback
-      )
-      .subscribe()
+    // TODO: Implement with MySQL-compatible solution or remove if not needed
+    return null;
   }
   
   subscribeToCommunityPosts(callback: (payload: any) => void) {
-    return supabase
-      .channel('community_posts')
-      .on(
-        'postgres_changes',
-        {
-          event: 'INSERT',
-          schema: 'public',
-          table: 'community_posts'
-        },
-        callback
-      )
-      .subscribe()
+    // TODO: Implement with MySQL-compatible solution or remove if not needed
+    return null;
   }
   
   notifyDashboardUpdate(userId: string) {
-    return supabase
-      .channel(`dashboard_${userId}`)
-      .send({
-        type: 'broadcast',
-        event: 'dashboard_update',
-        payload: { timestamp: new Date().toISOString() }
-      })
+    // TODO: Implement with MySQL-compatible solution or remove if not needed
+    return null;
   }
 }

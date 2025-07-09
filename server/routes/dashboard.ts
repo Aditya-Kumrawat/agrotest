@@ -1,6 +1,6 @@
 
 import { Router } from 'express'
-import { supabase } from '../config/supabase'
+// import { supabase } from '../config/supabase'
 import { authenticateUser, AuthenticatedRequest } from '../middleware/auth'
 
 const router = Router()
@@ -8,30 +8,16 @@ const router = Router()
 // Get dashboard data
 router.get('/', authenticateUser, async (req: AuthenticatedRequest, res) => {
   try {
+    // TODO: Replace all supabase DB queries with MySQL queries
     // Get crop count
-    const { count: cropCount } = await supabase
-      .from('crop_scans')
-      .select('*', { count: 'exact', head: true })
-      .eq('user_id', req.user.id)
+    const cropCount = 0 // Placeholder
     
     // Get latest scan
-    const { data: latestScan } = await supabase
-      .from('crop_scans')
-      .select('*')
-      .eq('user_id', req.user.id)
-      .order('created_at', { ascending: false })
-      .limit(1)
-      .single()
+    const latestScan = null // Placeholder
     
     // Calculate disease risk
-    const { data: recentScans } = await supabase
-      .from('crop_scans')
-      .select('is_healthy')
-      .eq('user_id', req.user.id)
-      .gte('created_at', new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString())
-    
-    const diseaseCount = recentScans?.filter(scan => !scan.is_healthy).length || 0
-    const totalScans = recentScans?.length || 0
+    const diseaseCount = 0 // Placeholder
+    const totalScans = 0 // Placeholder
     const riskLevel = calculateRiskLevel(diseaseCount, totalScans)
     
     // Get local disease map data

@@ -1,6 +1,6 @@
-
 import { Request, Response, NextFunction } from 'express'
-import { supabase } from '../config/supabase'
+import pool from '../config/mysql'
+import jwt from 'jsonwebtoken'
 
 export interface AuthenticatedRequest extends Request {
   user?: any
@@ -12,18 +12,24 @@ export const authenticateUser = async (
   next: NextFunction
 ) => {
   try {
-    const token = req.headers.authorization?.replace('Bearer ', '')
-    
-    if (!token) {
+    const authHeader = req.headers.authorization
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
       return res.status(401).json({ error: 'No token provided' })
     }
-
-    const { data: { user }, error } = await supabase.auth.getUser(token)
-    
-    if (error || !user) {
+    const token = authHeader.replace('Bearer ', '')
+    let payload
+    try {
+      payload = jwt.verify(token, process.env.JWT_SECRET || 'secret')
+    } catch (err) {
       return res.status(401).json({ error: 'Invalid token' })
     }
-
+    // Fetch user from DB
+    const userId = (payload as any).id;
+    const [rows] = await pool.query('SELECT id, email, name, phone FROM profiles WHERE id = ?', [userId])
+    const user = Array.isArray(rows) && rows.length > 0 ? rows[0] : null
+    if (!user) {
+      return res.status(401).json({ error: 'User not found' })
+    }
     req.user = user
     next()
   } catch (error) {

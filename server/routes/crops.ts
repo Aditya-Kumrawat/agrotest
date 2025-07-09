@@ -1,8 +1,8 @@
-
 import { Router } from 'express'
-import { supabase } from '../config/supabase'
+// import { supabase } from '../config/supabase'
 import { authenticateUser, AuthenticatedRequest } from '../middleware/auth'
 import multer from 'multer'
+import pool from '../config/mysql'
 
 const router = Router()
 const upload = multer({ storage: multer.memoryStorage() })
@@ -17,43 +17,34 @@ router.post('/scan', authenticateUser, upload.single('image'), async (req: Authe
       return res.status(400).json({ error: 'No image provided' })
     }
     
-    // Upload image to Supabase Storage
-    const fileName = `crop-scans/${req.user.id}/${Date.now()}-${file.originalname}`
-    const { data: uploadData, error: uploadError } = await supabase.storage
-      .from('crop-images')
-      .upload(fileName, file.buffer, {
-        contentType: file.mimetype
-      })
-    
-    if (uploadError) {
-      return res.status(400).json({ error: uploadError.message })
-    }
+    // TODO: Replace Supabase storage upload with S3/local storage
+    // TODO: Replace Supabase DB insert with MySQL insert
     
     // Simulate AI diagnosis (replace with actual AI service)
     const aiResult = simulateAIDiagnosis(cropType)
     
     // Store scan data in database
-    const { data: scanData, error: dbError } = await supabase
-      .from('crop_scans')
-      .insert({
-        user_id: req.user.id,
-        crop_type: cropType,
-        location,
-        field_name: fieldName,
-        image_url: uploadData.path,
-        ai_result: aiResult.disease,
-        confidence_score: aiResult.confidence,
-        is_healthy: aiResult.disease === 'Healthy',
-        recommendations: aiResult.recommendations
-      })
-      .select()
-      .single()
+    // const { data: scanData, error: dbError } = await supabase
+    //   .from('crop_scans')
+    //   .insert({
+    //     user_id: req.user.id,
+    //     crop_type: cropType,
+    //     location,
+    //     field_name: fieldName,
+    //     image_url: uploadData.path,
+    //     ai_result: aiResult.disease,
+    //     confidence_score: aiResult.confidence,
+    //     is_healthy: aiResult.disease === 'Healthy',
+    //     recommendations: aiResult.recommendations
+    //   })
+    //   .select()
+    //   .single()
     
-    if (dbError) {
-      return res.status(400).json({ error: dbError.message })
-    }
+    // if (dbError) {
+    //   return res.status(400).json({ error: dbError.message })
+    // }
     
-    res.json({ scan: scanData, aiResult })
+    res.json({ scan: null, aiResult }) // Placeholder for scan data
   } catch (error) {
     res.status(500).json({ error: 'Server error' })
   }
@@ -63,28 +54,22 @@ router.post('/scan', authenticateUser, upload.single('image'), async (req: Authe
 router.get('/history', authenticateUser, async (req: AuthenticatedRequest, res) => {
   try {
     const { disease_type, crop_type, action_taken } = req.query
-    
-    let query = supabase
-      .from('crop_scans')
-      .select('*')
-      .eq('user_id', req.user.id)
-      .order('created_at', { ascending: false })
-    
+    // TODO: Replace Supabase query with MySQL query
+    let query = null // Placeholder for query
     if (disease_type) {
-      query = query.eq('ai_result', disease_type)
+      // query = query.eq('ai_result', disease_type) // Placeholder for query
     }
     if (crop_type) {
-      query = query.eq('crop_type', crop_type)
+      // query = query.eq('crop_type', crop_type) // Placeholder for query
     }
     if (action_taken) {
-      query = query.eq('action_taken', action_taken)
+      // query = query.eq('action_taken', action_taken) // Placeholder for query
     }
+    const data: any[] = [] // Placeholder for data
     
-    const { data, error } = await query
-    
-    if (error) {
-      return res.status(400).json({ error: error.message })
-    }
+    // if (error) {
+    //   return res.status(400).json({ error: error.message })
+    // }
     
     res.json({ scans: data })
   } catch (error) {
@@ -98,19 +83,30 @@ router.patch('/scan/:id/action', authenticateUser, async (req: AuthenticatedRequ
     const { id } = req.params
     const { action_taken } = req.body
     
-    const { data, error } = await supabase
-      .from('crop_scans')
-      .update({ action_taken })
-      .eq('id', id)
-      .eq('user_id', req.user.id)
-      .select()
-      .single()
+    // TODO: Replace Supabase update with MySQL update
+    const data: any = {} // Placeholder for data
     
-    if (error) {
-      return res.status(400).json({ error: error.message })
-    }
+    // const { data, error } = null // Placeholder for data and error
+    
+    // if (error) {
+    //   return res.status(400).json({ error: error.message })
+    // }
     
     res.json({ scan: data })
+  } catch (error) {
+    res.status(500).json({ error: 'Server error' })
+  }
+})
+
+router.get('/profile', authenticateUser, async (req: AuthenticatedRequest, res) => {
+  try {
+    const { payload } = req.user
+    const userId = (payload as any).id;
+    const [rows]: any = await pool.query('SELECT id, email, name, phone FROM profiles WHERE id = ?', [userId]);
+    if (!Array.isArray(rows) || rows.length === 0) {
+      return res.status(404).json({ error: 'User not found' })
+    }
+    res.json({ profile: rows[0] })
   } catch (error) {
     res.status(500).json({ error: 'Server error' })
   }

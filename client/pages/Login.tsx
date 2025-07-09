@@ -4,14 +4,29 @@ import { useNavigate } from "react-router-dom";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Simple mock authentication
-    if (email && password) {
+    setError("");
+    try {
+      const response = await fetch("http://localhost:3000/api/auth/signin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+      if (!response.ok) {
+        const data = await response.json();
+        setError(data.error || "Login failed");
+        return;
+      }
+      const data = await response.json();
+      localStorage.setItem("token", data.token);
       localStorage.setItem("isAuthenticated", "true");
       navigate("/dashboard");
+    } catch (err) {
+      setError("Network error. Please try again.");
     }
   };
 
@@ -96,7 +111,9 @@ export default function Login() {
                 required
               />
             </div>
-
+            {error && (
+              <div className="text-red-500 text-sm text-center">{error}</div>
+            )}
             <div className="pt-4">
               <button
                 type="submit"
@@ -135,7 +152,13 @@ export default function Login() {
 
           <div className="mt-6 text-center">
             <p className="text-sm text-agro-text-muted">
-              Don't have an account? Sign up
+              Don't have an account?{" "}
+              <a
+                href="/signup"
+                className="text-agro-primary underline"
+              >
+                Sign up
+              </a>
             </p>
           </div>
         </div>
