@@ -1,12 +1,29 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.createServer = void 0;
-const app_1 = require("./app");
-Object.defineProperty(exports, "createServer", { enumerable: true, get: function () { return app_1.createServer; } });
-if (require.main === module) {
-    const app = (0, app_1.createServer)();
-    const PORT = Number(process.env.PORT) || 3000;
-    app.listen(PORT, '0.0.0.0', () => {
-        console.log(`AgroSaarthi Backend running on port ${PORT}`);
-    });
+// server/app.js
+import express from 'express';
+import cors from 'cors';
+import bodyParser from 'body-parser';
+import dotenv from 'dotenv';
+import morgan from 'morgan';
+import predictRoute from './routes/predict.js';
+
+dotenv.config();
+
+export function createServer() {
+  const app = express();
+
+  // Middleware
+  app.use(cors());
+  app.use(express.json());
+  app.use(bodyParser.urlencoded({ extended: true }));
+  app.use(morgan('dev'));
+
+  // Health check route
+  app.get('/', (req, res) => {
+    res.send('🌾 AgroSaarthi API is working');
+  });
+
+  // Main API routes
+  app.use('/api', predictRoute);
+
+  return app;
 }

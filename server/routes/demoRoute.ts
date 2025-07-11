@@ -1,5 +1,6 @@
+// demoRoute.ts
 import { Router } from 'express';
-import { handleDemo } from './demo';
+import handleDemo from './demo';
 
 const router = Router();
 router.get('/', handleDemo);

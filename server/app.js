@@ -38,6 +38,9 @@ function createServer() {
         console.error(err.stack);
         res.status(500).json({ error: 'Something went wrong!' });
     });
+    const historyRoute = require('./routes/history'); // Adjust path if needed
+app.use('/api', historyRoute); // so route becomes /api/history
+
     return app;
 }
 if (require.main === module) {

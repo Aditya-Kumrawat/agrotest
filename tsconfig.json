@@ -38,6 +38,6 @@
     "shared/**/*",
     "vite.config.ts",
     "vite.config.server.ts"
-  ],
+, "leaf-diseases-detect"  ],
   "exclude": ["node_modules", "dist"]
 }
