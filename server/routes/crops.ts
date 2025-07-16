@@ -101,7 +101,6 @@ router.patch('/scan/:id/action', authenticateUser, async (req: any, res) => {
 router.get('/profile', authenticateUser, async (req: any, res) => {
   try {
     const { id, email, name } = req.user
-    const { id, email, name } = payload as any;
     // const [rows]: any = await pool.query('SELECT id, email, name, phone FROM profiles WHERE id = ?', [userId]);
     // if (!Array.isArray(rows) || rows.length === 0) {
     //   return res.status(404).json({ error: 'User not found' })

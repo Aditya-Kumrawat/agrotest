@@ -2,8 +2,7 @@
 import { Router } from 'express'
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
 import { doc, setDoc, getDoc } from 'firebase/firestore'
-import { auth, db } from '../config/firebase'
-import jwt from 'jsonwebtoken'
+import { clientAuth, db } from '../config/firebase'
 
 const router = Router()
 
@@ -60,7 +59,7 @@ router.post('/signup', async (req, res) => {
     }
 
     // Create user with Firebase Auth
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const userCredential = await createUserWithEmailAndPassword(clientAuth, email, password);
     const firebaseUser = userCredential.user;
 
     // Store user profile in Firestore
