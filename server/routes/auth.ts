@@ -1,4 +1,4 @@
-
+import jwt from 'jsonwebtoken';
 import { Router } from 'express'
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
 import { doc, setDoc, getDoc } from 'firebase/firestore'
@@ -14,7 +14,7 @@ router.post('/signin', async (req, res) => {
     }
 
     // Sign in with Firebase Auth
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const userCredential = await signInWithEmailAndPassword(clientAuth, email, password);
     const firebaseUser = userCredential.user;
 
     // Get user profile from Firestore
