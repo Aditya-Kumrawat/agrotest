@@ -1,37 +1,37 @@
-import express from "express";
-import cors from "cors";
-import dotenv from "dotenv";
 
-import historyRouter from "./routes/history";
+import express from 'express'
+import cors from 'cors'
+import dotenv from 'dotenv'
+import authRoutes from './routes/auth'
+import historyRoutes from './routes/history'
+import analyticsRoutes from './routes/analytics'
+import dashboardRoutes from './routes/dashboard'
+import communityRoutes from './routes/community'
+import forecastRoutes from './routes/forecast'
+import chatbotRoutes from './routes/chatbot'
 
-dotenv.config();
+dotenv.config()
 
-export function createServer() {
-  const app = express();
-  const PORT = Number(process.env.PORT) || 3000;
+const app = express()
+const PORT = process.env.PORT || 3001
 
-  app.use(cors());
-  app.use(express.json());
-  app.use(express.urlencoded({ extended: true }));
+// Middleware
+app.use(cors())
+app.use(express.json())
 
-  app.use("/api", historyRouter); // ✅ fixed route prefix
+// Routes
+app.use('/api/auth', authRoutes)
+app.use('/api/history', historyRoutes)
+app.use('/api/analytics', analyticsRoutes)
+app.use('/api/dashboard', dashboardRoutes)
+app.use('/api/community', communityRoutes)
+app.use('/api/forecast', forecastRoutes)
+app.use('/api/chatbot', chatbotRoutes)
 
-  app.get("/api/health", (req, res) => {
-    res.json({ status: "OK", timestamp: new Date().toISOString() });
-  });
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'Server is running with Firebase!' })
+})
 
-  app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
-    console.error(err.stack);
-    res.status(500).json({ error: "Something went wrong!" });
-  });
-
-  return app;
-}
-
-if (require.main === module) {
-  const app = createServer();
-  const PORT = Number(process.env.PORT) || 3000;
-  app.listen(PORT, "0.0.0.0", () => {
-    console.log(`AgroSaarthi Backend running on port ${PORT}`);
-  });
-}
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server running on port ${PORT}`)
+})

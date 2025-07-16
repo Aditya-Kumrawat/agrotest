@@ -1,8 +1,9 @@
+
 import { Router } from 'express'
-import { signUpUser } from '../../client/lib/auth'
-import bcrypt from 'bcryptjs'
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
+import { doc, setDoc, getDoc } from 'firebase/firestore'
+import { auth, db } from '../../client/lib/firebase'
 import jwt from 'jsonwebtoken'
-import { v4 as uuidv4 } from 'uuid';
 
 const router = Router()
 
@@ -12,22 +13,38 @@ router.post('/signin', async (req, res) => {
     if (!email || !password) {
       return res.status(400).json({ error: 'Missing email or password' });
     }
-    // Find user
-    const [rows] = await pool.query('SELECT * FROM profiles WHERE email = ?', [email]);
-    const user = Array.isArray(rows) && rows.length > 0 ? (rows[0] as any) : null;
-    if (!user) {
-      return res.status(400).json({ error: 'Invalid credentials' });
+
+    // Sign in with Firebase Auth
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const firebaseUser = userCredential.user;
+
+    // Get user profile from Firestore
+    const userDoc = await getDoc(doc(db, 'profiles', firebaseUser.uid));
+    if (!userDoc.exists()) {
+      return res.status(400).json({ error: 'User profile not found' });
     }
-    // Check password
-    const valid = await bcrypt.compare(password, user.password);
-    if (!valid) {
-      return res.status(400).json({ error: 'Invalid credentials' });
-    }
+
+    const userData = userDoc.data();
+    
     // Generate JWT
-    const token = jwt.sign({ id: user.id, email: user.email, name: user.name }, process.env.JWT_SECRET || 'secret', { expiresIn: '7d' });
-    res.json({ token, user: { id: user.id, email: user.email, name: user.name, phone: user.phone } });
-  } catch (error) {
-    res.status(500).json({ error: 'Server error' });
+    const token = jwt.sign(
+      { id: firebaseUser.uid, email: firebaseUser.email, name: userData.name }, 
+      process.env.JWT_SECRET || 'secret', 
+      { expiresIn: '7d' }
+    );
+
+    res.json({ 
+      token, 
+      user: { 
+        id: firebaseUser.uid, 
+        email: firebaseUser.email, 
+        name: userData.name, 
+        phone: userData.phone 
+      } 
+    });
+  } catch (error: any) {
+    console.error('Signin error:', error);
+    res.status(400).json({ error: error.message || 'Invalid credentials' });
   }
 });
 
@@ -41,30 +58,29 @@ router.post('/signup', async (req, res) => {
       console.warn('Missing required fields:', { email, passwordPresent: !!password, name });
       return res.status(400).json({ error: 'Missing required fields' })
     }
-    // Check if user exists
-    const [existing] = await pool.query('SELECT id FROM profiles WHERE email = ?', [email])
-    if (Array.isArray(existing) && existing.length > 0) {
-      console.warn('Email already registered:', email);
-      return res.status(400).json({ error: 'Email already registered' })
-    }
-    // Hash password
-    const hashedPassword = await bcrypt.hash(password, 10)
-    // Generate UUID for new user
-    const id = uuidv4();
-    // Insert user
-    await pool.query(
-      'INSERT INTO profiles (id, name, email, password, phone) VALUES (?, ?, ?, ?, ?)',
-      [id, name, email, hashedPassword, phone || null]
-    )
-    console.log('User signup successful:', { id, email });
+
+    // Create user with Firebase Auth
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const firebaseUser = userCredential.user;
+
+    // Store user profile in Firestore
+    await setDoc(doc(db, 'profiles', firebaseUser.uid), {
+      name,
+      email,
+      phone: phone || null,
+      createdAt: new Date()
+    });
+
+    console.log('User signup successful:', { id: firebaseUser.uid, email });
     return res.json({ message: 'Signup successful' })
-  } catch (error) {
-    console.error('Signup error:', error, (error instanceof Error ? error.stack : ''));
-    res.status(500).json({ error: 'Server error' })
+  } catch (error: any) {
+    console.error('Signup error:', error, error.stack);
+    if (error.code === 'auth/email-already-in-use') {
+      return res.status(400).json({ error: 'Email already registered' });
+    }
+    res.status(500).json({ error: error.message || 'Server error' })
   }
 })
-
-
 
 // Signout (client should just delete token)
 router.post('/signout', (req, res) => {
