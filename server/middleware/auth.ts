@@ -1,3 +1,4 @@
+
 import jwt from 'jsonwebtoken'
 import { Request, Response, NextFunction } from 'express'
 
@@ -9,7 +10,7 @@ export interface AuthenticatedRequest extends Request {
   }
 }
 
-export const authenticateUser = (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+export const authenticateUser = (req: Request, res: Response, next: NextFunction) => {
   try {
     const token = req.header('Authorization')?.replace('Bearer ', '')
 
@@ -18,7 +19,7 @@ export const authenticateUser = (req: AuthenticatedRequest, res: Response, next:
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET || 'secret') as any
-    req.user = {
+    ;(req as AuthenticatedRequest).user = {
       id: decoded.id,
       email: decoded.email,
       name: decoded.name
