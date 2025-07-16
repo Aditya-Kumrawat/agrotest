@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import signUpUser from "../routes/auth"; // Import default export from ../lib/auth
+import { useNavigate } from "react-router-dom"; // Import default export from ../lib/auth
 
 export default function Signup() {
   const [name, setName] = useState("");
