@@ -7,7 +7,7 @@ import { authenticateUser, AuthenticatedRequest } from '../middleware/auth'
 const router = Router()
 
 // Get dashboard data
-router.get('/', authenticateUser, async (req: AuthenticatedRequest, res) => {
+router.get('/', authenticateUser, async (req: any, res) => {
   try {
     // Get crop count (assuming you have a crops collection)
     const cropsQuery = query(

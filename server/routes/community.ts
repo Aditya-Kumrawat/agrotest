@@ -24,7 +24,7 @@ router.get('/posts', async (req, res) => {
 })
 
 // Create new post
-router.post('/posts', authenticateUser, async (req: AuthenticatedRequest, res) => {
+router.post('/posts', authenticateUser, async (req: any, res) => {
   try {
     const { title, content, category } = req.body
     
@@ -57,7 +57,7 @@ router.post('/posts', authenticateUser, async (req: AuthenticatedRequest, res) =
 })
 
 // Add comment to post
-router.post('/posts/:id/comments', authenticateUser, async (req: AuthenticatedRequest, res) => {
+router.post('/posts/:id/comments', authenticateUser, async (req: any, res) => {
   try {
     const { id } = req.params
     const { content } = req.body

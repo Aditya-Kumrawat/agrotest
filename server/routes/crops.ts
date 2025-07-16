@@ -8,7 +8,7 @@ const router = Router()
 const upload = multer({ storage: multer.memoryStorage() })
 
 // Upload crop scan
-router.post('/scan', authenticateUser, upload.single('image'), async (req: AuthenticatedRequest, res) => {
+router.post('/scan', authenticateUser, upload.single('image'), async (req: any, res) => {
   try {
     const { cropType, location, fieldName } = req.body
     const file = req.file
@@ -51,7 +51,7 @@ router.post('/scan', authenticateUser, upload.single('image'), async (req: Authe
 })
 
 // Get scan history
-router.get('/history', authenticateUser, async (req: AuthenticatedRequest, res) => {
+router.get('/history', authenticateUser, async (req: any, res) => {
   try {
     const { disease_type, crop_type, action_taken } = req.query
     // TODO: Replace Supabase query with MySQL query
@@ -78,7 +78,7 @@ router.get('/history', authenticateUser, async (req: AuthenticatedRequest, res) 
 })
 
 // Update action taken
-router.patch('/scan/:id/action', authenticateUser, async (req: AuthenticatedRequest, res) => {
+router.patch('/scan/:id/action', authenticateUser, async (req: any, res) => {
   try {
     const { id } = req.params
     const { action_taken } = req.body
@@ -98,9 +98,9 @@ router.patch('/scan/:id/action', authenticateUser, async (req: AuthenticatedRequ
   }
 })
 
-router.get('/profile', authenticateUser, async (req: AuthenticatedRequest, res) => {
+router.get('/profile', authenticateUser, async (req: any, res) => {
   try {
-    const { payload } = req.user
+    const { id, email, name } = req.user
     const { id, email, name } = payload as any;
     // const [rows]: any = await pool.query('SELECT id, email, name, phone FROM profiles WHERE id = ?', [userId]);
     // if (!Array.isArray(rows) || rows.length === 0) {

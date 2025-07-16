@@ -5,7 +5,7 @@ import { authenticateUser, AuthenticatedRequest } from '../middleware/auth'
 const router = Router()
 
 // Chat with bot
-router.post('/chat', authenticateUser, async (req: AuthenticatedRequest, res) => {
+router.post('/chat', authenticateUser, async (req: any, res) => {
   try {
     const { message } = req.body
     

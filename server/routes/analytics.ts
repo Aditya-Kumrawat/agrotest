@@ -7,7 +7,7 @@ import { authenticateUser, AuthenticatedRequest } from '../middleware/auth'
 const router = Router()
 
 // Get analytics data
-router.get('/', authenticateUser, async (req: AuthenticatedRequest, res) => {
+router.get('/', authenticateUser, async (req: any, res) => {
   try {
     const oneWeekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
     

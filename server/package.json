@@ -4,7 +4,6 @@
   "version": "1.0.0",
   "description": "Backend for AgroSaarthi with Firebase integration",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "dev": "tsx watch index.ts",
     "build": "tsc",

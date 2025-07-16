@@ -5,7 +5,7 @@ import { authenticateUser, AuthenticatedRequest } from '../middleware/auth';
 
 const router = express.Router();
 
-router.post("/history", authenticateUser, async (req: AuthenticatedRequest, res) => {
+router.post("/history", authenticateUser, async (req: any, res) => {
   try {
     const {
       crop_type,
@@ -37,7 +37,7 @@ router.post("/history", authenticateUser, async (req: AuthenticatedRequest, res)
 });
 
 // GET /api/history
-router.get("/", authenticateUser, async (req: AuthenticatedRequest, res) => {
+router.get("/", authenticateUser, async (req: any, res) => {
   try {
     const q = query(
       collection(db, "diagnosis_history"),
