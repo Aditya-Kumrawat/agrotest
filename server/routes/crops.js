@@ -16,7 +16,7 @@ const express_1 = require("express");
 // import { supabase } from '../config/supabase'
 const auth_1 = require("../middleware/auth");
 const multer_1 = __importDefault(require("multer"));
-const mysql_1 = __importDefault(require("../config/mysql"));
+// const mysql_1 = __importDefault(require("../config/mysql"));
 const router = (0, express_1.Router)();
 const upload = (0, multer_1.default)({ storage: multer_1.default.memoryStorage() });
 // Upload crop scan
@@ -102,11 +102,11 @@ router.get('/profile', auth_1.authenticateUser, (req, res) => __awaiter(void 0, 
     try {
         const { payload } = req.user;
         const userId = payload.id;
-        const [rows] = yield mysql_1.default.query('SELECT id, email, name, phone FROM profiles WHERE id = ?', [userId]);
-        if (!Array.isArray(rows) || rows.length === 0) {
-            return res.status(404).json({ error: 'User not found' });
-        }
-        res.json({ profile: rows[0] });
+        // const [rows] = yield mysql_1.default.query('SELECT id, email, name, phone FROM profiles WHERE id = ?', [userId]);
+        // if (!Array.isArray(rows) || rows.length === 0) {
+        //     return res.status(404).json({ error: 'User not found' });
+        // }
+        res.json({ profile: null }); // Placeholder for profile data
     }
     catch (error) {
         res.status(500).json({ error: 'Server error' });

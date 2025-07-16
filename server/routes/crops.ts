@@ -2,7 +2,7 @@ import { Router } from 'express'
 // import { supabase } from '../config/supabase'
 import { authenticateUser, AuthenticatedRequest } from '../middleware/auth'
 import multer from 'multer'
-import pool from '../config/mysql'
+// import pool from '../config/mysql'
 
 const router = Router()
 const upload = multer({ storage: multer.memoryStorage() })
@@ -102,11 +102,12 @@ router.get('/profile', authenticateUser, async (req: AuthenticatedRequest, res) 
   try {
     const { payload } = req.user
     const userId = (payload as any).id;
-    const [rows]: any = await pool.query('SELECT id, email, name, phone FROM profiles WHERE id = ?', [userId]);
-    if (!Array.isArray(rows) || rows.length === 0) {
-      return res.status(404).json({ error: 'User not found' })
-    }
-    res.json({ profile: rows[0] })
+    // const [rows]: any = await pool.query('SELECT id, email, name, phone FROM profiles WHERE id = ?', [userId]);
+    // if (!Array.isArray(rows) || rows.length === 0) {
+    //   return res.status(404).json({ error: 'User not found' })
+    // }
+    // res.json({ profile: rows[0] })
+    res.json({ profile: { id: userId, email: 'test@example.com', name: 'Test User', phone: '123-456-7890' } }) // Placeholder for profile data
   } catch (error) {
     res.status(500).json({ error: 'Server error' })
   }

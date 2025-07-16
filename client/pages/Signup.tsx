@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import signUpUser from "../routes/auth"; // Import default export from ../lib/auth
 
 export default function Signup() {
   const [name, setName] = useState("");
@@ -14,21 +15,13 @@ export default function Signup() {
     e.preventDefault();
     setError("");
     setSuccess("");
+
     try {
-      const response = await fetch("http://localhost:3000/api/auth/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password, phone }),
-      });
-      const data = await response.json();
-      if (!response.ok) {
-        setError(data.error || "Signup failed");
-        return;
-      }
+      await signUpUser(name, email, password, phone); // ✅ Call Firebase SDK function
       setSuccess("Signup successful! Please log in.");
       setTimeout(() => navigate("/login"), 1500);
-    } catch (err) {
-      setError("Network error. Please try again.");
+    } catch (err: any) {
+      setError(err.message || "Signup failed");
     }
   };
 

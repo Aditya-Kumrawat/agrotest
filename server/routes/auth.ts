@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import pool from '../config/mysql'
+import { signUpUser } from '../../client/lib/auth'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { v4 as uuidv4 } from 'uuid';
