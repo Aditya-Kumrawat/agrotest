@@ -20,6 +20,7 @@ exposeLocalhost = true
 localPort = 8080
 
 [workflows]
+runButton = "Run Application"
 
 [[workflows.workflow]]
 name = "Backend Server"
@@ -29,3 +30,12 @@ mode = "sequential"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "cd server && npm install && npm run dev"
+
+[[workflows.workflow]]
+name = "Run Application"
+author = 44705621
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run dev"

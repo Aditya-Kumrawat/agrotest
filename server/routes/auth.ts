@@ -2,7 +2,7 @@
 import { Router } from 'express'
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
 import { doc, setDoc, getDoc } from 'firebase/firestore'
-import { auth, db } from '../../client/lib/firebase'
+import { auth, db } from '../config/firebase'
 import jwt from 'jsonwebtoken'
 
 const router = Router()

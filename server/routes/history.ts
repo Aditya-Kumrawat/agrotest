@@ -1,7 +1,6 @@
-
 import express from "express";
 import { collection, addDoc, query, orderBy, getDocs, where } from "firebase/firestore";
-import { db } from "../../client/lib/firebase";
+import { db } from '../config/firebase';
 import { authenticateUser, AuthenticatedRequest } from '../middleware/auth';
 
 const router = express.Router();
@@ -45,7 +44,7 @@ router.get("/", authenticateUser, async (req: AuthenticatedRequest, res) => {
       where("userId", "==", req.user.id),
       orderBy("upload_date", "desc")
     );
-    
+
     const querySnapshot = await getDocs(q);
     const history = querySnapshot.docs.map(doc => ({
       id: doc.id,

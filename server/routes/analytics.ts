@@ -1,7 +1,7 @@
 
 import { Router } from 'express'
 import { collection, query, where, getDocs, orderBy, Timestamp } from 'firebase/firestore'
-import { db } from '../../client/lib/firebase'
+import { db } from '../config/firebase'
 import { authenticateUser, AuthenticatedRequest } from '../middleware/auth'
 
 const router = Router()
