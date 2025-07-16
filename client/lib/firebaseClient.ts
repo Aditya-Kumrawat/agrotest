@@ -11,11 +11,11 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_FIREBASE_APP_ID,
   measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
+console.log("🧪 RAW API KEY:", import.meta.env.VITE_FIREBASE_API_KEY);
+
 
 const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
 
-const auth = getAuth(app);           // ✅ this must be defined
-const db = getFirestore(app);        // ✅
-
-export { auth, db };                 // ✅ this must be exported
-console.log("API KEY:", import.meta.env.VITE_FIREBASE_API_KEY);
+export { auth, db };
