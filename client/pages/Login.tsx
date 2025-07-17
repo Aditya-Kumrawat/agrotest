@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { signInUser } from "@/lib/auth";
+import { auth } from "@/lib/firebaseClient";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -11,22 +13,16 @@ export default function Login() {
     e.preventDefault();
     setError("");
     try {
-      const response = await fetch("http://localhost:3000/api/auth/signin", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
-      if (!response.ok) {
-        const data = await response.json();
-        setError(data.error || "Login failed");
-        return;
-      }
-      const data = await response.json();
-      localStorage.setItem("token", data.token);
+      // Use the signInUser function from auth.ts which handles Firebase auth
+      const result = await signInUser(email, password);
+      
+      // Store authentication state
       localStorage.setItem("isAuthenticated", "true");
+      localStorage.setItem("user", JSON.stringify(result));
+      
       navigate("/dashboard");
-    } catch (err) {
-      setError("Network error. Please try again.");
+    } catch (err: any) {
+      setError(err.message || "Login failed");
     }
   };
 

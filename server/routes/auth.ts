@@ -1,70 +1,67 @@
-import { Router } from 'express'
-import { signUpUser } from '../../client/lib/auth'
-import bcrypt from 'bcryptjs'
-import jwt from 'jsonwebtoken'
-import { v4 as uuidv4 } from 'uuid';
+import { Router } from 'express';
+import { adminAuth, adminDb } from '../config/firebaseAdmin';
 
-const router = Router()
+const router = Router();
 
+// Signin: verify ID token from frontend
 router.post('/signin', async (req, res) => {
   try {
-    const { email, password } = req.body;
-    if (!email || !password) {
-      return res.status(400).json({ error: 'Missing email or password' });
+    const { idToken } = req.body;
+    if (!idToken) {
+      return res.status(400).json({ error: 'Missing ID token' });
     }
-    // Find user
-    const [rows] = await pool.query('SELECT * FROM profiles WHERE email = ?', [email]);
-    const user = Array.isArray(rows) && rows.length > 0 ? (rows[0] as any) : null;
-    if (!user) {
-      return res.status(400).json({ error: 'Invalid credentials' });
+    // Verify the ID token using Admin SDK
+    const decoded = await adminAuth.verifyIdToken(idToken);
+    // Optionally fetch user profile from Firestore
+    const userDoc = await adminDb.collection('profiles').doc(decoded.uid).get();
+    if (!userDoc.exists) {
+      return res.status(400).json({ error: 'User profile not found' });
     }
-    // Check password
-    const valid = await bcrypt.compare(password, user.password);
-    if (!valid) {
-      return res.status(400).json({ error: 'Invalid credentials' });
-    }
-    // Generate JWT
-    const token = jwt.sign({ id: user.id, email: user.email, name: user.name }, process.env.JWT_SECRET || 'secret', { expiresIn: '7d' });
-    res.json({ token, user: { id: user.id, email: user.email, name: user.name, phone: user.phone } });
-  } catch (error) {
-    res.status(500).json({ error: 'Server error' });
+    const userData = userDoc.data();
+    res.json({
+      uid: decoded.uid,
+      email: decoded.email,
+      name: userData?.name,
+      phone: userData?.phone
+    });
+  } catch (error: any) {
+    console.error('Signin error:', error);
+    res.status(401).json({ error: 'Invalid credentials' });
   }
 });
 
 // Signup
 router.post('/signup', async (req, res) => {
-  console.log('Received signup request');
-  console.log('Signup route hit', req.body);
   try {
-    const { email, password, name, phone } = req.body
+    const { email, password, name, phone } = req.body;
     if (!email || !password || !name) {
-      console.warn('Missing required fields:', { email, passwordPresent: !!password, name });
-      return res.status(400).json({ error: 'Missing required fields' })
+      return res.status(400).json({ error: 'Missing required fields' });
     }
-    // Check if user exists
-    const [existing] = await pool.query('SELECT id FROM profiles WHERE email = ?', [email])
-    if (Array.isArray(existing) && existing.length > 0) {
-      console.warn('Email already registered:', email);
-      return res.status(400).json({ error: 'Email already registered' })
+
+    // Create user with Firebase Admin SDK
+    const userRecord = await adminAuth.createUser({
+      email,
+      password,
+      displayName: name,
+      phoneNumber: phone || undefined,
+    });
+
+    // Store user profile in Firestore
+    await adminDb.collection('profiles').doc(userRecord.uid).set({
+      name,
+      email,
+      phone: phone || null,
+      createdAt: new Date(),
+    });
+
+    return res.json({ message: 'Signup successful' });
+  } catch (error: any) {
+    if (error.code === 'auth/email-already-exists') {
+      return res.status(400).json({ error: 'Email already registered' });
     }
-    // Hash password
-    const hashedPassword = await bcrypt.hash(password, 10)
-    // Generate UUID for new user
-    const id = uuidv4();
-    // Insert user
-    await pool.query(
-      'INSERT INTO profiles (id, name, email, password, phone) VALUES (?, ?, ?, ?, ?)',
-      [id, name, email, hashedPassword, phone || null]
-    )
-    console.log('User signup successful:', { id, email });
-    return res.json({ message: 'Signup successful' })
-  } catch (error) {
-    console.error('Signup error:', error, (error instanceof Error ? error.stack : ''));
-    res.status(500).json({ error: 'Server error' })
+    res.status(500).json({ error: error.message || 'Server error' });
   }
-})
-
-
+});
 
 // Signout (client should just delete token)
 router.post('/signout', (req, res) => {

@@ -6,7 +6,7 @@ import { authenticateUser, AuthenticatedRequest } from '../middleware/auth'
 const router = Router()
 
 // Get weather forecast and disease risk
-router.get('/', authenticateUser, async (req: AuthenticatedRequest, res) => {
+router.get('/', authenticateUser, async (req: any, res) => {
   try {
     const { lat, lng } = req.query
     

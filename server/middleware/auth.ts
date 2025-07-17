@@ -1,38 +1,35 @@
+
 import { Request, Response, NextFunction } from 'express'
-import pool from '../config/mysql'
-import jwt from 'jsonwebtoken'
+import { auth } from '../config/firebase'
 
 export interface AuthenticatedRequest extends Request {
-  user?: any
+  user: {
+    id: string
+    email: string
+    name: string
+  }
 }
 
-export const authenticateUser = async (
-  req: AuthenticatedRequest, 
-  res: Response, 
-  next: NextFunction
-) => {
+export const authenticateUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const authHeader = req.headers.authorization
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return res.status(401).json({ error: 'No token provided' })
+    const token = req.header('Authorization')?.replace('Bearer ', '')
+
+    if (!token) {
+      return res.status(401).json({ error: 'Access denied. No token provided.' })
     }
-    const token = authHeader.replace('Bearer ', '')
-    let payload
-    try {
-      payload = jwt.verify(token, process.env.JWT_SECRET || 'secret')
-    } catch (err) {
-      return res.status(401).json({ error: 'Invalid token' })
+
+    // Verify Firebase ID token
+    const decodedToken = await auth.verifyIdToken(token)
+    
+    req.user = {
+      id: decodedToken.uid,
+      email: decodedToken.email || '',
+      name: decodedToken.name || 'User'
     }
-    // Fetch user from DB
-    const userId = (payload as any).id;
-    const [rows] = await pool.query('SELECT id, email, name, phone FROM profiles WHERE id = ?', [userId])
-    const user = Array.isArray(rows) && rows.length > 0 ? rows[0] : null
-    if (!user) {
-      return res.status(401).json({ error: 'User not found' })
-    }
-    req.user = user
+
     next()
   } catch (error) {
-    res.status(401).json({ error: 'Authentication failed' })
+    console.error('Token verification failed:', error)
+    res.status(401).json({ error: 'Invalid token.' })
   }
 }

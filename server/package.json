@@ -1,33 +1,31 @@
 {
   "name": "agrosaarthi-backend",
   "version": "1.0.0",
-  "description": "Backend for AgroSaarthi application",
-  "main": "index.ts",
+  "description": "Backend for AgroSaarthi with Firebase integration",
+  "main": "index.js",
   "scripts": {
     "dev": "tsx watch index.ts",
     "build": "tsc",
-    "start": "node dist/index.js",
-    "test": "jest"
+    "start": "node dist/index.js"
   },
   "dependencies": {
-    "axios": "^1.6.2",
-    "bcryptjs": "^2.4.3",
+    "axios": "^1.10.0",
     "cors": "^2.8.5",
-    "dotenv": "^16.3.1",
+    "dotenv": "^17.0.1",
     "express": "^4.21.2",
-    "firebase-admin": "^13.4.0",
+    "firebase": "^11.10.0",
     "jsonwebtoken": "^9.0.2",
-    "multer": "^1.4.5-lts.1",
-    "node-cron": "^3.0.3",
-    "nodemon": "^3.1.10"
+    "multer": "^2.0.1",
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
-    "@types/multer": "^1.4.11",
-    "@types/node": "^20.10.4",
-    "@types/node-cron": "^3.0.11",
-    "tsx": "^4.6.2",
-    "typescript": "^5.3.3"
+    "@types/jsonwebtoken": "^9.0.6",
+    "@types/multer": "^1.4.12",
+    "@types/node": "^20.0.0",
+    "@types/uuid": "^10.0.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.0.0"
   }
 }

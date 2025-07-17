@@ -12,6 +12,14 @@ localPort = 5000
 externalPort = 80
 
 [[ports]]
+localPort = 5001
+externalPort = 3000
+
+[[ports]]
+localPort = 5002
+externalPort = 3001
+
+[[ports]]
 localPort = 5173
 externalPort = 8080
 exposeLocalhost = true
@@ -20,10 +28,38 @@ exposeLocalhost = true
 localPort = 8080
 
 [workflows]
+runButton = "Start Server"
 
 [[workflows.workflow]]
 name = "Backend Server"
 author = 44679901
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd server && npm install && npm run dev"
+
+[[workflows.workflow]]
+name = "Run Application"
+author = 44705621
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run dev"
+
+[[workflows.workflow]]
+name = "Start Server"
+author = 44705621
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd server && npm run build && npm start"
+
+[[workflows.workflow]]
+name = "Start Backend"
+author = 44705621
 mode = "sequential"
 
 [[workflows.workflow.tasks]]

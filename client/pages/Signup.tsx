@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import signUpUser from "../routes/auth"; // Import default export from ../lib/auth
+import { signUpUser } from "../lib/auth";
 
-export default function Signup() {
+function Signup() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -17,7 +17,8 @@ export default function Signup() {
     setSuccess("");
 
     try {
-      await signUpUser(name, email, password, phone); // ✅ Call Firebase SDK function
+      console.log("Signing up with:", { name, email, password, phone });
+      await signUpUser(email, password, name, phone); // name and phone are optional
       setSuccess("Signup successful! Please log in.");
       setTimeout(() => navigate("/login"), 1500);
     } catch (err: any) {
@@ -71,9 +72,13 @@ export default function Signup() {
           </button>
         </form>
         <div className="mt-4 text-center">
-          <a href="/login" className="text-agro-primary underline">Already have an account? Log in</a>
+          <a href="/login" className="text-agro-primary underline">
+            Already have an account? Log in
+          </a>
         </div>
       </div>
     </div>
   );
 }
+
+export default Signup;

@@ -1,5 +1,8 @@
 import React from "react";
 import { motion } from "framer-motion";
+import InteractiveMap from "./InteractiveMap";
+import TestMap from "./TestMap";
+import ErrorBoundary from "./ErrorBoundary";
 
 const mockMapData = [
   { region: "North Field", cases: 12, severity: "High", color: "#ef4444" },
@@ -18,30 +21,19 @@ export default function LocalDiseaseMap() {
       whileHover={{ scale: 1.01 }}
     >
       <h2 className="text-xl font-bold text-agro-text-primary mb-6">
-        Local Disease Map
+        Agricultural Disease Map - India
       </h2>
-
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Map Visualization */}
-        <div className="bg-gray-50 rounded-lg p-6 min-h-[300px] flex items-center justify-center">
-          <div className="text-center">
-            <motion.div
-              className="text-4xl mb-4"
-              animate={{ rotate: [0, 10, -10, 0] }}
-              transition={{ duration: 4, repeat: Infinity }}
-            >
-              🗺️
-            </motion.div>
-            <p className="text-agro-text-muted">
-              Interactive map visualization coming soon
-            </p>
-          </div>
+        {/* Real Interactive Map */}
+        <div className="bg-gray-50 rounded-lg p-6 min-h-[500px] flex items-center justify-center">
+          <ErrorBoundary fallback={<TestMap />}>
+            <InteractiveMap />
+          </ErrorBoundary>
         </div>
-
         {/* Disease Data */}
-        <div className="space-y-4">
+        <div>
           <h3 className="text-lg font-semibold text-agro-text-primary mb-4">
-            Disease Distribution
+            Disease Distribution by Region
           </h3>
           {mockMapData.map((region, index) => (
             <motion.div
@@ -82,9 +74,27 @@ export default function LocalDiseaseMap() {
               </motion.span>
             </motion.div>
           ))}
+          
+          {/* Map Legend */}
+          <div className="mt-6 p-4 bg-white rounded-lg border border-agro-border">
+            <h4 className="font-semibold text-agro-text-primary mb-3">Map Legend</h4>
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-4 rounded-full bg-red-500"></div>
+                <span className="text-sm text-agro-text-muted">High Risk Areas</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-4 rounded-full bg-yellow-500"></div>
+                <span className="text-sm text-agro-text-muted">Medium Risk Areas</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-4 rounded-full bg-green-500"></div>
+                <span className="text-sm text-agro-text-muted">Low Risk Areas</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-
       {/* Summary Stats */}
       <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
         <motion.div

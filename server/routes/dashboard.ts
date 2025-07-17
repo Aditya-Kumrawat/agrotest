@@ -1,23 +1,43 @@
 
 import { Router } from 'express'
-// import { supabase } from '../config/supabase'
+import { collection, query, where, getDocs, orderBy, limit } from 'firebase/firestore'
+import { db } from '../config/firebase'
 import { authenticateUser, AuthenticatedRequest } from '../middleware/auth'
 
 const router = Router()
 
 // Get dashboard data
-router.get('/', authenticateUser, async (req: AuthenticatedRequest, res) => {
+router.get('/', authenticateUser, async (req: any, res) => {
   try {
-    // TODO: Replace all supabase DB queries with MySQL queries
-    // Get crop count
-    const cropCount = 0 // Placeholder
+    // Get crop count (assuming you have a crops collection)
+    const cropsQuery = query(
+      collection(db, "crops"),
+      where("userId", "==", req.user.id)
+    );
+    const cropsSnapshot = await getDocs(cropsQuery);
+    const cropCount = cropsSnapshot.docs.length;
     
     // Get latest scan
-    const latestScan = null // Placeholder
+    const latestScanQuery = query(
+      collection(db, "diagnosis_history"),
+      where("userId", "==", req.user.id),
+      orderBy("upload_date", "desc"),
+      limit(1)
+    );
+    const latestScanSnapshot = await getDocs(latestScanQuery);
+    const latestScan = latestScanSnapshot.docs.length > 0 ? 
+      { id: latestScanSnapshot.docs[0].id, ...latestScanSnapshot.docs[0].data() } : null;
     
     // Calculate disease risk
-    const diseaseCount = 0 // Placeholder
-    const totalScans = 0 // Placeholder
+    const allScansQuery = query(
+      collection(db, "diagnosis_history"),
+      where("userId", "==", req.user.id)
+    );
+    const allScansSnapshot = await getDocs(allScansQuery);
+    const allScans = allScansSnapshot.docs.map(doc => doc.data());
+    
+    const diseaseCount = allScans.filter(scan => !scan.is_healthy).length;
+    const totalScans = allScans.length;
     const riskLevel = calculateRiskLevel(diseaseCount, totalScans)
     
     // Get local disease map data
@@ -39,6 +59,7 @@ router.get('/', authenticateUser, async (req: AuthenticatedRequest, res) => {
       }
     })
   } catch (error) {
+    console.error('Dashboard error:', error);
     res.status(500).json({ error: 'Server error' })
   }
 })

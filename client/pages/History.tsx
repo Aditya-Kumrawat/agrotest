@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
 import Layout from "@/components/Layout";
+import { auth } from "@/lib/firebaseClient";
 
 const filterOptions = {
   status: ["All", "Healthy", "Diseased"],
@@ -28,7 +29,21 @@ export default function History() {
   useEffect(() => {
     const fetchHistory = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/api/history"); // Update this if your backend is hosted elsewhere
+        // Get the current user's ID token
+        const user = auth.currentUser;
+        if (!user) {
+          console.error("User not authenticated");
+          setLoading(false);
+          return;
+        }
+        
+        const idToken = await user.getIdToken();
+        
+        const res = await axios.get("http://localhost:3000/api/history", {
+          headers: {
+            "Authorization": `Bearer ${idToken}`
+          }
+        });
         setScanHistory(res.data);
       } catch (err) {
         console.error("Failed to fetch scan history", err);

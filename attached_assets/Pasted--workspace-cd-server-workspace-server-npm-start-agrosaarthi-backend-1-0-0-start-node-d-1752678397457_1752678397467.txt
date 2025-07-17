@@ -1,0 +1,866 @@
+~/workspace$ cd server
+~/workspace/server$ npm start
+
+> agrosaarthi-backend@1.0.0 start
+> node dist/index.js
+
+node:internal/modules/cjs/loader:1228
+  throw err;
+  ^
+
+Error: Cannot find module '/home/runner/workspace/server/dist/index.js'
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1225:15)
+    at Module._load (node:internal/modules/cjs/loader:1051:27)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:173:12)
+    at node:internal/main/run_main_module:28:49 {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: []
+}
+
+Node.js v20.18.1
+~/workspace/server$ npx build
+npm error could not determine executable to run
+npm error A complete log of this run can be found in: /home/runner/.npm/_logs/2025-07-16T14_56_02_430Z-debug-0.log
+~/workspace/server$ npm install
+⠴^C
+
+⠦npm
+⠇
+np,
+npm warn cleanup Failed to remove some directories [
+npm warn cleanup   [
+npm warn cleanup     '/home/runner/workspace/server/node_modules/firebase',
+npm warn cleanup     [Error: ENOTEMPTY: directory not empty, rmdir '/home/runner/workspace/server/node_modules/firebase/analytics/dist/compat'] {
+npm warn cleanup       errno: -39,
+npm warn cleanup       code: 'ENOTEMPTY',
+npm warn cleanup       syscall: 'rmdir',
+npm warn cleanup       path: '/home/runner/workspace/server/node_modules/firebase/analytics/dist/compat'
+npm warn cleanup     }
+npm warn cleanup   ],
+npm warn cleanup   [
+npm warn cleanup     '/home/runner/workspace/server/node_modules/firebase',
+npm warn cleanup     [Error: ENOTEMPTY: directory not empty, rmdir '/home/runner/workspace/server/node_modules/firebase/analytics/dist/compat'] {
+npm warn cleanup       errno: -39,
+npm warn cleanup       code: 'ENOTEMPTY',
+npm warn cleanup       syscall: 'rmdir',
+npm warn cleanup       path: '/home/runner/workspace/server/node_modules/firebase/analytics/dist/compat'
+npm warn cleanup     }
+npm warn cleanup   ]
+npm warn cleanup ]
+npm error process terminated
+npm error signal SIGINT
+npm error A complete log of this run can be found in: /home/runner/.npm/_logs/2025-07-16T14_56_22_525Z-debug-0.log
+~/workspace/server$ 
+~/workspace/server$ 
+~/workspace/server$ npm
+npm <command>
+
+Usage:
+
+npm install        install all the dependencies in your project
+npm install <foo>  add the <foo> dependency to your project
+npm test           run this project's tests
+npm run <foo>      run the script named <foo>
+npm <command> -h   quick help on <command>
+npm -l             display usage info for all commands
+npm help <term>    search for help on <term>
+npm help npm       more involved overview
+
+All commands:
+
+    access, adduser, audit, bugs, cache, ci, completion,
+    config, dedupe, deprecate, diff, dist-tag, docs, doctor,
+    edit, exec, explain, explore, find-dupes, fund, get, help,
+    help-search, hook, init, install, install-ci-test,
+    install-test, link, ll, login, logout, ls, org, outdated,
+    owner, pack, ping, pkg, prefix, profile, prune, publish,
+    query, rebuild, repo, restart, root, run-script, sbom,
+    search, set, shrinkwrap, star, stars, start, stop, team,
+    test, token, uninstall, unpublish, unstar, update, version,
+    view, whoami
+
+Specify configs in the ini-formatted file:
+    /home/runner/.npmrc
+or on the command line via: npm <command> --key=value
+
+More configuration info: npm help config
+Configuration fields: npm help 7 config
+
+npm@10.8.2 /nix/store/wfxq6w9bkp5dcfr8yb6789b0w7128gnb-nodejs-20.18.1/lib/node_modules/npm
+~/workspace/server$ 
+~/workspace/server$ np,
+bash: np,: command not found
+~/workspace/server$ npm install
+npm error code ENOTEMPTY
+npm error syscall rename
+npm error path /home/runner/workspace/server/node_modules/firebase
+npm error dest /home/runner/workspace/server/node_modules/.firebase-hGsdyAzZ
+npm error errno -39
+npm error ENOTEMPTY: directory not empty, rename '/home/runner/workspace/server/node_modules/firebase' -> '/home/runner/workspace/server/node_modules/.firebase-hGsdyAzZ'
+npm error A complete log of this run can be found in: /home/runner/.npm/_logs/2025-07-16T14_59_51_752Z-debug-0.log
+~/workspace/server$ npm install firebase
+npm error code ENOTEMPTY
+npm error syscall rename
+npm error path /home/runner/workspace/server/node_modules/firebase
+npm error dest /home/runner/workspace/server/node_modules/.firebase-hGsdyAzZ
+npm error errno -39
+npm error ENOTEMPTY: directory not empty, rename '/home/runner/workspace/server/node_modules/firebase' -> '/home/runner/workspace/server/node_modules/.firebase-hGsdyAzZ'
+npm error A complete log of this run can be found in: /home/runner/.npm/_logs/2025-07-16T15_00_10_267Z-debug-0.log
+~/workspace/server$ npm start
+
+> agrosaarthi-backend@1.0.0 start
+> node dist/index.js
+
+node:internal/modules/cjs/loader:1228
+  throw err;
+  ^
+
+Error: Cannot find module '/home/runner/workspace/server/dist/index.js'
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1225:15)
+    at Module._load (node:internal/modules/cjs/loader:1051:27)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:173:12)
+    at node:internal/main/run_main_module:28:49 {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: []
+}
+
+Node.js v20.18.1
+~/workspace/server$ ^C
+~/workspace/server$ npm start
+
+> agrosaarthi-backend@1.0.0 start
+> node dist/index.js
+
+node:internal/modules/cjs/loader:1228
+  throw err;
+  ^
+
+Error: Cannot find module '/home/runner/workspace/server/dist/index.js'
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1225:15)
+    at Module._load (node:internal/modules/cjs/loader:1051:27)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:173:12)
+    at node:internal/main/run_main_module:28:49 {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: []
+}
+
+Node.js v20.18.1
+~/workspace/server$ ^C
+~/workspace/server$ ^C
+~/workspace/server$ npx tsc
+index.ts:35:12 - error TS2769: No overload matches this call.
+  Overload 1 of 6, '(port: number, hostname: string, backlog: number, callback?: (() => void) | undefined): Server<typeof IncomingMessage, typeof ServerResponse>', gave the following error.
+    Argument of type 'string | 3001' is not assignable to parameter of type 'number'.
+      Type 'string' is not assignable to type 'number'.
+  Overload 2 of 6, '(port: number, hostname: string, callback?: (() => void) | undefined): Server<typeof IncomingMessage, typeof ServerResponse>', gave the following error.
+    Argument of type 'string | 3001' is not assignable to parameter of type 'number'.
+      Type 'string' is not assignable to type 'number'.
+
+35 app.listen(PORT, '0.0.0.0', () => {
+              ~~~~
+
+
+node-build.ts:5:20 - error TS2339: Property 'createServer' does not exist on type 'typeof import("/home/runner/workspace/server/index")'.
+
+5 const app = server.createServer();
+                     ~~~~~~~~~~~~
+
+node-build.ts:16:15 - error TS7006: Parameter 'req' implicitly has an 'any' type.
+
+16 app.get("*", (req, res) => {
+                 ~~~
+
+node-build.ts:16:20 - error TS7006: Parameter 'res' implicitly has an 'any' type.
+
+16 app.get("*", (req, res) => {
+                      ~~~
+
+routes/analytics.ts:10:17 - error TS2769: No overload matches this call.
+  The last overload gave the following error.
+    Argument of type '(req: AuthenticatedRequest, res: Response, next: NextFunction) => Response<any, Record<string, any>> | undefined' is not assignable to parameter of type 'RequestHandlerParams<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+      Type '(req: AuthenticatedRequest, res: Response, next: NextFunction) => Response<any, Record<string, any>> | undefined' is not assignable to type 'RequestHandler<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+        Types of parameters 'req' and 'req' are incompatible.
+          Property 'user' is missing in type 'Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>' but required in type 'AuthenticatedRequest'.
+
+10 router.get('/', authenticateUser, async (req: AuthenticatedRequest, res) => {
+                   ~~~~~~~~~~~~~~~~
+
+  middleware/auth.ts:5:3
+    5   user: {
+        ~~~~
+    'user' is declared here.
+  node_modules/@types/express-serve-static-core/index.d.ts:153:5
+    153     <
+            ~
+    154         P = ParamsDictionary,
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ... 
+    162         ...handlers: Array<RequestHandlerParams<P, ResBody, ReqBody, ReqQuery, LocalsObj>>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    163     ): T;
+        ~~~~~~~~~
+    The last overload is declared here.
+
+routes/chatbot.ts:8:22 - error TS2769: No overload matches this call.
+  The last overload gave the following error.
+    Argument of type '(req: AuthenticatedRequest, res: Response, next: NextFunction) => Response<any, Record<string, any>> | undefined' is not assignable to parameter of type 'RequestHandlerParams<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+      Type '(req: AuthenticatedRequest, res: Response, next: NextFunction) => Response<any, Record<string, any>> | undefined' is not assignable to type 'RequestHandler<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+        Types of parameters 'req' and 'req' are incompatible.
+          Property 'user' is missing in type 'Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>' but required in type 'AuthenticatedRequest'.
+
+8 router.post('/chat', authenticateUser, async (req: AuthenticatedRequest, res) => {
+                       ~~~~~~~~~~~~~~~~
+
+  middleware/auth.ts:5:3
+    5   user: {
+        ~~~~
+    'user' is declared here.
+  node_modules/@types/express-serve-static-core/index.d.ts:153:5
+    153     <
+            ~
+    154         P = ParamsDictionary,
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ... 
+    162         ...handlers: Array<RequestHandlerParams<P, ResBody, ReqBody, ReqQuery, LocalsObj>>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    163     ): T;
+        ~~~~~~~~~
+    The last overload is declared here.
+
+routes/community.ts:27:23 - error TS2769: No overload matches this call.
+  The last overload gave the following error.
+    Argument of type '(req: AuthenticatedRequest, res: Response, next: NextFunction) => Response<any, Record<string, any>> | undefined' is not assignable to parameter of type 'RequestHandlerParams<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+      Type '(req: AuthenticatedRequest, res: Response, next: NextFunction) => Response<any, Record<string, any>> | undefined' is not assignable to type 'RequestHandler<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+        Types of parameters 'req' and 'req' are incompatible.
+          Property 'user' is missing in type 'Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>' but required in type 'AuthenticatedRequest'.
+
+27 router.post('/posts', authenticateUser, async (req: AuthenticatedRequest, res) => {
+                         ~~~~~~~~~~~~~~~~
+
+  middleware/auth.ts:5:3
+    5   user: {
+        ~~~~
+    'user' is declared here.
+  node_modules/@types/express-serve-static-core/index.d.ts:153:5
+    153     <
+            ~
+    154         P = ParamsDictionary,
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ... 
+    162         ...handlers: Array<RequestHandlerParams<P, ResBody, ReqBody, ReqQuery, LocalsObj>>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    163     ): T;
+        ~~~~~~~~~
+    The last overload is declared here.
+
+routes/community.ts:60:36 - error TS2769: No overload matches this call.
+  The last overload gave the following error.
+    Argument of type '(req: AuthenticatedRequest, res: Response, next: NextFunction) => Response<any, Record<string, any>> | undefined' is not assignable to parameter of type 'RequestHandlerParams<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+      Type '(req: AuthenticatedRequest, res: Response, next: NextFunction) => Response<any, Record<string, any>> | undefined' is not assignable to type 'RequestHandler<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+        Types of parameters 'req' and 'req' are incompatible.
+          Property 'user' is missing in type 'Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>' but required in type 'AuthenticatedRequest'.
+
+60 router.post('/posts/:id/comments', authenticateUser, async (req: AuthenticatedRequest, res) => {
+                                      ~~~~~~~~~~~~~~~~
+
+  middleware/auth.ts:5:3
+    5   user: {
+        ~~~~
+    'user' is declared here.
+  node_modules/@types/express-serve-static-core/index.d.ts:153:5
+    153     <
+            ~
+    154         P = ParamsDictionary,
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ... 
+    162         ...handlers: Array<RequestHandlerParams<P, ResBody, ReqBody, ReqQuery, LocalsObj>>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    163     ): T;
+        ~~~~~~~~~
+    The last overload is declared here.
+
+routes/crops.ts:11:22 - error TS2769: No overload matches this call.
+  The last overload gave the following error.
+    Argument of type '(req: AuthenticatedRequest, res: Response, next: NextFunction) => Response<any, Record<string, any>> | undefined' is not assignable to parameter of type 'RequestHandlerParams<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+      Type '(req: AuthenticatedRequest, res: Response, next: NextFunction) => Response<any, Record<string, any>> | undefined' is not assignable to type 'RequestHandler<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+        Types of parameters 'req' and 'req' are incompatible.
+          Property 'user' is missing in type 'Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>' but required in type 'AuthenticatedRequest'.
+
+11 router.post('/scan', authenticateUser, upload.single('image'), async (req: AuthenticatedRequest, res) => {
+                        ~~~~~~~~~~~~~~~~
+
+  middleware/auth.ts:5:3
+    5   user: {
+        ~~~~
+    'user' is declared here.
+  node_modules/@types/express-serve-static-core/index.d.ts:153:5
+    153     <
+            ~
+    154         P = ParamsDictionary,
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ... 
+    162         ...handlers: Array<RequestHandlerParams<P, ResBody, ReqBody, ReqQuery, LocalsObj>>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    163     ): T;
+        ~~~~~~~~~
+    The last overload is declared here.
+
+routes/crops.ts:54:24 - error TS2769: No overload matches this call.
+  The last overload gave the following error.
+    Argument of type '(req: AuthenticatedRequest, res: Response, next: NextFunction) => Response<any, Record<string, any>> | undefined' is not assignable to parameter of type 'RequestHandlerParams<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+      Type '(req: AuthenticatedRequest, res: Response, next: NextFunction) => Response<any, Record<string, any>> | undefined' is not assignable to type 'RequestHandler<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+        Types of parameters 'req' and 'req' are incompatible.
+          Property 'user' is missing in type 'Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>' but required in type 'AuthenticatedRequest'.
+
+54 router.get('/history', authenticateUser, async (req: AuthenticatedRequest, res) => {
+                          ~~~~~~~~~~~~~~~~
+
+  middleware/auth.ts:5:3
+    5   user: {
+        ~~~~
+    'user' is declared here.
+  node_modules/@types/express-serve-static-core/index.d.ts:153:5
+    153     <
+            ~
+    154         P = ParamsDictionary,
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ... 
+    162         ...handlers: Array<RequestHandlerParams<P, ResBody, ReqBody, ReqQuery, LocalsObj>>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    163     ): T;
+        ~~~~~~~~~
+    The last overload is declared here.
+
+routes/crops.ts:81:34 - error TS2769: No overload matches this call.
+  The last overload gave the following error.
+    Argument of type '(req: AuthenticatedRequest, res: Response, next: NextFunction) => Response<any, Record<string, any>> | undefined' is not assignable to parameter of type 'RequestHandlerParams<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+      Type '(req: AuthenticatedRequest, res: Response, next: NextFunction) => Response<any, Record<string, any>> | undefined' is not assignable to type 'RequestHandler<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+        Types of parameters 'req' and 'req' are incompatible.
+          Property 'user' is missing in type 'Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>' but required in type 'AuthenticatedRequest'.
+
+81 router.patch('/scan/:id/action', authenticateUser, async (req: AuthenticatedRequest, res) => {
+                                    ~~~~~~~~~~~~~~~~
+
+  middleware/auth.ts:5:3
+    5   user: {
+        ~~~~
+    'user' is declared here.
+  node_modules/@types/express-serve-static-core/index.d.ts:153:5
+    153     <
+            ~
+    154         P = ParamsDictionary,
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ... 
+    162         ...handlers: Array<RequestHandlerParams<P, ResBody, ReqBody, ReqQuery, LocalsObj>>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    163     ): T;
+        ~~~~~~~~~
+    The last overload is declared here.
+
+routes/crops.ts:101:24 - error TS2769: No overload matches this call.
+  The last overload gave the following error.
+    Argument of type '(req: AuthenticatedRequest, res: Response, next: NextFunction) => Response<any, Record<string, any>> | undefined' is not assignable to parameter of type 'RequestHandlerParams<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+      Type '(req: AuthenticatedRequest, res: Response, next: NextFunction) => Response<any, Record<string, any>> | undefined' is not assignable to type 'RequestHandler<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+        Types of parameters 'req' and 'req' are incompatible.
+          Property 'user' is missing in type 'Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>' but required in type 'AuthenticatedRequest'.
+
+101 router.get('/profile', authenticateUser, async (req: AuthenticatedRequest, res) => {
+                           ~~~~~~~~~~~~~~~~
+
+  middleware/auth.ts:5:3
+    5   user: {
+        ~~~~
+    'user' is declared here.
+  node_modules/@types/express-serve-static-core/index.d.ts:153:5
+    153     <
+            ~
+    154         P = ParamsDictionary,
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ... 
+    162         ...handlers: Array<RequestHandlerParams<P, ResBody, ReqBody, ReqQuery, LocalsObj>>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    163     ): T;
+        ~~~~~~~~~
+    The last overload is declared here.
+
+routes/crops.ts:103:13 - error TS2339: Property 'payload' does not exist on type '{ id: string; email: string; name: string; }'.
+
+103     const { payload } = req.user
+                ~~~~~~~
+
+routes/dashboard.ts:10:17 - error TS2769: No overload matches this call.
+  The last overload gave the following error.
+    Argument of type '(req: AuthenticatedRequest, res: Response, next: NextFunction) => Response<any, Record<string, any>> | undefined' is not assignable to parameter of type 'RequestHandlerParams<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+      Type '(req: AuthenticatedRequest, res: Response, next: NextFunction) => Response<any, Record<string, any>> | undefined' is not assignable to type 'RequestHandler<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+        Types of parameters 'req' and 'req' are incompatible.
+          Property 'user' is missing in type 'Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>' but required in type 'AuthenticatedRequest'.
+
+10 router.get('/', authenticateUser, async (req: AuthenticatedRequest, res) => {
+                   ~~~~~~~~~~~~~~~~
+
+  middleware/auth.ts:5:3
+    5   user: {
+        ~~~~
+    'user' is declared here.
+  node_modules/@types/express-serve-static-core/index.d.ts:153:5
+    153     <
+            ~
+    154         P = ParamsDictionary,
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ... 
+    162         ...handlers: Array<RequestHandlerParams<P, ResBody, ReqBody, ReqQuery, LocalsObj>>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    163     ): T;
+        ~~~~~~~~~
+    The last overload is declared here.
+
+routes/forecast.ts:9:17 - error TS2769: No overload matches this call.
+  The last overload gave the following error.
+    Argument of type '(req: AuthenticatedRequest, res: Response, next: NextFunction) => Response<any, Record<string, any>> | undefined' is not assignable to parameter of type 'RequestHandlerParams<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+      Type '(req: AuthenticatedRequest, res: Response, next: NextFunction) => Response<any, Record<string, any>> | undefined' is not assignable to type 'RequestHandler<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+        Types of parameters 'req' and 'req' are incompatible.
+          Property 'user' is missing in type 'Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>' but required in type 'AuthenticatedRequest'.
+
+9 router.get('/', authenticateUser, async (req: AuthenticatedRequest, res) => {
+                  ~~~~~~~~~~~~~~~~
+
+  middleware/auth.ts:5:3
+    5   user: {
+        ~~~~
+    'user' is declared here.
+  node_modules/@types/express-serve-static-core/index.d.ts:153:5
+    153     <
+            ~
+    154         P = ParamsDictionary,
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ... 
+    162         ...handlers: Array<RequestHandlerParams<P, ResBody, ReqBody, ReqQuery, LocalsObj>>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    163     ): T;
+        ~~~~~~~~~
+    The last overload is declared here.
+
+routes/history.ts:8:25 - error TS2769: No overload matches this call.
+  The last overload gave the following error.
+    Argument of type '(req: AuthenticatedRequest, res: Response, next: NextFunction) => Response<any, Record<string, any>> | undefined' is not assignable to parameter of type 'RequestHandlerParams<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+      Type '(req: AuthenticatedRequest, res: Response, next: NextFunction) => Response<any, Record<string, any>> | undefined' is not assignable to type 'RequestHandler<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+        Types of parameters 'req' and 'req' are incompatible.
+          Property 'user' is missing in type 'Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>' but required in type 'AuthenticatedRequest'.
+
+8 router.post("/history", authenticateUser, async (req: AuthenticatedRequest, res) => {
+                          ~~~~~~~~~~~~~~~~
+
+  middleware/auth.ts:5:3
+    5   user: {
+        ~~~~
+    'user' is declared here.
+  node_modules/@types/express-serve-static-core/index.d.ts:153:5
+    153     <
+            ~
+    154         P = ParamsDictionary,
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ... 
+    162         ...handlers: Array<RequestHandlerParams<P, ResBody, ReqBody, ReqQuery, LocalsObj>>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    163     ): T;
+        ~~~~~~~~~
+    The last overload is declared here.
+
+routes/history.ts:40:17 - error TS2769: No overload matches this call.
+  The last overload gave the following error.
+    Argument of type '(req: AuthenticatedRequest, res: Response, next: NextFunction) => Response<any, Record<string, any>> | undefined' is not assignable to parameter of type 'RequestHandlerParams<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+      Type '(req: AuthenticatedRequest, res: Response, next: NextFunction) => Response<any, Record<string, any>> | undefined' is not assignable to type 'RequestHandler<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+        Types of parameters 'req' and 'req' are incompatible.
+          Property 'user' is missing in type 'Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>' but required in type 'AuthenticatedRequest'.
+
+40 router.get("/", authenticateUser, async (req: AuthenticatedRequest, res) => {
+                   ~~~~~~~~~~~~~~~~
+
+  middleware/auth.ts:5:3
+    5   user: {
+        ~~~~
+    'user' is declared here.
+  node_modules/@types/express-serve-static-core/index.d.ts:153:5
+    153     <
+            ~
+    154         P = ParamsDictionary,
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ... 
+    162         ...handlers: Array<RequestHandlerParams<P, ResBody, ReqBody, ReqQuery, LocalsObj>>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    163     ): T;
+        ~~~~~~~~~
+    The last overload is declared here.
+
+
+Found 17 errors in 9 files.
+
+Errors  Files
+     1  index.ts:35
+     3  node-build.ts:5
+     1  routes/analytics.ts:10
+     1  routes/chatbot.ts:8
+     2  routes/community.ts:27
+     5  routes/crops.ts:11
+     1  routes/dashboard.ts:10
+     1  routes/forecast.ts:9
+     2  routes/history.ts:8
+~/workspace/server$ npx tsc
+index.ts:35:12 - error TS2769: No overload matches this call.
+  Overload 1 of 6, '(port: number, hostname: string, backlog: number, callback?: (() => void) | undefined): Server<typeof IncomingMessage, typeof ServerResponse>', gave the following error.
+    Argument of type 'string | 3001' is not assignable to parameter of type 'number'.
+      Type 'string' is not assignable to type 'number'.
+  Overload 2 of 6, '(port: number, hostname: string, callback?: (() => void) | undefined): Server<typeof IncomingMessage, typeof ServerResponse>', gave the following error.
+    Argument of type 'string | 3001' is not assignable to parameter of type 'number'.
+      Type 'string' is not assignable to type 'number'.
+
+35 app.listen(PORT, '0.0.0.0', () => {
+              ~~~~
+
+
+node-build.ts:5:20 - error TS2339: Property 'createServer' does not exist on type 'typeof import("/home/runner/workspace/server/index")'.
+
+5 const app = server.createServer();
+                     ~~~~~~~~~~~~
+
+node-build.ts:16:15 - error TS7006: Parameter 'req' implicitly has an 'any' type.
+
+16 app.get("*", (req, res) => {
+                 ~~~
+
+node-build.ts:16:20 - error TS7006: Parameter 'res' implicitly has an 'any' type.
+
+16 app.get("*", (req, res) => {
+                      ~~~
+
+routes/analytics.ts:10:35 - error TS2769: No overload matches this call.
+  The last overload gave the following error.
+    Argument of type '(req: AuthenticatedRequest, res: Response<any, Record<string, any>, number>) => Promise<void>' is not assignable to parameter of type 'RequestHandlerParams<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+      Type '(req: AuthenticatedRequest, res: Response<any, Record<string, any>, number>) => Promise<void>' is not assignable to type 'RequestHandler<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+        Types of parameters 'req' and 'req' are incompatible.
+          Property 'user' is missing in type 'Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>' but required in type 'AuthenticatedRequest'.
+
+10 router.get('/', authenticateUser, async (req: AuthenticatedRequest, res) => {
+                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  middleware/auth.ts:6:3
+    6   user: {
+        ~~~~
+    'user' is declared here.
+  node_modules/@types/express-serve-static-core/index.d.ts:153:5
+    153     <
+            ~
+    154         P = ParamsDictionary,
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ... 
+    162         ...handlers: Array<RequestHandlerParams<P, ResBody, ReqBody, ReqQuery, LocalsObj>>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    163     ): T;
+        ~~~~~~~~~
+    The last overload is declared here.
+
+routes/chatbot.ts:8:40 - error TS2769: No overload matches this call.
+  The last overload gave the following error.
+    Argument of type '(req: AuthenticatedRequest, res: Response<any, Record<string, any>, number>) => Promise<void>' is not assignable to parameter of type 'RequestHandlerParams<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+      Type '(req: AuthenticatedRequest, res: Response<any, Record<string, any>, number>) => Promise<void>' is not assignable to type 'RequestHandler<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+        Types of parameters 'req' and 'req' are incompatible.
+          Property 'user' is missing in type 'Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>' but required in type 'AuthenticatedRequest'.
+
+8 router.post('/chat', authenticateUser, async (req: AuthenticatedRequest, res) => {
+                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  middleware/auth.ts:6:3
+    6   user: {
+        ~~~~
+    'user' is declared here.
+  node_modules/@types/express-serve-static-core/index.d.ts:153:5
+    153     <
+            ~
+    154         P = ParamsDictionary,
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ... 
+    162         ...handlers: Array<RequestHandlerParams<P, ResBody, ReqBody, ReqQuery, LocalsObj>>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    163     ): T;
+        ~~~~~~~~~
+    The last overload is declared here.
+
+routes/community.ts:27:41 - error TS2769: No overload matches this call.
+  The last overload gave the following error.
+    Argument of type '(req: AuthenticatedRequest, res: Response<any, Record<string, any>, number>) => Promise<void>' is not assignable to parameter of type 'RequestHandlerParams<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+      Type '(req: AuthenticatedRequest, res: Response<any, Record<string, any>, number>) => Promise<void>' is not assignable to type 'RequestHandler<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+        Types of parameters 'req' and 'req' are incompatible.
+          Property 'user' is missing in type 'Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>' but required in type 'AuthenticatedRequest'.
+
+27 router.post('/posts', authenticateUser, async (req: AuthenticatedRequest, res) => {
+                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  middleware/auth.ts:6:3
+    6   user: {
+        ~~~~
+    'user' is declared here.
+  node_modules/@types/express-serve-static-core/index.d.ts:153:5
+    153     <
+            ~
+    154         P = ParamsDictionary,
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ... 
+    162         ...handlers: Array<RequestHandlerParams<P, ResBody, ReqBody, ReqQuery, LocalsObj>>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    163     ): T;
+        ~~~~~~~~~
+    The last overload is declared here.
+
+routes/community.ts:60:54 - error TS2769: No overload matches this call.
+  The last overload gave the following error.
+    Argument of type '(req: AuthenticatedRequest, res: Response<any, Record<string, any>, number>) => Promise<void>' is not assignable to parameter of type 'RequestHandlerParams<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+      Type '(req: AuthenticatedRequest, res: Response<any, Record<string, any>, number>) => Promise<void>' is not assignable to type 'RequestHandler<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+        Types of parameters 'req' and 'req' are incompatible.
+          Property 'user' is missing in type 'Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>' but required in type 'AuthenticatedRequest'.
+
+60 router.post('/posts/:id/comments', authenticateUser, async (req: AuthenticatedRequest, res) => {
+                                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  middleware/auth.ts:6:3
+    6   user: {
+        ~~~~
+    'user' is declared here.
+  node_modules/@types/express-serve-static-core/index.d.ts:153:5
+    153     <
+            ~
+    154         P = ParamsDictionary,
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ... 
+    162         ...handlers: Array<RequestHandlerParams<P, ResBody, ReqBody, ReqQuery, LocalsObj>>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    163     ): T;
+        ~~~~~~~~~
+    The last overload is declared here.
+
+routes/crops.ts:11:64 - error TS2769: No overload matches this call.
+  The last overload gave the following error.
+    Argument of type '(req: AuthenticatedRequest, res: Response<any, Record<string, any>, number>) => Promise<Response<any, Record<string, any>, number> | undefined>' is not assignable to parameter of type 'RequestHandlerParams<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+      Type '(req: AuthenticatedRequest, res: Response<any, Record<string, any>, number>) => Promise<Response<any, Record<string, any>, number> | undefined>' is not assignable to type 'RequestHandler<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+        Types of parameters 'req' and 'req' are incompatible.
+          Property 'user' is missing in type 'Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>' but required in type 'AuthenticatedRequest'.
+
+11 router.post('/scan', authenticateUser, upload.single('image'), async (req: AuthenticatedRequest, res) => {
+                                                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  middleware/auth.ts:6:3
+    6   user: {
+        ~~~~
+    'user' is declared here.
+  node_modules/@types/express-serve-static-core/index.d.ts:153:5
+    153     <
+            ~
+    154         P = ParamsDictionary,
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ... 
+    162         ...handlers: Array<RequestHandlerParams<P, ResBody, ReqBody, ReqQuery, LocalsObj>>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    163     ): T;
+        ~~~~~~~~~
+    The last overload is declared here.
+
+routes/crops.ts:54:42 - error TS2769: No overload matches this call.
+  The last overload gave the following error.
+    Argument of type '(req: AuthenticatedRequest, res: Response<any, Record<string, any>, number>) => Promise<void>' is not assignable to parameter of type 'RequestHandlerParams<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+      Type '(req: AuthenticatedRequest, res: Response<any, Record<string, any>, number>) => Promise<void>' is not assignable to type 'RequestHandler<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+        Types of parameters 'req' and 'req' are incompatible.
+          Property 'user' is missing in type 'Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>' but required in type 'AuthenticatedRequest'.
+
+54 router.get('/history', authenticateUser, async (req: AuthenticatedRequest, res) => {
+                                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  middleware/auth.ts:6:3
+    6   user: {
+        ~~~~
+    'user' is declared here.
+  node_modules/@types/express-serve-static-core/index.d.ts:153:5
+    153     <
+            ~
+    154         P = ParamsDictionary,
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ... 
+    162         ...handlers: Array<RequestHandlerParams<P, ResBody, ReqBody, ReqQuery, LocalsObj>>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    163     ): T;
+        ~~~~~~~~~
+    The last overload is declared here.
+
+routes/crops.ts:81:52 - error TS2769: No overload matches this call.
+  The last overload gave the following error.
+    Argument of type '(req: AuthenticatedRequest, res: Response<any, Record<string, any>, number>) => Promise<void>' is not assignable to parameter of type 'RequestHandlerParams<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+      Type '(req: AuthenticatedRequest, res: Response<any, Record<string, any>, number>) => Promise<void>' is not assignable to type 'RequestHandler<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+        Types of parameters 'req' and 'req' are incompatible.
+          Property 'user' is missing in type 'Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>' but required in type 'AuthenticatedRequest'.
+
+81 router.patch('/scan/:id/action', authenticateUser, async (req: AuthenticatedRequest, res) => {
+                                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  middleware/auth.ts:6:3
+    6   user: {
+        ~~~~
+    'user' is declared here.
+  node_modules/@types/express-serve-static-core/index.d.ts:153:5
+    153     <
+            ~
+    154         P = ParamsDictionary,
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ... 
+    162         ...handlers: Array<RequestHandlerParams<P, ResBody, ReqBody, ReqQuery, LocalsObj>>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    163     ): T;
+        ~~~~~~~~~
+    The last overload is declared here.
+
+routes/crops.ts:101:42 - error TS2769: No overload matches this call.
+  The last overload gave the following error.
+    Argument of type '(req: AuthenticatedRequest, res: Response<any, Record<string, any>, number>) => Promise<void>' is not assignable to parameter of type 'RequestHandlerParams<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+      Type '(req: AuthenticatedRequest, res: Response<any, Record<string, any>, number>) => Promise<void>' is not assignable to type 'RequestHandler<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+        Types of parameters 'req' and 'req' are incompatible.
+          Property 'user' is missing in type 'Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>' but required in type 'AuthenticatedRequest'.
+
+101 router.get('/profile', authenticateUser, async (req: AuthenticatedRequest, res) => {
+                                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  middleware/auth.ts:6:3
+    6   user: {
+        ~~~~
+    'user' is declared here.
+  node_modules/@types/express-serve-static-core/index.d.ts:153:5
+    153     <
+            ~
+    154         P = ParamsDictionary,
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ... 
+    162         ...handlers: Array<RequestHandlerParams<P, ResBody, ReqBody, ReqQuery, LocalsObj>>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    163     ): T;
+        ~~~~~~~~~
+    The last overload is declared here.
+
+routes/crops.ts:103:13 - error TS2339: Property 'payload' does not exist on type '{ id: string; email: string; name: string; }'.
+
+103     const { payload } = req.user
+                ~~~~~~~
+
+routes/dashboard.ts:10:35 - error TS2769: No overload matches this call.
+  The last overload gave the following error.
+    Argument of type '(req: AuthenticatedRequest, res: Response<any, Record<string, any>, number>) => Promise<void>' is not assignable to parameter of type 'RequestHandlerParams<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+      Type '(req: AuthenticatedRequest, res: Response<any, Record<string, any>, number>) => Promise<void>' is not assignable to type 'RequestHandler<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+        Types of parameters 'req' and 'req' are incompatible.
+          Property 'user' is missing in type 'Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>' but required in type 'AuthenticatedRequest'.
+
+10 router.get('/', authenticateUser, async (req: AuthenticatedRequest, res) => {
+                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  middleware/auth.ts:6:3
+    6   user: {
+        ~~~~
+    'user' is declared here.
+  node_modules/@types/express-serve-static-core/index.d.ts:153:5
+    153     <
+            ~
+    154         P = ParamsDictionary,
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ... 
+    162         ...handlers: Array<RequestHandlerParams<P, ResBody, ReqBody, ReqQuery, LocalsObj>>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    163     ): T;
+        ~~~~~~~~~
+    The last overload is declared here.
+
+routes/forecast.ts:9:35 - error TS2769: No overload matches this call.
+  The last overload gave the following error.
+    Argument of type '(req: AuthenticatedRequest, res: Response<any, Record<string, any>, number>) => Promise<Response<any, Record<string, any>, number> | undefined>' is not assignable to parameter of type 'RequestHandlerParams<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+      Type '(req: AuthenticatedRequest, res: Response<any, Record<string, any>, number>) => Promise<Response<any, Record<string, any>, number> | undefined>' is not assignable to type 'RequestHandler<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+        Types of parameters 'req' and 'req' are incompatible.
+          Property 'user' is missing in type 'Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>' but required in type 'AuthenticatedRequest'.
+
+9 router.get('/', authenticateUser, async (req: AuthenticatedRequest, res) => {
+                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  middleware/auth.ts:6:3
+    6   user: {
+        ~~~~
+    'user' is declared here.
+  node_modules/@types/express-serve-static-core/index.d.ts:153:5
+    153     <
+            ~
+    154         P = ParamsDictionary,
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ... 
+    162         ...handlers: Array<RequestHandlerParams<P, ResBody, ReqBody, ReqQuery, LocalsObj>>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    163     ): T;
+        ~~~~~~~~~
+    The last overload is declared here.
+
+routes/history.ts:8:43 - error TS2769: No overload matches this call.
+  The last overload gave the following error.
+    Argument of type '(req: AuthenticatedRequest, res: Response<any, Record<string, any>, number>) => Promise<Response<any, Record<string, any>, number> | undefined>' is not assignable to parameter of type 'RequestHandlerParams<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+      Type '(req: AuthenticatedRequest, res: Response<any, Record<string, any>, number>) => Promise<Response<any, Record<string, any>, number> | undefined>' is not assignable to type 'RequestHandler<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+        Types of parameters 'req' and 'req' are incompatible.
+          Property 'user' is missing in type 'Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>' but required in type 'AuthenticatedRequest'.
+
+8 router.post("/history", authenticateUser, async (req: AuthenticatedRequest, res) => {
+                                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  middleware/auth.ts:6:3
+    6   user: {
+        ~~~~
+    'user' is declared here.
+  node_modules/@types/express-serve-static-core/index.d.ts:153:5
+    153     <
+            ~
+    154         P = ParamsDictionary,
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ... 
+    162         ...handlers: Array<RequestHandlerParams<P, ResBody, ReqBody, ReqQuery, LocalsObj>>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    163     ): T;
+        ~~~~~~~~~
+    The last overload is declared here.
+
+routes/history.ts:40:35 - error TS2769: No overload matches this call.
+  The last overload gave the following error.
+    Argument of type '(req: AuthenticatedRequest, res: Response<any, Record<string, any>, number>) => Promise<void>' is not assignable to parameter of type 'RequestHandlerParams<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+      Type '(req: AuthenticatedRequest, res: Response<any, Record<string, any>, number>) => Promise<void>' is not assignable to type 'RequestHandler<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+        Types of parameters 'req' and 'req' are incompatible.
+          Property 'user' is missing in type 'Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>' but required in type 'AuthenticatedRequest'.
+
+40 router.get("/", authenticateUser, async (req: AuthenticatedRequest, res) => {
+                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  middleware/auth.ts:6:3
+    6   user: {
+        ~~~~
+    'user' is declared here.
+  node_modules/@types/express-serve-static-core/index.d.ts:153:5
+    153     <
+            ~
+    154         P = ParamsDictionary,
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ... 
+    162         ...handlers: Array<RequestHandlerParams<P, ResBody, ReqBody, ReqQuery, LocalsObj>>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    163     ): T;
+        ~~~~~~~~~
+    The last overload is declared here.
+
+
+Found 17 errors in 9 files.
+
+Errors  Files
+     1  index.ts:35
+     3  node-build.ts:5
+     1  routes/analytics.ts:10
+     1  routes/chatbot.ts:8
+     2  routes/community.ts:27
+     5  routes/crops.ts:11
+     1  routes/dashboard.ts:10
+     1  routes/forecast.ts:9
+     2  routes/history.ts:8
+~/workspace/server$ ^C

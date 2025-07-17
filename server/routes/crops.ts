@@ -8,21 +8,21 @@ const router = Router()
 const upload = multer({ storage: multer.memoryStorage() })
 
 // Upload crop scan
-router.post('/scan', authenticateUser, upload.single('image'), async (req: AuthenticatedRequest, res) => {
+router.post('/scan', authenticateUser, upload.single('image'), async (req: any, res) => {
   try {
     const { cropType, location, fieldName } = req.body
     const file = req.file
-    
+
     if (!file) {
       return res.status(400).json({ error: 'No image provided' })
     }
-    
+
     // TODO: Replace Supabase storage upload with S3/local storage
     // TODO: Replace Supabase DB insert with MySQL insert
-    
+
     // Simulate AI diagnosis (replace with actual AI service)
     const aiResult = simulateAIDiagnosis(cropType)
-    
+
     // Store scan data in database
     // const { data: scanData, error: dbError } = await supabase
     //   .from('crop_scans')
@@ -39,11 +39,11 @@ router.post('/scan', authenticateUser, upload.single('image'), async (req: Authe
     //   })
     //   .select()
     //   .single()
-    
+
     // if (dbError) {
     //   return res.status(400).json({ error: dbError.message })
     // }
-    
+
     res.json({ scan: null, aiResult }) // Placeholder for scan data
   } catch (error) {
     res.status(500).json({ error: 'Server error' })
@@ -51,7 +51,7 @@ router.post('/scan', authenticateUser, upload.single('image'), async (req: Authe
 })
 
 // Get scan history
-router.get('/history', authenticateUser, async (req: AuthenticatedRequest, res) => {
+router.get('/history', authenticateUser, async (req: any, res) => {
   try {
     const { disease_type, crop_type, action_taken } = req.query
     // TODO: Replace Supabase query with MySQL query
@@ -66,11 +66,11 @@ router.get('/history', authenticateUser, async (req: AuthenticatedRequest, res) 
       // query = query.eq('action_taken', action_taken) // Placeholder for query
     }
     const data: any[] = [] // Placeholder for data
-    
+
     // if (error) {
     //   return res.status(400).json({ error: error.message })
     // }
-    
+
     res.json({ scans: data })
   } catch (error) {
     res.status(500).json({ error: 'Server error' })
@@ -78,36 +78,35 @@ router.get('/history', authenticateUser, async (req: AuthenticatedRequest, res) 
 })
 
 // Update action taken
-router.patch('/scan/:id/action', authenticateUser, async (req: AuthenticatedRequest, res) => {
+router.patch('/scan/:id/action', authenticateUser, async (req: any, res) => {
   try {
     const { id } = req.params
     const { action_taken } = req.body
-    
+
     // TODO: Replace Supabase update with MySQL update
     const data: any = {} // Placeholder for data
-    
+
     // const { data, error } = null // Placeholder for data and error
-    
+
     // if (error) {
     //   return res.status(400).json({ error: error.message })
     // }
-    
+
     res.json({ scan: data })
   } catch (error) {
     res.status(500).json({ error: 'Server error' })
   }
 })
 
-router.get('/profile', authenticateUser, async (req: AuthenticatedRequest, res) => {
+router.get('/profile', authenticateUser, async (req: any, res) => {
   try {
-    const { payload } = req.user
-    const userId = (payload as any).id;
+    const { id, email, name } = req.user
     // const [rows]: any = await pool.query('SELECT id, email, name, phone FROM profiles WHERE id = ?', [userId]);
     // if (!Array.isArray(rows) || rows.length === 0) {
     //   return res.status(404).json({ error: 'User not found' })
     // }
     // res.json({ profile: rows[0] })
-    res.json({ profile: { id: userId, email: 'test@example.com', name: 'Test User', phone: '123-456-7890' } }) // Placeholder for profile data
+    res.json({ profile: { id, email, name } }) // Placeholder for profile data
   } catch (error) {
     res.status(500).json({ error: 'Server error' })
   }
@@ -122,14 +121,14 @@ function simulateAIDiagnosis(cropType: string) {
     'Bacterial Spot',
     'Viral Disease'
   ]
-  
+
   const disease = diseases[Math.floor(Math.random() * diseases.length)]
   const confidence = Math.floor(Math.random() * 30) + 70 // 70-100%
-  
+
   const recommendations = disease === 'Healthy' 
     ? ['Continue current care routine', 'Monitor regularly']
     : ['Apply appropriate fungicide', 'Improve air circulation', 'Remove affected leaves']
-  
+
   return { disease, confidence, recommendations }
 }
 

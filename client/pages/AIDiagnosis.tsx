@@ -1,20 +1,21 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Layout from "@/components/Layout";
+import { auth } from "@/lib/firebaseClient";
 
 const cropOptions = [
   "Tomato", "Potato", "Corn", "Wheat", "Rice", "Apple",
   "Citrus", "Soybean", "Cotton", "Pepper",
 ];
 
-type DiagnosisResult = {
+interface DiagnosisResult {
   predicted_disease: string;
   confidence_score: number;
   is_healthy: boolean;
-  risk_level: "Low" | "Medium" | "High";
+  risk_level: string;
   recommendations: string[];
-  image_url: string; // ✅ real URL from backend
-};
+  image_url: string;
+}
 
 export default function AIDiagnosis() {
   const [selectedCrop, setSelectedCrop] = useState("");
@@ -70,9 +71,20 @@ export default function AIDiagnosis() {
     if (!diagnosisResult || !selectedCrop) return;
 
     try {
+      // Get the current user's ID token
+      const user = auth.currentUser;
+      if (!user) {
+        throw new Error("User not authenticated");
+      }
+      
+      const idToken = await user.getIdToken();
+      
       const saveResponse = await fetch("http://localhost:3000/api/history", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${idToken}`
+        },
         body: JSON.stringify({
           crop_type: selectedCrop,
           is_healthy: diagnosisResult.is_healthy,

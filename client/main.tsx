@@ -17,6 +17,7 @@ import History from "./pages/History";
 import Chatbot from "./pages/Chatbot";
 import Community from "./pages/Community";
 import NotFound from "./pages/NotFound";
+import 'leaflet/dist/leaflet.css';
 
 const queryClient = new QueryClient();
 

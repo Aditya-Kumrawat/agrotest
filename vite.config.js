@@ -14,7 +14,8 @@ export default defineConfig({
     host: '0.0.0.0',
     port: 5000,
     allowedHosts: [
-      '32edb253-03c9-48b5-883d-3f3b90bf6e25-00-3le5olqyteplj.pike.replit.dev'
+      
+      'aef9513c-937a-4182-8fd0-5a193ddd81ed-00-2jzi629rb0cd1.pike.replit.dev'
     ]
   }
 })

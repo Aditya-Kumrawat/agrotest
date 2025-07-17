@@ -1,8 +1,8 @@
-import path from "path";
-import * as server from "./index";
-import express from "express";
+import { createServer } from './index'
+import express, { Request, Response } from 'express'
+import path from 'path'
 
-const app = server.createServer();
+const app = createServer();
 const port = Number(process.env.PORT) || 3000;
 
 // In production, serve the built SPA files
@@ -13,7 +13,7 @@ const distPath = path.join(__dirname, "../spa");
 app.use(express.static(distPath));
 
 // Handle React Router - serve index.html for all non-API routes
-app.get("*", (req, res) => {
+app.get("*", (req: Request, res: Response) => {
   if (req.path.startsWith("/api/") || req.path.startsWith("/health")) {
     return res.status(404).json({ error: "API endpoint not found" });
   }
