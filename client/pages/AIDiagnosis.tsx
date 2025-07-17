@@ -47,7 +47,7 @@ export default function AIDiagnosis() {
     formData.append("file", uploadedImages[0]);
 
     try {
-      const response = await fetch("http://localhost:5050/predict", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL_ML || "http://localhost:5050"}/predict`, {
         method: "POST",
         body: formData,
       });
@@ -79,7 +79,7 @@ export default function AIDiagnosis() {
       
       const idToken = await user.getIdToken();
       
-      const saveResponse = await fetch("http://localhost:3000/api/history", {
+      const saveResponse = await fetch(`${import.meta.env.VITE_API_URL}/api/history`, {
         method: "POST",
         headers: { 
           "Content-Type": "application/json",

@@ -39,7 +39,7 @@ export default function History() {
         
         const idToken = await user.getIdToken();
         
-        const res = await axios.get("http://localhost:3000/api/history", {
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/history`, {
           headers: {
             "Authorization": `Bearer ${idToken}`
           }
