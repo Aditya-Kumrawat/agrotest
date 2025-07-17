@@ -1,10 +1,7 @@
 services:
   - type: web
-    name: leaf-diseases-detect
-    env: python
-    plan: free
-    buildCommand: ""
-    startCommand: "python main.py"
-    envVars:
-      - key: PYTHON_VERSION
-        value: 3.10.13
+    name: leaf-disease-api
+    runtime: python
+    pythonVersion: 3.10
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn main:app
