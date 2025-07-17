@@ -1,7 +1,11 @@
 services:
   - type: web
     name: leaf-disease-api
-    runtime: python
-    pythonVersion: 3.10
+    env: python
+    region: oregon
+    plan: free
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn main:app
+    runtime: python
+    branch: main
+    rootDir: leaf-diseases-detect
